@@ -12,7 +12,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
-    "worker:import": "tsx -r tsconfig-paths/register workers/product-import-worker.ts"
+    "worker:import": "tsx -r tsconfig-paths/register workers/product-import-worker.ts",
+    "worker:email": "tsx -r tsconfig-paths/register workers/email-worker.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -21,6 +22,7 @@
     "cloudinary": "^2.10.0",
     "csv-parse": "latest",
     "ioredis": "latest",
+    "isomorphic-dompurify": "^3.18.0",
     "meilisearch": "latest",
     "next": "^15.5.19",
     "react": "^19.2.7",

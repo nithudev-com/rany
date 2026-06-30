@@ -256,6 +256,8 @@ model Customer {
   addresses        CustomerAddress[]
   wishlist         Wishlist?
   contactConversations ContactConversation[]
+  emailPreferences EmailPreference?
+  emailJobs        EmailJob[]
 
   @@index([email])
 }
@@ -481,4 +483,90 @@ model BlogPost {
 
   @@index([slug])
   @@index([isPublished])
+}
+
+enum EmailChannel {
+  TRANSACTIONAL
+  MARKETING
+  AUTOMATION
+  ADMIN
+}
+
+enum EmailStatus {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+  CANCELLED
+}
+
+model EmailPreference {
+  id              BigInt   @id @default(autoincrement())
+  customerId      BigInt   @unique
+  topics          Json?    // e.g., ["news", "promotions"]
+  globalUnsubscribe Boolean @default(false)
+  isBounced       Boolean  @default(false)
+  isSpamComplaint Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+
+  customer        Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+}
+
+model EmailTemplate {
+  id          BigInt       @id @default(autoincrement())
+  name        String       @unique
+  subject     String
+  htmlBody    String
+  textBody    String?
+  channel     EmailChannel @default(TRANSACTIONAL)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  jobs        EmailJob[]
+}
+
+model EmailCampaign {
+  id          BigInt       @id @default(autoincrement())
+  name        String
+  subject     String
+  status      EmailStatus  @default(PENDING)
+  scheduledAt DateTime?
+  sentCount   Int          @default(0)
+  failedCount Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  jobs        EmailJob[]
+}
+
+model EmailJob {
+  id              BigInt       @id @default(autoincrement())
+  idempotencyKey  String       @unique
+  channel         EmailChannel @default(TRANSACTIONAL)
+  status          EmailStatus  @default(PENDING)
+  recipientEmail  String
+  customerId      BigInt?
+  templateId      BigInt?
+  campaignId      BigInt?
+  payload         Json?
+  
+  attemptCount    Int          @default(0)
+  maxAttempts     Int          @default(3)
+  nextAttemptAt   DateTime?
+  
+  providerMsgId   String?
+  errorLogs       Json?
+  
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  sentAt          DateTime?
+
+  customer        Customer?     @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  template        EmailTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  campaign        EmailCampaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  @@index([status, nextAttemptAt])
+  @@index([idempotencyKey])
+  @@index([recipientEmail])
 }

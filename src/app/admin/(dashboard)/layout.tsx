@@ -48,6 +48,14 @@ export default function AdminLayout({
             <Link href="/admin/messages" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Customer Messages</Link>
           </nav>
 
+          <div className="muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px', fontWeight: '700' }}>Marketing & Automation</div>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '24px' }}>
+            <Link href="/admin/emails/jobs" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Email Queue & Logs</Link>
+            <Link href="/admin/emails/campaigns" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Campaigns</Link>
+            <Link href="/admin/emails/templates" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Email Templates</Link>
+            <Link href="/admin/emails/subscribers" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Subscribers & Segments</Link>
+          </nav>
+
           <div className="muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px', fontWeight: '700' }}>Configuration</div>
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '24px' }}>
             <Link href="/admin/settings" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Store Settings</Link>

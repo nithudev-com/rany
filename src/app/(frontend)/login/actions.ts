@@ -3,6 +3,8 @@
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { queueEmail } from '@/lib/email/queue';
+import { EmailChannel } from '@prisma/client';
 
 export async function customerLogin(formData: FormData) {
   const email = formData.get('email') as string;
@@ -97,8 +99,26 @@ export async function customerRegister(formData: FormData) {
         ageConfirmed,
         email: email.toLowerCase(),
         passwordHash,
+        emailPreferences: {
+          create: {
+            globalUnsubscribe: false,
+          }
+        }
       },
     });
+
+    try {
+      await queueEmail({
+        idempotencyKey: `welcome-${customer.id}-${Date.now()}`,
+        channel: EmailChannel.TRANSACTIONAL,
+        recipientEmail: customer.email,
+        templateName: 'welcome_email',
+        payload: { firstName: customer.firstName || 'there' },
+        customerId: customer.id.toString()
+      });
+    } catch (e) {
+      console.error("Failed to queue welcome email:", e);
+    }
 
     // Automatically log in the new user
     const cookieStore = await cookies();

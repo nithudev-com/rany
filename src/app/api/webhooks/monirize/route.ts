@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { OrderStatus } from '@prisma/client';
+import { OrderStatus, EmailChannel } from '@prisma/client';
 import crypto from 'crypto';
+import { queueEmail } from '@/lib/email/queue';
 
 export async function POST(req: Request) {
   try {
@@ -99,6 +100,21 @@ export async function POST(req: Request) {
         paymentRef: transactionRef,
       }
     });
+
+    if (newStatus === OrderStatus.PAID) {
+      try {
+        await queueEmail({
+          idempotencyKey: `order-conf-${order.id}-${Date.now()}`,
+          channel: EmailChannel.TRANSACTIONAL,
+          recipientEmail: order.customerEmail,
+          templateName: 'order_confirmation',
+          payload: { orderNumber: order.orderNumber, totalAmount: order.totalAmount.toString() },
+          customerId: order.customerId?.toString()
+        });
+      } catch (e) {
+        console.error("Failed to queue order confirmation email:", e);
+      }
+    }
 
     console.log(`[Monirize Webhook] Successfully updated order ${orderRef} to ${newStatus}`);
     
