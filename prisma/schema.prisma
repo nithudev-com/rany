@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://u549656247_toys:Sathvika@2020@localhost:3306/u549656247_toys"
+  url      = env("DATABASE_URL")
 }
 
 enum ProductStatus {
