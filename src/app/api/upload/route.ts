@@ -20,10 +20,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'application/pdf'];
     if (!validTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: 'Invalid file type. Only JPG, PNG, WEBP, and PDF are allowed.' },
+        { error: 'Invalid file type. Only JPG, PNG, WEBP, AVIF, and PDF are allowed.' },
         { status: 400 }
       );
     }

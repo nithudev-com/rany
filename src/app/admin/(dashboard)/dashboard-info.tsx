@@ -1,7 +1,8 @@
+'use no memo';
 import Link from "next/link";
 import { getSearchClient } from "@/lib/search";
 
-export const dynamic = "force-dynamic";
+
 
 export default async function DashboardInfo() {
   const searchClient = getSearchClient();

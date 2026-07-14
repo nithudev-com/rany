@@ -7,6 +7,12 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
   
   const product = await prisma.product.findUnique({
     where: { id: BigInt(id) },
+    include: {
+      images: {
+        orderBy: { sortOrder: 'asc' }
+      },
+      variants: true
+    }
   });
 
   if (!product) {
@@ -21,6 +27,18 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
     brandId: product.brandId?.toString(),
     basePrice: Number(product.basePrice),
     salePrice: product.salePrice ? Number(product.salePrice) : null,
+    images: product.images?.map(img => ({
+      ...img,
+      id: img.id.toString(),
+      productId: img.productId.toString(),
+    })),
+    variants: product.variants?.map(v => ({
+      ...v,
+      id: v.id.toString(),
+      productId: v.productId.toString(),
+      price: Number(v.price),
+      salePrice: v.salePrice ? Number(v.salePrice) : null,
+    }))
   };
 
   return (

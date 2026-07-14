@@ -34,6 +34,7 @@ export default function AdminLayout({
             <Link href="/admin/products" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Products</Link>
             <Link href="/admin/deals" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Deals Management</Link>
             <Link href="/admin/categories" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Categories</Link>
+            <Link href="/admin/category-circles" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Category Circles</Link>
             <Link href="/admin/brands" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Brands</Link>
             <Link href="/admin/import" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Importer</Link>
           </nav>
@@ -43,6 +44,9 @@ export default function AdminLayout({
             <Link href="/admin/orders" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Orders</Link>
             <Link href="/admin/coupons" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Coupons & Discounts</Link>
             <Link href="/admin/blog" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Blog Posts</Link>
+            <Link href="/admin/products/bulk-ai" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Bulk AI Generator</Link>
+            <Link href="/admin/products/bulk-blog" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Bulk Product Blog Generator</Link>
+            <Link href="/admin/ai-settings" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>AI Settings</Link>
             <Link href="/admin/customers" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Customers</Link>
             <Link href="/admin/reviews" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Reviews</Link>
             <Link href="/admin/messages" style={{ padding: '10px 14px', borderRadius: '8px', color: '#cbd5e1', fontWeight: '500' }}>Customer Messages</Link>

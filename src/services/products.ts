@@ -42,7 +42,13 @@ export async function getProductBySlug(slug: string) {
           brand: true,
           images: { orderBy: { sortOrder: "asc" } },
           variants: true,
-          reviews: { where: { approved: true }, take: 10, orderBy: { createdAt: "desc" } }
+          reviews: { where: { approved: true }, take: 10, orderBy: { createdAt: "desc" } },
+          blogs: { 
+            where: { isPublished: true }, 
+            select: { id: true, title: true, slug: true, coverImage: true, excerpt: true },
+            take: 4,
+            orderBy: { createdAt: "desc" }
+          }
         }
       });
       return sanitizePrismaData(data);

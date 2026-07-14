@@ -38,7 +38,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: product.seoTitle || product.title,
       description: product.seoDescription || product.shortDescription || product.title,
-      images: product.mainImage ? [product.mainImage] : []
+      images: product.mainImage ? [product.mainImage] : [],
+      type: 'website'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.seoTitle || product.title,
+      description: product.seoDescription || product.shortDescription || product.title,
+      images: product.mainImage ? [product.mainImage] : [],
     }
   };
 }
@@ -69,8 +76,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const benefits = Array.isArray(product.benefits) ? product.benefits : [];
   const tags = Array.isArray(product.tags) ? product.tags : [];
   const specs = product.specifications && typeof product.specifications === 'object' ? product.specifications as Record<string, string> : null;
+  const details = Array.isArray(product.details) ? product.details : [];
   const images = Array.isArray(product.images) && product.images.length > 0 ? product.images : (product.mainImage ? [{ imageUrl: product.mainImage, altText: product.title }] : []);
   const reviews = Array.isArray(product.reviews) ? product.reviews : [];
+  const relatedBlogs = Array.isArray(product.blogs) ? product.blogs : [];
 
   // Calculate discount percentage
   let discountPercentage = 0;
@@ -149,7 +158,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </h1>
       </div>
 
-      <div className="pdp-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 320px", gap: '32px', marginBottom: '60px', alignItems: 'start' }}>
+      <div className="pdp-grid" style={{ display: "grid", gridTemplateColumns: "360px 1fr 320px", gap: '48px', marginBottom: '60px', alignItems: 'start' }}>
         
         {/* LEFT COLUMN: Gallery */}
         <ProductGallery images={images} />
@@ -182,6 +191,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             {product.category && (
               <div className="farmart-meta-item">
                 <strong>Category:</strong> <Link href={`/category/${product.category.slug}`} style={{ color: '#3b82f6', textDecoration: 'none' }}>{product.category.name}</Link>
+              </div>
+            )}
+            {product.brand && (
+              <div className="farmart-meta-item">
+                <strong>Brand:</strong> <Link href={`/brand/${product.brand.slug}`} style={{ color: '#D63062', textDecoration: 'none' }}>{product.brand.name}</Link>
               </div>
             )}
             {tags.length > 0 && (
@@ -241,6 +255,39 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1"/><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">AMEX</text></svg>
           </div>
 
+          {/* Smart Video Player */}
+          {product.videoUrl && (
+            <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D63062" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Product Video
+              </div>
+              <div style={{ width: '100%', aspectRatio: '16/9', borderRadius: '12px', overflow: 'hidden', background: '#000', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>
+                {(() => {
+                  const url = product.videoUrl as string;
+                  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    const videoId = url.includes('v=') ? url.split('v=')[1]?.split('&')[0] : url.split('youtu.be/')[1]?.split('?')[0];
+                    return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://www.youtube.com/embed/${videoId}`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>;
+                  }
+                  if (url.includes('vimeo.com')) {
+                    const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
+                    return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://player.vimeo.com/video/${videoId}`} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>;
+                  }
+                  if (url.includes('pornhub.com')) {
+                    const videoKey = url.includes('viewkey=') ? url.split('viewkey=')[1]?.split('&')[0] : url.split('embed/')[1];
+                    if (videoKey) {
+                      return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://www.pornhub.com/embed/${videoKey}`} frameBorder="0" allowFullScreen></iframe>;
+                    }
+                  }
+                  if (url.endsWith('.mp4') || url.includes('.mp4')) {
+                    return <video width="100%" height="100%" style={{ objectFit: 'cover' }} controls preload="metadata"><source src={url} type="video/mp4" />Your browser does not support the video tag.</video>;
+                  }
+                  return <a href={url} target="_blank" rel="noreferrer" style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#fff', textDecoration: 'none' }}>View Video</a>;
+                })()}
+              </div>
+            </div>
+          )}
+
         </aside>
       </div>
 
@@ -249,6 +296,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         productId={product.id.toString()} 
         reviewsCount={reviews.length}
         hasFaqs={faqs.length > 0}
+        hasDetails={details.length > 0}
+        detailsNode={
+          <div style={{ display: 'grid', gap: '12px' }}>
+            {details.map((d: any, idx: number) => (
+              <div key={idx} style={{ display: 'flex', padding: '12px 16px', background: idx % 2 === 0 ? '#f8fafc' : '#ffffff', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
+                <div style={{ width: '150px', fontWeight: 800, color: '#0f172a', flexShrink: 0 }}>{d.key}</div>
+                <div style={{ color: '#475569', lineHeight: 1.6 }}>{d.value}</div>
+              </div>
+            ))}
+          </div>
+        }
         descriptionNode={
           <div style={{ color: '#475569', lineHeight: 1.8, fontSize: '16px' }}>
             {product.description ? (
@@ -333,6 +391,52 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       )}
 
+      {/* RELATED AI BLOGS (Custom styled grid from image) */}
+      {relatedBlogs.length > 0 && (
+        <div style={{ marginTop: '80px', borderTop: '1px solid #e2e8f0', paddingTop: '80px' }}>
+          <h2 style={{ fontSize: '32px', fontWeight: 900, marginBottom: '32px', color: '#0f172a' }}>Related Articles</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+            {relatedBlogs.map((blog: any) => (
+              <Link key={blog.id.toString()} href={`/blog/${blog.slug}`} style={{ textDecoration: 'none' }}>
+                <div 
+                  className="related-blog-card"
+                  style={{ 
+                    background: '#fcfbfe', // Very light purple background
+                    border: '1px solid #d8b4e2', // Light purple border 
+                    borderRadius: '8px', 
+                    overflow: 'hidden', 
+                    transition: 'all 0.2s', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    height: '100%' 
+                  }}
+                >
+                  <div style={{ aspectRatio: '16/9', background: '#f1f5f9', position: 'relative' }}>
+                    {blog.coverImage ? (
+                       <Image src={blog.coverImage} alt={blog.title} fill style={{ objectFit: 'cover' }} />
+                    ) : product.mainImage ? (
+                       <Image src={product.mainImage} alt={blog.title} fill style={{ objectFit: 'cover' }} />
+                    ) : null}
+                  </div>
+                  <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#8b5cf6', margin: '0 0 12px 0', lineHeight: 1.4 }}>
+                      {blog.title.length > 55 ? `${blog.title.substring(0, 55)}...` : blog.title}
+                    </h3>
+                    <p style={{ fontSize: '13px', color: '#a78bfa', margin: '0 0 20px 0', lineHeight: 1.5, flex: 1 }}>
+                      {blog.excerpt ? (blog.excerpt.length > 100 ? `${blog.excerpt.substring(0, 100)}...` : blog.excerpt) : ''}
+                    </p>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>
+                      <span>Read More</span>
+                      <span>By SEXTOYS LOVERS</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* BOTTOM CTA BAR (Mobile mostly, but visible at bottom) */}
       <div className="bottom-cta">
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -354,6 +458,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <style dangerouslySetInnerHTML={{ __html: `
         @media (min-width: 600px) { .cta-text { display: block !important; } }
         .related-card:hover { border-color: #D63062; transform: translateY(-4px); box-shadow: 0 10px 20px rgba(214,48,98,0.1); }
+        .related-blog-card:hover { border-color: #a855f7 !important; transform: translateY(-4px); box-shadow: 0 10px 20px rgba(168, 85, 247, 0.15); }
       `}} />
     </main>
   );

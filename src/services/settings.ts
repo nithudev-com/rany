@@ -11,7 +11,7 @@ export async function getStoreSettings() {
       settings = await prisma.storeSettings.create({
         data: {
           id: 1,
-          storeName: "SpeedCommerce",
+          storeName: "SexToys Lovers",
           storeDescription: "Your premium destination for the world's best products. Fast shipping, secure payments, and 24/7 support.",
           facebookUrl: "https://facebook.com",
           twitterUrl: "https://twitter.com",
@@ -26,7 +26,7 @@ export async function getStoreSettings() {
   } catch (error) {
     console.error("Failed to get store settings:", error);
     return {
-      storeName: "SpeedCommerce",
+      storeName: "SexToys Lovers",
       storeDescription: "Your premium destination for the world's best products. Fast shipping, secure payments, and 24/7 support.",
       facebookUrl: "",
       twitterUrl: "",

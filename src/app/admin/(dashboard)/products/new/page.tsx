@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { executeAITask } from '@/actions/gemini';
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -59,6 +60,10 @@ export default function NewProductPage() {
   const [seoDescription, setSeoDescription] = useState('');
   const [focusKeyword, setFocusKeyword] = useState('');
   const [canonicalUrl, setCanonicalUrl] = useState('');
+
+  // AI State
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiProgress, setAiProgress] = useState('');
 
   // --- Effects ---
   useEffect(() => {
@@ -295,11 +300,138 @@ export default function NewProductPage() {
     }
   };
 
+  const handleGenerateAI = async () => {
+    if (!title) {
+      alert("Please enter a product title first so Gemini knows what to generate.");
+      return;
+    }
+    setAiLoading(true);
+    setAiProgress('Starting AI generation...');
+    
+    try {
+      const variables = {
+        article_title: title,
+        article_content: description || title,
+        product_name: title,
+        product_category: 'Catalog',
+        focus_keyword: focusKeyword || title,
+        language: 'English',
+        country: 'Global',
+        brand_name: 'SpeedCommerce',
+        existing_faqs: JSON.stringify(faqs || []),
+        existing_seo_title: seoTitle || '',
+        existing_seo_description: seoDescription || '',
+        faq_count: '5'
+      };
+
+      // 1. Product Details
+      setAiProgress('Product Details — Generating...');
+      const resDetails = await executeAITask('productDetails', variables);
+      if (resDetails.success && resDetails.data) {
+        setAiProgress('Product Details — Completed');
+        const newDetails = [];
+        if (resDetails.data.summary) newDetails.push({ key: 'Summary', value: resDetails.data.summary });
+        if (Array.isArray(resDetails.data.features)) {
+          resDetails.data.features.forEach((f: string, i: number) => newDetails.push({ key: `Feature ${i+1}`, value: f }));
+        }
+        if (Array.isArray(resDetails.data.benefits)) {
+          resDetails.data.benefits.forEach((b: string, i: number) => newDetails.push({ key: `Benefit ${i+1}`, value: b }));
+        }
+        handleChange(setDetails, newDetails);
+        
+        if (resDetails.data.html && !description) {
+           handleChange(setDescription, resDetails.data.html);
+        }
+      } else {
+        setAiProgress('Product Details — Failed');
+      }
+
+      // 2. FAQs
+      setAiProgress('Frequently Asked Questions — Generating...');
+      const resFaqs = await executeAITask('faqs', variables);
+      if (resFaqs.success && Array.isArray(resFaqs.data)) {
+        setAiProgress('Frequently Asked Questions — Completed');
+        handleChange(setFaqs, resFaqs.data);
+      } else {
+        setAiProgress('Frequently Asked Questions — Failed');
+      }
+
+      // 3. SEO Title
+      setAiProgress('SEO Title — Generating...');
+      const resTitle = await executeAITask('seoTitles', variables);
+      if (resTitle.success && Array.isArray(resTitle.data) && resTitle.data.length > 0) {
+        setAiProgress('SEO Title — Completed');
+        handleChange(setSeoTitle, resTitle.data[0].title);
+      } else {
+        setAiProgress('SEO Title — Failed');
+      }
+
+      // 4. SEO Description
+      setAiProgress('SEO Description — Generating...');
+      const resDesc = await executeAITask('seoDescriptions', variables);
+      if (resDesc.success && Array.isArray(resDesc.data) && resDesc.data.length > 0) {
+        setAiProgress('SEO Description — Completed');
+        handleChange(setSeoDescription, resDesc.data[0].description);
+      } else {
+        setAiProgress('SEO Description — Failed');
+      }
+
+      // 5. Zero-Credit Optimizations
+      setAiProgress('Applying Zero-Credit Optimizations...');
+      if (!focusKeyword) {
+        handleChange(setFocusKeyword, title.split(' - ')[0].trim());
+      }
+      if (images.length > 0) {
+        const newImages = [...images];
+        let changed = false;
+        newImages.forEach((img, idx) => {
+          if (!img.altText) {
+            img.altText = `${title} - Product Image ${idx + 1}`;
+            changed = true;
+          }
+        });
+        if (changed) handleChange(setImages, newImages);
+      }
+
+      setAiProgress('All AI tasks completed successfully!');
+      setTimeout(() => setAiProgress(''), 4000);
+
+    } catch (err: any) {
+      console.error(err);
+      setAiProgress(`Error: ${err.message}`);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ margin: 0 }}>Add New Product</h1>
+          <h1 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '16px' }}>
+            Add New Product
+            <button 
+              type="button"
+              onClick={handleGenerateAI} 
+              disabled={aiLoading}
+              style={{ 
+                background: 'linear-gradient(135deg, #E0A96D 0%, #b88655 100%)',
+                color: '#fff',
+                border: 'none',
+                padding: '6px 12px',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                fontSize: '12px',
+                cursor: aiLoading ? 'wait' : 'pointer',
+                boxShadow: '0 4px 12px rgba(224, 169, 109, 0.3)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              {aiLoading ? '✨ Generating...' : '✨ Generate All with Gemini AI'}
+            </button>
+          </h1>
           {hasUnsavedChanges && <span style={{ color: '#f59e0b', fontSize: '14px', fontWeight: 'bold' }}>Unsaved Changes</span>}
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
@@ -308,6 +440,13 @@ export default function NewProductPage() {
           <button className="button secondary" onClick={() => handleSubmit('ACTIVE')} disabled={loading}>{loading ? 'Saving...' : 'Publish Product'}</button>
         </div>
       </div>
+
+      {aiProgress && (
+        <div style={{ padding: '12px 16px', background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', marginBottom: '24px', fontSize: '14px', fontWeight: '500', color: '#334155', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {aiLoading ? <div style={{ width: '16px', height: '16px', border: '2px solid #E0A96D', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div> : '✅ '} 
+          {aiProgress}
+        </div>
+      )}
 
       {errorMessages.length > 0 && (
         <div style={{ background: '#fef2f2', border: '1px solid #fecaca', padding: '16px', borderRadius: '8px', marginBottom: '24px' }}>

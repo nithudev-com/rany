@@ -18,6 +18,8 @@ export async function PUT(
         logo: body.logo,
         seoTitle: body.seoTitle,
         seoDescription: body.seoDescription,
+        showOnHome: body.showOnHome,
+        faqs: body.faqs,
       },
     });
 

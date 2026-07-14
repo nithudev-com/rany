@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { revalidateTag } from 'next/cache';
 
 export async function DELETE(
   request: Request,
@@ -52,6 +53,25 @@ export async function PUT(
       };
     }
 
+    // Format images for nested Prisma creation
+    let imagesConfig = undefined;
+    if (body.images && Array.isArray(body.images)) {
+      imagesConfig = {
+        deleteMany: {},
+        create: body.images.map((img: any, idx: number) => ({
+          imageUrl: img.secureUrl || img.imageUrl,
+          publicId: img.publicId,
+          width: img.width,
+          height: img.height,
+          format: img.format,
+          bytes: img.bytes,
+          altText: img.altText,
+          sortOrder: img.sortOrder ?? idx,
+          isPrimary: !!img.isPrimary
+        }))
+      };
+    }
+
     // We expect the body to contain the product fields
     const updatedProduct = await prisma.product.update({
       where: { id: productId },
@@ -67,11 +87,20 @@ export async function PUT(
         mainImage: body.mainImage,
         videoUrl: body.videoUrl,
         variants: variantsConfig,
+        images: imagesConfig,
+        focusKeyword: body.focusKeyword,
       },
       include: {
-        variants: true
+        variants: true,
+        images: true
       }
     });
+
+    // Invalidate ISR caches so changes reflect immediately on the frontend
+    revalidateTag('products');
+    if (updatedProduct.slug) {
+      revalidateTag(`product:${updatedProduct.slug}`);
+    }
 
     // BigInt cannot be serialized by default Next.js JSON, we must convert it
     const safeProduct = {
@@ -83,6 +112,11 @@ export async function PUT(
         ...v,
         id: v.id.toString(),
         productId: v.productId.toString(),
+      })),
+      images: updatedProduct.images.map(img => ({
+        ...img,
+        id: img.id.toString(),
+        productId: img.productId.toString(),
       }))
     };
 

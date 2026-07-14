@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { shopifyLoader } from "@/lib/image-loader";
 
 interface ProductImage {
   imageUrl: string;
@@ -60,8 +61,9 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
             fill 
             priority 
             sizes="(max-width: 900px) 100vw, 50vw" 
-            style={{ objectFit: "cover", transition: 'opacity 0.3s ease-in-out' }} 
+            style={{ objectFit: "contain", padding: "20px", transition: 'opacity 0.3s ease-in-out' }} 
             key={localImages[activeIndex]?.imageUrl || activeIndex} // Force re-render on index change for smooth transition if needed
+            loader={shopifyLoader}
           />
         </div>
       </div>
@@ -93,7 +95,8 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
                 alt={img.altText || `Thumbnail ${idx + 1}`} 
                 fill 
                 sizes="(max-width: 768px) 60px, 80px" 
-                style={{ objectFit: "cover" }} 
+                style={{ objectFit: "contain" }} 
+                loader={shopifyLoader}
               />
             </button>
           ))}

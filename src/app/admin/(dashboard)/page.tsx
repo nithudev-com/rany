@@ -1,10 +1,13 @@
+'use no memo';
 import { prisma } from "@/lib/prisma";
 import DashboardInfo from "./dashboard-info";
 import DeleteBatchButton from "./delete-batch-button";
 
-export const dynamic = "force-dynamic";
+import { Suspense } from 'react';
 
-export default async function AdminDashboard() {
+
+
+async function DashboardStats() {
   const [productCount, categoryCount, brandCount, recentImports, statusGroups, unreadAdmin, registeredMessages, guestMessages] = await Promise.all([
     prisma.product.count(),
     prisma.category.count(),
@@ -30,9 +33,7 @@ export default async function AdminDashboard() {
   const resolvedCount = stats['RESOLVED'] || 0;
 
   return (
-    <div>
-      <DashboardInfo />
-      
+    <>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', margin: '40px 0' }}>
         <div className="card" style={{ padding: '24px' }}>
           <div className="muted" style={{ marginBottom: '8px' }}>Total Products</div>
@@ -104,6 +105,25 @@ export default async function AdminDashboard() {
           </tbody>
         </table>
       </div>
+    </>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <div>
+      <Suspense fallback={<div style={{ padding: '24px', background: '#f8fafc', borderRadius: '12px', marginBottom: '32px' }}>Loading system info...</div>}>
+        <DashboardInfo />
+      </Suspense>
+      
+      <Suspense fallback={
+        <div style={{ margin: '40px 0', padding: '40px', textAlign: 'center', background: '#f8fafc', borderRadius: '12px' }}>
+          <h2>Loading Dashboard Data...</h2>
+          <p className="muted">Please wait while we fetch the latest statistics.</p>
+        </div>
+      }>
+        <DashboardStats />
+      </Suspense>
     </div>
   );
 }

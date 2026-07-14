@@ -85,6 +85,7 @@ model Product {
   images          ProductImage[]
   reviews         Review[]
   wishlistedItems WishlistItem[]
+  blogs           BlogPost[]    @relation("ProductToBlog")
 
   @@index([status])
   @@index([categoryId, status])
@@ -141,6 +142,8 @@ model Brand {
   logo           String?
   seoTitle       String?
   seoDescription String?
+  showOnHome     Boolean   @default(true)
+  faqs           Json?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
@@ -184,6 +187,7 @@ model ProductImportBatch {
   id          String       @id
   filename    String?
   status      ImportStatus @default(PENDING)
+  updateMode  String       @default("FULL") // "FULL" or "PRICE_STOCK_ONLY"
   totalRows   Int          @default(0)
   successRows Int          @default(0)
   failedRows  Int          @default(0)
@@ -471,18 +475,34 @@ model StoreSettings {
 }
 
 model BlogPost {
-  id          BigInt   @id @default(autoincrement())
-  title       String
-  slug        String   @unique
-  excerpt     String?
-  content     String
-  coverImage  String?
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              BigInt   @id @default(autoincrement())
+  title           String
+  slug            String   @unique
+  excerpt         String?
+  content         String
+  coverImage      String?
+  isPublished     Boolean  @default(false)
+
+  // AI & SEO Fields
+  seoTitle        String?
+  seoDescription  String?
+  focusKeyword    String?
+  secondaryKeywords Json?
+  faqs            Json?
+  seoScore        Int      @default(0)
+  generatedByAI   Boolean  @default(false)
+  aiGenerationStatus String?
+  aiModel         String?
+  sourceProductId BigInt?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  sourceProduct   Product? @relation("ProductToBlog", fields: [sourceProductId], references: [id], onDelete: SetNull)
 
   @@index([slug])
   @@index([isPublished])
+  @@index([sourceProductId])
 }
 
 enum EmailChannel {
@@ -570,3 +590,14 @@ model EmailJob {
   @@index([idempotencyKey])
   @@index([recipientEmail])
 }
+
+model CategoryCircle {
+  id        BigInt   @id @default(autoincrement())
+  name      String
+  image     String
+  url       String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

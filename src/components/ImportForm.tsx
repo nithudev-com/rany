@@ -5,6 +5,7 @@ import { useState } from "react";
 export function ImportForm() {
   const [status, setStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [updateMode, setUpdateMode] = useState<"FULL" | "PRICE_STOCK_ONLY">("FULL");
   const [priceTiers, setPriceTiers] = useState({
     tier1: "", // < $10
     tier2: "", // $10 - $25
@@ -28,6 +29,7 @@ export function ImportForm() {
     
     // Add priceTiers as JSON
     formData.append("priceTiers", JSON.stringify(priceTiers));
+    formData.append("updateMode", updateMode);
 
     const response = await fetch("/api/import/products", {
       method: "POST",
@@ -133,6 +135,18 @@ export function ImportForm() {
               <input className="input" type="number" step="any" placeholder="%" value={priceTiers.tier6} onChange={(e) => handleTierChange("tier6", e.target.value)} />
             </div>
           </div>
+        </div>
+
+        <div style={{ marginBottom: 24, display: "flex", alignItems: "center", gap: 8 }}>
+          <input 
+            type="checkbox" 
+            id="updateMode" 
+            checked={updateMode === "PRICE_STOCK_ONLY"}
+            onChange={(e) => setUpdateMode(e.target.checked ? "PRICE_STOCK_ONLY" : "FULL")}
+          />
+          <label htmlFor="updateMode" style={{ fontSize: '0.9rem', fontWeight: 500, cursor: 'pointer' }}>
+            <strong>Update Existing Products Only (Price & Stock)</strong> - If checked, existing products will only have their price and stock updated (title, description, images will remain unchanged). New products will still be fully created.
+          </label>
         </div>
 
         <div>

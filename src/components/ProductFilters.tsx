@@ -61,9 +61,8 @@ export function ProductFilters() {
   };
 
   const handleBrandChange = (newBrand: string) => {
-    const toggledBrand = brand === newBrand ? '' : newBrand;
-    setBrand(toggledBrand);
-    applyFilters({ brand: toggledBrand });
+    setBrand(newBrand);
+    applyFilters({ brand: newBrand });
   };
 
   const clearFilters = () => {
@@ -109,27 +108,47 @@ export function ProductFilters() {
 
       {brands.length > 0 && (
         <div style={{ marginBottom: '32px' }}>
-          <h3 style={{ fontSize: '16px', fontWeight: '800', margin: '0 0 16px 0', color: '#0f172a' }}>Brands</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {brands.map(b => (
-              <button
-                key={b.id}
-                onClick={() => handleBrandChange(b.slug)}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: '24px',
-                  background: brand === b.slug ? '#FBBF24' : '#f8fafc',
-                  color: brand === b.slug ? '#000000' : '#475569',
-                  border: `1px solid ${brand === b.slug ? '#FBBF24' : '#e2e8f0'}`,
-                  fontWeight: brand === b.slug ? '700' : '500',
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                {b.name}
-              </button>
-            ))}
+          <h3 style={{ fontSize: '16px', fontWeight: '800', margin: '0 0 16px 0', color: '#0f172a' }}>Filter by Brand</h3>
+          <div style={{ position: 'relative' }}>
+            <select
+              value={brand}
+              onChange={(e) => handleBrandChange(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px 40px 12px 16px',
+                borderRadius: '12px',
+                background: '#f8fafc',
+                color: '#475569',
+                border: '1px solid #e2e8f0',
+                fontWeight: '500',
+                fontSize: '14px',
+                cursor: 'pointer',
+                appearance: 'none',
+                outline: 'none',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <option value="">All Brands</option>
+              {brands.map(b => (
+                <option key={b.id} value={b.slug}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
+            <div style={{
+              position: 'absolute',
+              right: '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              pointerEvents: 'none',
+              color: '#64748b',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
           </div>
         </div>
       )}

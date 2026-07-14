@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { cache } from "react";
 
-const getDefaultCurrency = cache(async () => {
+export const getDefaultCurrency = cache(async () => {
   try {
     return await prisma.currency.findFirst({
       where: { isDefault: true, isActive: true }

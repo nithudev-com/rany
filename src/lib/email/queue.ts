@@ -20,7 +20,7 @@ export const QueueEmailSchema = z.object({
   channel: z.nativeEnum(EmailChannel),
   recipientEmail: z.string().email(),
   templateName: z.string().min(1),
-  payload: z.record(z.any()).optional(),
+  payload: z.any().optional(),
   customerId: z.string().optional(),
   campaignId: z.string().optional(),
 });
@@ -51,7 +51,7 @@ export async function queueEmail(input: QueueEmailInput) {
       templateId: template.id,
       customerId: validated.customerId ? BigInt(validated.customerId) : null,
       campaignId: validated.campaignId ? BigInt(validated.campaignId) : null,
-      payload: validated.payload || {},
+      payload: (validated.payload || {}) as any,
       maxAttempts: 3
     }
   });

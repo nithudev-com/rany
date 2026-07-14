@@ -8,19 +8,29 @@ interface ProductTabsProps {
   productId: string;
   reviewsCount: number;
   hasFaqs: boolean;
+  hasDetails?: boolean;
   descriptionNode: React.ReactNode;
   reviewsListNode: React.ReactNode;
   faqsNode: React.ReactNode;
+  detailsNode?: React.ReactNode;
 }
 
-export function ProductTabs({ productId, reviewsCount, hasFaqs, descriptionNode, reviewsListNode, faqsNode }: ProductTabsProps) {
-  const [activeTab, setActiveTab] = useState<'description' | 'reviews' | 'faq'>('description');
+export function ProductTabs({ productId, reviewsCount, hasFaqs, hasDetails = false, descriptionNode, reviewsListNode, faqsNode, detailsNode }: ProductTabsProps) {
+  const [activeTab, setActiveTab] = useState<'details' | 'description' | 'reviews' | 'faq'>(hasDetails ? 'details' : 'description');
 
   return (
     <div style={{ marginTop: '64px', background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
       
       {/* Tab Navigation */}
       <div style={{ display: 'flex', borderBottom: '1px solid #e2e8f0', background: '#f8fafc', overflowX: 'auto' }}>
+        {hasDetails && (
+          <button 
+            onClick={() => setActiveTab('details')}
+            style={{ padding: '20px 32px', fontSize: '16px', fontWeight: activeTab === 'details' ? 800 : 600, color: activeTab === 'details' ? '#0f172a' : '#64748b', border: 'none', background: activeTab === 'details' ? '#fff' : 'transparent', borderBottom: activeTab === 'details' ? '3px solid #D63062' : '3px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s' }}
+          >
+            Product Details
+          </button>
+        )}
         <button 
           onClick={() => setActiveTab('description')}
           style={{ padding: '20px 32px', fontSize: '16px', fontWeight: activeTab === 'description' ? 800 : 600, color: activeTab === 'description' ? '#0f172a' : '#64748b', border: 'none', background: activeTab === 'description' ? '#fff' : 'transparent', borderBottom: activeTab === 'description' ? '3px solid #D63062' : '3px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s' }}
@@ -47,6 +57,13 @@ export function ProductTabs({ productId, reviewsCount, hasFaqs, descriptionNode,
       {/* Tab Content */}
       <div style={{ padding: '40px' }}>
         
+        {/* Details Tab */}
+        {hasDetails && (
+          <div style={{ display: activeTab === 'details' ? 'block' : 'none' }}>
+            {detailsNode}
+          </div>
+        )}
+
         {/* Description Tab */}
         <div style={{ display: activeTab === 'description' ? 'block' : 'none' }}>
           {descriptionNode}

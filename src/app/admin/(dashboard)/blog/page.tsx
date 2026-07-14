@@ -20,7 +20,8 @@ export default async function AdminBlogPage() {
       </div>
 
       <div className="dashboard-card" style={{ padding: '0', overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto', width: '100%' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
           <thead>
             <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', textAlign: 'left' }}>
               <th style={{ padding: '16px 24px', fontSize: '12px', textTransform: 'uppercase', color: '#64748b' }}>Post</th>
@@ -65,6 +66,7 @@ export default async function AdminBlogPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

@@ -15,7 +15,8 @@ export default async function StoreLayout({
   const categories = await prisma.category.findMany({
     where: { parentId: null },
     include: { children: { include: { children: true } } },
-    orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }]
+    orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+    take: 20
   });
 
   const safeSettings = JSON.parse(JSON.stringify(storeSettings, (k, v) => typeof v === 'bigint' ? v.toString() : v));

@@ -43,97 +43,6 @@ export async function ProductCard({ id, title, slug, image, price, salePrice, ca
       flexDirection: 'column',
       transition: 'transform 0.2s ease, box-shadow 0.2s ease'
     }}>
-      <style dangerouslySetInnerHTML={{ __html: `
-        .premium-product-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
-        }
-        .premium-card-image-link {
-          display: block;
-          position: relative;
-          aspect-ratio: 4 / 4;
-          background: #f8fafc; /* Very light gray */
-          overflow: hidden;
-        }
-        .premium-card-image-link img {
-          object-fit: contain;
-          padding: 0;
-        }
-        .premium-card-body {
-          padding: 16px;
-          display: flex;
-          flex-direction: column;
-          flex-grow: 1;
-        }
-        .premium-card-brand {
-          font-size: 11px;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          margin: 0 0 10px;
-          padding-bottom: 10px;
-          font-weight: 900;
-          text-align: center;
-          background: linear-gradient(135deg, #FF0080, #7928CA, #4A00E0, #D63062);
-          background-size: 300% 300%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: brandGradientText 4s ease infinite;
-          position: relative;
-        }
-        .premium-card-brand::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 100%;
-          height: 1px;
-          background-color: #e2e8f0;
-        }
-        .premium-card-title {
-          font-size: 13px;
-          font-weight: 600;
-          color: #475569;
-          margin: 0 0 12px;
-          line-height: 1.4;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        @media (max-width: 640px) {
-          .premium-card-title { font-size: 12px; margin-bottom: 8px; }
-          .premium-card-price { font-size: 14px !important; }
-          .premium-card-old-price { font-size: 11px; display: block; margin-left: 0; margin-top: 2px; }
-          .premium-card-body { padding: 8px; }
-          .premium-card-price-row { align-items: flex-end; }
-        }
-        .premium-card-price-row {
-          margin-top: auto;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .premium-card-price {
-          font-size: 16px;
-          font-weight: 800;
-          color: #0f172a; /* Strong black price */
-        }
-        .premium-card-old-price {
-          font-size: 13px;
-          color: #94a3b8;
-          text-decoration: line-through;
-          margin-left: 6px;
-          font-weight: 500;
-        }
-        .premium-wishlist-pos {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          z-index: 10;
-        }
-      `}} />
-      
       {id && (
         <div className="premium-wishlist-pos">
           <WishlistButton productId={id} mini={true} />
@@ -153,13 +62,14 @@ export async function ProductCard({ id, title, slug, image, price, salePrice, ca
         )}
       </a>
       
-      <a className="premium-card-body" href={`/product/${slug}`} style={{ textDecoration: 'none' }}>
-        {brand && (
-          <div className="premium-card-brand">
-            {brand}
-          </div>
-        )}
-        <h3 className="premium-card-title">{title}</h3>
+      <div className="premium-card-body">
+        <a href={`/product/${slug}`} style={{ textDecoration: 'none', color: 'inherit', flexGrow: 1, display: 'block' }}>
+          {brand && (
+            <div className="premium-card-brand">
+              {brand}
+            </div>
+          )}
+          <h3 className="premium-card-title">{title}</h3>
         
         {/* Ratings dynamic as per requirements */}
         {reviewCount > 0 && (
@@ -174,6 +84,7 @@ export async function ProductCard({ id, title, slug, image, price, salePrice, ca
             <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>{avgRating.toFixed(1)} ({reviewCount})</span>
           </div>
         )}
+        </a>
 
         <div className="premium-card-price-row">
           <div>
@@ -188,9 +99,9 @@ export async function ProductCard({ id, title, slug, image, price, salePrice, ca
                 <a 
                   href={`/product/${slug}`}
                   title="Select Options"
-                  style={{ background: '#f8fafc', border: '1px solid #cbd5e1', color: '#0f172a', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', textDecoration: 'none' }}
+                  style={{ background: '#0f172a', color: '#fff', border: 'none', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', textDecoration: 'none' }}
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                 </a>
               ) : (
                 <AddToCartButton productId={id} outOfStock={false} mini={true} />
@@ -198,7 +109,7 @@ export async function ProductCard({ id, title, slug, image, price, salePrice, ca
             </div>
           )}
         </div>
-      </a>
+      </div>
     </div>
   );
 }

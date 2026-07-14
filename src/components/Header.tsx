@@ -33,7 +33,7 @@ export function Header({ settings, categories = [] }: { settings: any, categorie
 
         {/* 2. Main Hub */}
         <div className="main-header-hub">
-          <Link href="/" className="mega-logo">{settings.storeName || "SpeedCommerce"}</Link>
+          <Link href="/" className="mega-logo">{settings.storeName || "SexToys Lovers"}</Link>
           
           <AutocompleteSearch isMobile={false} categories={categories} />
 
@@ -73,8 +73,8 @@ export function Header({ settings, categories = [] }: { settings: any, categorie
             <Link href="/deals">Today's Deals</Link>
 
             <Link href="/new-releases">New Releases</Link>
-            <Link href="/category/electronics">Electronics & Tech</Link>
-            <Link href="/category/fashion">Fashion</Link>
+            <Link href="/brand">Brands</Link>
+            <Link href="/category">Categories</Link>
             <Link href="/contact">Customer Service</Link>
           </div>
           <MegaMenu 
@@ -92,7 +92,7 @@ export function Header({ settings, categories = [] }: { settings: any, categorie
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
           
-          <Link href="/" className="mobile-logo">{settings.storeName || "SpeedCommerce"}</Link>
+          <Link href="/" className="mobile-logo">{settings.storeName || "SexToys Lovers"}</Link>
 
           <button onClick={cart.openCart} className="header-action-item" style={{ gap: '0', background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>
             <div className="header-action-icon">

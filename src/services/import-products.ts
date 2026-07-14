@@ -1,3 +1,5 @@
+
+
 import { parse } from "csv-parse/sync";
 import { randomUUID } from "crypto";
 import { prisma } from "@/lib/prisma";
@@ -26,7 +28,7 @@ export function parseProductCsv(csvText: string): RawRow[] {
   }) as RawRow[];
 }
 
-export async function createImportBatch(filename: string | undefined, rows: RawRow[], priceTiers?: any) {
+export async function createImportBatch(filename: string | undefined, rows: RawRow[], priceTiers?: any, updateMode: string = "FULL") {
   const batchId = randomUUID();
 
   const getMultiplierForPrice = (price: number) => {
@@ -38,7 +40,7 @@ export async function createImportBatch(filename: string | undefined, rows: RawR
     else if (price >= 50 && price < 75) pct = Number(priceTiers.tier4);
     else if (price >= 75 && price <= 100) pct = Number(priceTiers.tier5);
     else if (price > 100) pct = Number(priceTiers.tier6);
-    
+
     if (!pct || isNaN(pct)) return 1;
     return 1 + (pct / 100);
   };
@@ -48,6 +50,7 @@ export async function createImportBatch(filename: string | undefined, rows: RawR
       id: batchId,
       filename,
       status: "PENDING",
+      updateMode,
       totalRows: rows.length,
       rows: {
         createMany: {
@@ -101,6 +104,14 @@ export async function processImportBatch(batchId: string) {
   let failedRows = 0;
   let processed = 0;
 
+  const batch = await prisma.productImportBatch.findUnique({ where: { id: batchId } });
+  if (!batch) {
+    console.log(`Batch ${batchId} not found, skipping...`);
+    return { successRows: 0, failedRows: 0 };
+  }
+  
+  const updateMode = batch.updateMode || "FULL";
+
   await prisma.productImportBatch.update({
     where: { id: batchId },
     data: { status: "PROCESSING", message: "Import processing started" }
@@ -136,28 +147,65 @@ export async function processImportBatch(batchId: string) {
 
     if (validRows.length > 0) {
       try {
-        const uniqueCategories = Array.from(new Map(validRows.map(r => [r.categorySlug || "default-category", { slug: r.categorySlug || "default-category", name: r.categoryName || "Default Category" }])).values());
-        for (const cat of uniqueCategories) {
-          await prisma.category.upsert({
-            where: { slug: cat.slug },
-            update: { name: cat.name },
-            create: { slug: cat.slug, name: cat.name }
-          });
-        }
-        
-        const uniqueBrands = Array.from(new Map(validRows.map(r => [r.brandSlug || "default-brand", { slug: r.brandSlug || "default-brand", name: r.brandName || "Default Brand" }])).values());
-        for (const brand of uniqueBrands) {
-          await prisma.brand.upsert({
-            where: { slug: brand.slug },
-            update: { name: brand.name },
-            create: { slug: brand.slug, name: brand.name }
-          });
-        }
+        let categoryMap = new Map();
+        let brandMap = new Map();
+        let existingProductMap = new Map();
 
-        const categories = await prisma.category.findMany({ where: { slug: { in: uniqueCategories.map(c => c.slug) } } });
-        const brands = await prisma.brand.findMany({ where: { slug: { in: uniqueBrands.map(b => b.slug) } } });
-        const categoryMap = new Map(categories.map(c => [c.slug, c.id]));
-        const brandMap = new Map(brands.map(b => [b.slug, b.id]));
+        if (updateMode !== "PRICE_STOCK_ONLY") {
+          const productSlugs = Array.from(new Set(validRows.map(r => r.slug).filter(Boolean) as string[]));
+          const existingProducts = await prisma.product.findMany({
+            where: { slug: { in: productSlugs } },
+            select: { slug: true, categoryId: true, brandId: true }
+          });
+          existingProductMap = new Map(existingProducts.map(p => [p.slug, p]));
+
+          const uniqueCategorySlugs = Array.from(new Set(validRows.map(r => r.categorySlug || "default-category")));
+          const existingCategories = await prisma.category.findMany({
+            where: { slug: { in: uniqueCategorySlugs } },
+            select: { id: true, slug: true }
+          });
+          const existingCategorySlugs = new Set(existingCategories.map(c => c.slug));
+
+          const uniqueBrandSlugs = Array.from(new Set(validRows.map(r => r.brandSlug || "default-brand")));
+          const existingBrands = await prisma.brand.findMany({
+            where: { slug: { in: uniqueBrandSlugs } },
+            select: { id: true, slug: true }
+          });
+          const existingBrandSlugs = new Set(existingBrands.map(b => b.slug));
+
+          const uniqueCategories = Array.from(new Map(validRows.map(r => [r.categorySlug || "default-category", { slug: r.categorySlug || "default-category", name: r.categoryName || "Default Category" }])).values());
+          for (const cat of uniqueCategories) {
+            const exists = existingCategorySlugs.has(cat.slug);
+            const isForNewProduct = validRows.some(r => (r.categorySlug || "default-category") === cat.slug && !existingProductMap.has(r.slug || ""));
+            
+            if (exists || isForNewProduct) {
+              await prisma.category.upsert({
+                where: { slug: cat.slug },
+                update: { name: cat.name },
+                create: { slug: cat.slug, name: cat.name }
+              });
+            }
+          }
+
+          const uniqueBrands = Array.from(new Map(validRows.map(r => [r.brandSlug || "default-brand", { slug: r.brandSlug || "default-brand", name: r.brandName || "Default Brand" }])).values());
+          for (const brand of uniqueBrands) {
+            const exists = existingBrandSlugs.has(brand.slug);
+            const isForNewProduct = validRows.some(r => (r.brandSlug || "default-brand") === brand.slug && !existingProductMap.has(r.slug || ""));
+            
+            if (exists || isForNewProduct) {
+              await prisma.brand.upsert({
+                where: { slug: brand.slug },
+                update: { name: brand.name },
+                create: { slug: brand.slug, name: brand.name }
+              });
+            }
+          }
+
+          const categories = await prisma.category.findMany({ where: { slug: { in: uniqueCategorySlugs } } });
+          const brands = await prisma.brand.findMany({ where: { slug: { in: uniqueBrandSlugs } } });
+          categoryMap = new Map(categories.map(c => [c.slug, c.id]));
+          brandMap = new Map(brands.map(b => [b.slug, b.id]));
+        }
 
         // GROUP BY SLUG
         const groups = new Map<string, typeof validRows>();
@@ -169,48 +217,55 @@ export async function processImportBatch(batchId: string) {
         const groupedValues = Array.from(groups.values());
         const productSubChunkSize = 25; // Safer chunk size for Prisma pool
         const allUpsertedProducts = [];
-        
+
         for (let i = 0; i < groupedValues.length; i += productSubChunkSize) {
           const chunk = groupedValues.slice(i, i + productSubChunkSize);
-          
+
           const upsertedChunk = await Promise.all(chunk.map(async groupRows => {
             try {
               const parentRow = groupRows.find(r => r.title) || groupRows[0];
               const rawData = parentRow.rawData as any;
               let descriptionHtml = rawData ? (rawData['Body (HTML)'] || rawData.description || rawData.body || null) : null;
-              
+
               const variantRows = groupRows.filter(r => r.sku); // Rows with a SKU are variants
-              
-              const basePriceVal = variantRows.length > 0 
-                  ? Math.min(...variantRows.map(r => r.price ? Number(r.price) : 0).filter(p => p > 0)) 
-                  : (parentRow.price ? Number(parentRow.price) : 0);
-              
+
+              const basePriceVal = variantRows.length > 0
+                ? Math.min(...variantRows.map(r => r.price ? Number(r.price) : 0).filter(p => p > 0))
+                : (parentRow.price ? Number(parentRow.price) : 0);
+
               const targetStatus = basePriceVal <= 0 ? "DRAFT" : "ACTIVE";
               const totalStock = variantRows.reduce((acc, r) => acc + (r.stockQuantity || 0), 0) || parentRow.stockQuantity || 0;
-              
+
               const allImages = groupRows.flatMap(r => [r.imageUrl, r.variantImage]).filter(Boolean) as string[];
               const uniqueImages = Array.from(new Set(allImages));
               const mainImage = uniqueImages.length > 0 ? uniqueImages[0] : null;
 
-              const catId = categoryMap.get(parentRow.categorySlug || "default-category");
-              const bndId = brandMap.get(parentRow.brandSlug || "default-brand");
+              const existingProduct = existingProductMap.get(parentRow.slug!);
+              const catId = categoryMap.get(parentRow.categorySlug || "default-category") ?? existingProduct?.categoryId ?? null;
+              const bndId = brandMap.get(parentRow.brandSlug || "default-brand") ?? existingProduct?.brandId ?? null;
+              const updateData: any = updateMode === "PRICE_STOCK_ONLY" ? {
+                basePrice: basePriceVal,
+                stockQuantity: totalStock,
+                stockStatus: totalStock > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
+                importBatchId: batchId
+              } : {
+                title: parentRow.title || "Unnamed Product",
+                description: descriptionHtml,
+                basePrice: basePriceVal,
+                stockQuantity: totalStock,
+                stockStatus: totalStock > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
+                mainImage: mainImage,
+                seoTitle: parentRow.seoTitle || parentRow.title,
+                seoDescription: parentRow.seoDescription || null,
+                categoryId: catId,
+                brandId: bndId,
+                status: targetStatus,
+                importBatchId: batchId
+              };
 
               const product = await prisma.product.upsert({
                 where: { slug: parentRow.slug! },
-                update: {
-                  title: parentRow.title || "Unnamed Product",
-                  description: descriptionHtml,
-                  basePrice: basePriceVal,
-                  stockQuantity: totalStock,
-                  stockStatus: totalStock > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
-                  mainImage: mainImage,
-                  seoTitle: parentRow.seoTitle || parentRow.title,
-                  seoDescription: parentRow.seoDescription || null,
-                  categoryId: catId,
-                  brandId: bndId,
-                  status: targetStatus,
-                  importBatchId: batchId
-                },
+                update: updateData,
                 create: {
                   sku: parentRow.sku || `base-${parentRow.slug}`,
                   barcode: parentRow.barcode || null,
@@ -236,7 +291,7 @@ export async function processImportBatch(batchId: string) {
               for (const vRow of variantRows) {
                 const vRaw = vRow.rawData as any;
                 const attrs: Record<string, string> = {};
-                
+
                 const addOption = (nameKey: string, valKey: string) => {
                   const name = vRaw[nameKey];
                   const val = vRaw[valKey];
@@ -244,23 +299,30 @@ export async function processImportBatch(batchId: string) {
                     attrs[name] = val;
                   }
                 };
-                
+
                 addOption('Option1 Name', 'Option1 Value');
                 addOption('Option2 Name', 'Option2 Value');
                 addOption('Option3 Name', 'Option3 Value');
 
+                const variantUpdateData: any = updateMode === "PRICE_STOCK_ONLY" ? {
+                  price: vRow.price || 0,
+                  salePrice: vRow.salePrice,
+                  stockQuantity: vRow.stockQuantity || 0,
+                  stockStatus: (vRow.stockQuantity || 0) > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
+                } : {
+                  productId: product.id,
+                  price: vRow.price || 0,
+                  barcode: vRow.barcode || null,
+                  salePrice: vRow.salePrice,
+                  stockQuantity: vRow.stockQuantity || 0,
+                  stockStatus: (vRow.stockQuantity || 0) > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
+                  image: vRow.variantImage || vRow.imageUrl || null,
+                  attributes: Object.keys(attrs).length > 0 ? attrs : undefined
+                };
+
                 await prisma.productVariant.upsert({
                   where: { sku: vRow.sku! },
-                  update: {
-                    productId: product.id,
-                    price: vRow.price || 0,
-                    barcode: vRow.barcode || null,
-                    salePrice: vRow.salePrice,
-                    stockQuantity: vRow.stockQuantity || 0,
-                    stockStatus: (vRow.stockQuantity || 0) > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
-                    image: vRow.variantImage || vRow.imageUrl || null,
-                    attributes: Object.keys(attrs).length > 0 ? attrs : undefined
-                  },
+                  update: variantUpdateData,
                   create: {
                     productId: product.id,
                     sku: vRow.sku!,
@@ -276,21 +338,23 @@ export async function processImportBatch(batchId: string) {
               }
 
               // Process Images
-              let sortOrder = 0;
-              for (const imgUrl of uniqueImages) {
-                const existing = await prisma.productImage.findFirst({
-                  where: { productId: product.id, imageUrl: imgUrl }
-                });
-                if (!existing) {
-                  await prisma.productImage.create({
-                    data: {
-                      productId: product.id,
-                      imageUrl: imgUrl,
-                      sortOrder
-                    }
+              if (updateMode !== "PRICE_STOCK_ONLY") {
+                let sortOrder = 0;
+                for (const imgUrl of uniqueImages) {
+                  const existing = await prisma.productImage.findFirst({
+                    where: { productId: product.id, imageUrl: imgUrl }
                   });
+                  if (!existing) {
+                    await prisma.productImage.create({
+                      data: {
+                        productId: product.id,
+                        imageUrl: imgUrl,
+                        sortOrder
+                      }
+                    });
+                  }
+                  sortOrder++;
                 }
-                sortOrder++;
               }
 
               for (const row of groupRows) {
@@ -300,7 +364,7 @@ export async function processImportBatch(batchId: string) {
                 });
                 successRows += 1;
               }
-              
+
               return product;
             } catch (error) {
               failedRows += groupRows.length;
@@ -313,7 +377,7 @@ export async function processImportBatch(batchId: string) {
               return null;
             }
           }));
-          
+
           allUpsertedProducts.push(...upsertedChunk.filter(Boolean));
         }
 
@@ -326,11 +390,11 @@ export async function processImportBatch(batchId: string) {
             price: Number(p!.basePrice),
             salePrice: p!.salePrice ? Number(p!.salePrice) : null,
             stockStatus: p!.stockStatus,
-            categorySlug: p!.category?.slug,
-            brandSlug: p!.brand?.slug,
+            categorySlug: (p as any)!.category?.slug,
+            brandSlug: (p as any)!.brand?.slug,
             image: p!.mainImage
           }));
-          
+
           try {
             await syncProductsToSearch(searchDocs);
           } catch (e) {
@@ -340,10 +404,10 @@ export async function processImportBatch(batchId: string) {
       } catch (err) {
         console.error("Bulk process error:", err);
         failedRows += validRows.length;
-        
+
         for (let i = 0; i < validRows.length; i += 50) {
           const chunk = validRows.slice(i, i + 50);
-          await Promise.all(chunk.map(row => 
+          await Promise.all(chunk.map(row =>
             prisma.productImportRow.update({
               where: { id: row.id },
               data: { processedAt: new Date(), errorMessage: "Batch processing failed" }

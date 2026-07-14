@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 export default async function GlobalCategoryPage() {
   // Fetch all categories
   const allCategories = await prisma.category.findMany({
-    orderBy: { createdAt: 'asc' }
+    orderBy: { createdAt: 'asc' },
+    take: 64
   });
 
   return (

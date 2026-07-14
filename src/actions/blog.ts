@@ -58,6 +58,49 @@ export async function updateBlogPost(id: bigint, formData: FormData) {
   redirect('/admin/blog');
 }
 
+export async function getBlogPostsList() {
+  const posts = await prisma.blogPost.findMany({
+    orderBy: { createdAt: 'desc' }
+  });
+  return posts.map(p => ({
+    ...p,
+    id: p.id.toString()
+  }));
+}
+
+export async function saveBlogPostData(
+  id: string,
+  data: {
+    title: string;
+    slug: string;
+    excerpt: string;
+    content: string;
+    coverImage?: string;
+    isPublished: boolean;
+  }
+) {
+  const post = await prisma.blogPost.update({
+    where: { id: BigInt(id) },
+    data: {
+      title: data.title,
+      slug: data.slug,
+      excerpt: data.excerpt,
+      content: data.content,
+      coverImage: data.coverImage || null,
+      isPublished: data.isPublished
+    }
+  });
+
+  revalidatePath('/blog');
+  revalidatePath(`/blog/${data.slug}`);
+  revalidatePath('/admin/blog');
+  
+  return {
+    ...post,
+    id: post.id.toString()
+  };
+}
+
 export async function deleteBlogPost(id: bigint) {
   await prisma.blogPost.delete({
     where: { id }
