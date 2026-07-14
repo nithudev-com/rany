@@ -11,6 +11,7 @@ interface ProductTabsProps {
   reviewsListNode: React.ReactNode;
   faqsNode: React.ReactNode;
   detailsNode?: React.ReactNode;
+  trustBadgesNode?: React.ReactNode;
 }
 
 const AccordionItem = ({ title, icon, isOpen, onClick, children }: any) => (
@@ -35,7 +36,7 @@ const AccordionItem = ({ title, icon, isOpen, onClick, children }: any) => (
   </div>
 );
 
-export function ProductTabs({ productId, reviewsCount, hasFaqs, hasDetails = false, descriptionNode, reviewsListNode, faqsNode, detailsNode }: ProductTabsProps) {
+export function ProductTabs({ productId, reviewsCount, hasFaqs, hasDetails = false, descriptionNode, reviewsListNode, faqsNode, detailsNode, trustBadgesNode }: ProductTabsProps) {
   const [openSection, setOpenSection] = useState<string | null>(hasDetails ? 'details' : 'description');
 
   const toggleSection = (section: string) => {
@@ -80,6 +81,8 @@ export function ProductTabs({ productId, reviewsCount, hasFaqs, hasDetails = fal
         )}
 
       </div>
+
+      {trustBadgesNode}
 
       {/* Persistent Customer Reviews Section */}
       <div style={{ marginTop: '40px', borderTop: '1px solid #e2e8f0', paddingTop: '32px' }}>

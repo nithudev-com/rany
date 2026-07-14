@@ -180,7 +180,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      <div className="pdp-grid" style={{ display: "grid", gridTemplateColumns: "360px 1fr 320px", gap: '48px', marginBottom: '24px', alignItems: 'start' }}>
+      <div className="pdp-grid" style={{ display: "grid", gridTemplateColumns: "minmax(360px, 460px) 1fr", gap: '48px', marginBottom: '24px', alignItems: 'start' }}>
 
         {/* LEFT COLUMN: Gallery */}
         <ProductGallery images={images} />
@@ -224,74 +224,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
         </section>
 
-        {/* RIGHT COLUMN: Sidebar */}
-        <aside className="pdp-sidebar" style={{ background: '#f8fafc', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
-
-          <div className="farmart-sidebar-card">
-            <svg className="farmart-sidebar-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-            <div>
-              <div className="farmart-sidebar-title">Free Shipping</div>
-              <div className="farmart-sidebar-desc">For all orders over $100. Standard delivery applies to international regions.</div>
-            </div>
-          </div>
-
-          <div className="farmart-sidebar-card">
-            <svg className="farmart-sidebar-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-            <div>
-              <div className="farmart-sidebar-title">1 & 1 Returns</div>
-              <div className="farmart-sidebar-desc">Cancellation after 1 day. Secure exchange conditions available.</div>
-            </div>
-          </div>
-
-          <div className="farmart-sidebar-card">
-            <svg className="farmart-sidebar-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <div>
-              <div className="farmart-sidebar-title">Secure Payment</div>
-              <div className="farmart-sidebar-desc">Guarantee secure payments across all platforms.</div>
-            </div>
-          </div>
-
-          {/* Secure Payment Badges */}
-          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">VISA</text></svg>
-            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">MC</text></svg>
-            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">AMEX</text></svg>
-          </div>
-
-          {/* Smart Video Player */}
-          {product.videoUrl && (
-            <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e2e8f0' }}>
-              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D63062" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                Product Video
-              </div>
-              <div style={{ width: '100%', aspectRatio: '16/9', borderRadius: '12px', overflow: 'hidden', background: '#000', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>
-                {(() => {
-                  const url = product.videoUrl as string;
-                  if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                    const videoId = url.includes('v=') ? url.split('v=')[1]?.split('&')[0] : url.split('youtu.be/')[1]?.split('?')[0];
-                    return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://www.youtube.com/embed/${videoId}`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>;
-                  }
-                  if (url.includes('vimeo.com')) {
-                    const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
-                    return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://player.vimeo.com/video/${videoId}`} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>;
-                  }
-                  if (url.includes('pornhub.com')) {
-                    const videoKey = url.includes('viewkey=') ? url.split('viewkey=')[1]?.split('&')[0] : url.split('embed/')[1];
-                    if (videoKey) {
-                      return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://www.pornhub.com/embed/${videoKey}`} frameBorder="0" allowFullScreen></iframe>;
-                    }
-                  }
-                  if (url.endsWith('.mp4') || url.includes('.mp4')) {
-                    return <video width="100%" height="100%" style={{ objectFit: 'cover' }} controls preload="metadata"><source src={url} type="video/mp4" />Your browser does not support the video tag.</video>;
-                  }
-                  return <a href={url} target="_blank" rel="noreferrer" style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#fff', textDecoration: 'none' }}>View Video</a>;
-                })()}
-              </div>
-            </div>
-          )}
-
-        </aside>
+        </section>
       </div>
 
       {/* BOTTOM TABS SECTION */}
@@ -366,6 +299,71 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 </p>
               </details>
             ))}
+          </div>
+        }
+        trustBadgesNode={
+          <div style={{ marginTop: '40px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', background: '#f8fafc', padding: '32px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+              <div className="farmart-sidebar-card" style={{ marginBottom: 0 }}>
+                <svg className="farmart-sidebar-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                <div>
+                  <div className="farmart-sidebar-title">Free Shipping</div>
+                  <div className="farmart-sidebar-desc">For all orders over $100. Standard delivery applies to international regions.</div>
+                </div>
+              </div>
+              <div className="farmart-sidebar-card" style={{ marginBottom: 0 }}>
+                <svg className="farmart-sidebar-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                <div>
+                  <div className="farmart-sidebar-title">1 & 1 Returns</div>
+                  <div className="farmart-sidebar-desc">Cancellation after 1 day. Secure exchange conditions available.</div>
+                </div>
+              </div>
+              <div className="farmart-sidebar-card" style={{ marginBottom: 0 }}>
+                <svg className="farmart-sidebar-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <div>
+                  <div className="farmart-sidebar-title">Secure Payment</div>
+                  <div className="farmart-sidebar-desc">Guarantee secure payments across all platforms.</div>
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="32" height="20" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">VISA</text></svg>
+                    <svg width="32" height="20" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">MC</text></svg>
+                    <svg width="32" height="20" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">AMEX</text></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Smart Video Player */}
+            {product.videoUrl && (
+              <div style={{ marginTop: '24px', background: '#fff', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D63062" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  Product Video
+                </div>
+                <div style={{ width: '100%', aspectRatio: '16/9', borderRadius: '12px', overflow: 'hidden', background: '#000', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', maxWidth: '800px', margin: '0 auto' }}>
+                  {(() => {
+                    const url = product.videoUrl as string;
+                    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                      const videoId = url.includes('v=') ? url.split('v=')[1]?.split('&')[0] : url.split('youtu.be/')[1]?.split('?')[0];
+                      return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://www.youtube.com/embed/${videoId}`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>;
+                    }
+                    if (url.includes('vimeo.com')) {
+                      const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
+                      return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://player.vimeo.com/video/${videoId}`} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>;
+                    }
+                    if (url.includes('pornhub.com')) {
+                      const videoKey = url.includes('viewkey=') ? url.split('viewkey=')[1]?.split('&')[0] : url.split('embed/')[1];
+                      if (videoKey) {
+                        return <iframe width="100%" height="100%" style={{ border: 'none' }} src={`https://www.pornhub.com/embed/${videoKey}`} frameBorder="0" allowFullScreen></iframe>;
+                      }
+                    }
+                    if (url.endsWith('.mp4') || url.includes('.mp4')) {
+                      return <video width="100%" height="100%" style={{ objectFit: 'cover' }} controls preload="metadata"><source src={url} type="video/mp4" />Your browser does not support the video tag.</video>;
+                    }
+                    return <a href={url} target="_blank" rel="noreferrer" style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#fff', textDecoration: 'none' }}>View Video</a>;
+                  })()}
+                </div>
+              </div>
+            )}
           </div>
         }
       />
