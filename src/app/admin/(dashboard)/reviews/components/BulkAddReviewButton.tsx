@@ -12,7 +12,11 @@ export function BulkAddReviewButton({ products }: BulkAddReviewButtonProps) {
   const [productId, setProductId] = useState(products[0]?.id.toString() || '');
   const [reviewCount, setReviewCount] = useState(5);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(products[0]?.title || '');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
+
+  const filteredProducts = products.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const handleBulkAdd = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,16 +68,46 @@ export function BulkAddReviewButton({ products }: BulkAddReviewButtonProps) {
             <form onSubmit={handleBulkAdd} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: '#475569', marginBottom: '8px' }}>Target Product</label>
-                <select 
-                  value={productId}
-                  onChange={e => setProductId(e.target.value)}
-                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none' }}
-                  required
-                >
-                  {products.map(p => (
-                    <option key={p.id.toString()} value={p.id.toString()}>{p.title}</option>
-                  ))}
-                </select>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={e => {
+                      setSearchTerm(e.target.value);
+                      setIsDropdownOpen(true);
+                      setProductId(''); // Reset ID if they type something new
+                    }}
+                    onFocus={() => setIsDropdownOpen(true)}
+                    placeholder="Search for a product..."
+                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none' }}
+                    required
+                  />
+                  {isDropdownOpen && (
+                    <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', marginTop: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 10 }}>
+                      {filteredProducts.length > 0 ? (
+                        filteredProducts.map(p => (
+                          <div 
+                            key={p.id.toString()}
+                            onClick={() => {
+                              setProductId(p.id.toString());
+                              setSearchTerm(p.title);
+                              setIsDropdownOpen(false);
+                            }}
+                            style={{ padding: '12px', cursor: 'pointer', borderBottom: '1px solid #f1f5f9', background: productId === p.id.toString() ? '#f8fafc' : '#fff' }}
+                            onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
+                            onMouseLeave={e => e.currentTarget.style.background = productId === p.id.toString() ? '#f8fafc' : '#fff'}
+                          >
+                            {p.title}
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ padding: '12px', color: '#64748b' }}>No products found</div>
+                      )}
+                    </div>
+                  )}
+                  {/* Hidden input to ensure form validation triggers if no valid product ID is selected */}
+                  <input type="hidden" required value={productId} />
+                </div>
               </div>
 
               <div>
