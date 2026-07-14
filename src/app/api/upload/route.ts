@@ -1,15 +1,23 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
+import { cookies } from 'next/headers';
 
-// Configure Cloudinary with provided credentials
+// Configure Cloudinary using Environment Variables for Security
 cloudinary.config({
-  cloud_name: 'duef1mpip', // ← replace this in a real env file
-  api_key: '884349289717363', // ← replace this in a real env file
-  api_secret: 'nEl7yEc-7La938KEAw94enmNL-U', // ← replace this in a real env file
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export async function POST(request: Request) {
   try {
+    // SECURITY CHECK: Verify the user is an authenticated admin
+    const cookieStore = await cookies();
+    const authCookie = cookieStore.get('admin_auth');
+    if (!authCookie || authCookie.value !== 'true') {
+      return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const file = formData.get('file') as File;
 
