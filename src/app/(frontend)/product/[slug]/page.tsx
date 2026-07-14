@@ -302,17 +302,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         hasFaqs={faqs.length > 0}
         hasDetails={details.length > 0}
         detailsNode={
-          <div style={{ display: 'grid', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '16px' }}>
             {details.map((d: any, idx: number) => (
-              <div key={idx} style={{ display: 'flex', padding: '12px 16px', background: idx % 2 === 0 ? '#f8fafc' : '#ffffff', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
-                <div style={{ width: '150px', fontWeight: 800, color: '#0f172a', flexShrink: 0 }}>{d.key}</div>
-                <div style={{ color: '#475569', lineHeight: 1.6 }}>{d.value}</div>
+              <div key={idx} style={{ background: '#fcfbfe', padding: '16px 20px', borderRadius: '12px', border: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 800, color: '#8b5cf6', marginBottom: '6px' }}>{d.key}</div>
+                <div style={{ color: '#0f172a', fontSize: '15px', fontWeight: 600, lineHeight: 1.4 }}>{d.value}</div>
               </div>
             ))}
           </div>
         }
         descriptionNode={
-          <div style={{ color: '#475569', lineHeight: 1.8, fontSize: '16px' }}>
+          <div className="premium-prose" style={{ color: '#475569', lineHeight: 1.8, fontSize: '16px' }}>
             {product.description ? (
               <div dangerouslySetInnerHTML={{ __html: product.description }} />
             ) : (
@@ -465,6 +465,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         
         .related-products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
         
+        .premium-prose p { margin-top: 0; margin-bottom: 1.5em; }
+        .premium-prose ul { padding-left: 20px; margin-bottom: 1.5em; }
+        .premium-prose li { margin-bottom: 0.5em; }
+        .premium-prose h2, .premium-prose h3, .premium-prose h4 { color: #0f172a; font-weight: 800; margin-top: 2em; margin-bottom: 1em; }
+
         @media (max-width: 600px) {
           .related-products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         }
