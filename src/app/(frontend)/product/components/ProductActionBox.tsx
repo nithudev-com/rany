@@ -84,30 +84,62 @@ export function ProductActionBox({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .action-btns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .meta-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #f1f5f9; }
+        @media (max-width: 640px) {
+          .action-btns-grid { grid-template-columns: 1fr; }
+          .meta-info-grid { grid-template-columns: 1fr; gap: 12px; }
+        }
+      `}} />
       
-      {/* Pricing */}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px' }}>
-        {currentSalePrice ? (
-          <>
-            <span style={{ fontSize: '36px', fontWeight: 900, color: '#D63062', letterSpacing: '-0.02em', lineHeight: 1 }}>{formatMoney(currentSalePrice)}</span>
-            <span style={{ fontSize: '20px', fontWeight: 600, color: '#94a3b8', textDecoration: 'line-through', marginBottom: '4px' }}>{formatMoney(currentPrice)}</span>
-            {discountPercentage > 0 && (
-              <span style={{ background: '#fef2f2', color: '#ef4444', padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: 800, marginBottom: '6px' }}>
-                {discountPercentage}% OFF
-              </span>
-            )}
-          </>
-        ) : (
-          <span style={{ fontSize: '36px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1 }}>{formatMoney(currentPrice)}</span>
-        )}
+      {/* Pricing and Wishlist */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px', flexWrap: 'wrap' }}>
+          {currentSalePrice ? (
+            <>
+              <span style={{ fontSize: '36px', fontWeight: 900, color: '#D63062', letterSpacing: '-0.02em', lineHeight: 1 }}>{formatMoney(currentSalePrice)}</span>
+              <span style={{ fontSize: '20px', fontWeight: 600, color: '#94a3b8', textDecoration: 'line-through', marginBottom: '4px' }}>{formatMoney(currentPrice)}</span>
+              {discountPercentage > 0 && (
+                <span style={{ background: '#fef2f2', color: '#ef4444', padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: 800, marginBottom: '6px' }}>
+                  {discountPercentage}% OFF
+                </span>
+              )}
+            </>
+          ) : (
+            <span style={{ fontSize: '36px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1 }}>{formatMoney(currentPrice)}</span>
+          )}
+        </div>
+        <div style={{ flexShrink: 0, paddingLeft: '16px' }}>
+          <WishlistButton productId={product.id.toString()} />
+        </div>
       </div>
 
-      {/* Brand */}
-      {product.brand && (
-        <div style={{ fontSize: '14px', color: '#64748b' }}>
-          Brand: <a href={`/brand/${product.brand.slug}`} style={{ color: '#3b82f6', fontWeight: 700, textDecoration: 'none' }}>{product.brand.name}</a>
+      {/* Dynamic Meta Data (BRAND, SKU, CATEGORY, BARCODE) */}
+      <div className="meta-info-grid">
+        {product.brand && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Brand</span>
+            <a href={`/brand/${product.brand.slug}`} style={{ color: '#0f172a', fontWeight: 700, fontSize: '15px', textDecoration: 'none' }}>{product.brand.name}</a>
+          </div>
+        )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <span style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.05em', textTransform: 'uppercase' }}>SKU</span>
+          <span style={{ color: '#0f172a', fontWeight: 700, fontSize: '15px' }}>{selectedVariant?.sku || product.sku}</span>
         </div>
-      )}
+        {product.category && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Category</span>
+            <a href={`/category/${product.category.slug}`} style={{ color: '#0f172a', fontWeight: 700, fontSize: '15px', textDecoration: 'none' }}>{product.category.name}</a>
+          </div>
+        )}
+        {(selectedVariant?.barcode || product.barcode) && (
+           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+             <span style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Barcode</span>
+             <span style={{ color: '#0f172a', fontWeight: 700, fontSize: '15px' }}>{selectedVariant?.barcode || product.barcode}</span>
+           </div>
+        )}
+      </div>
 
       {/* Short Description */}
       <div style={{ color: '#475569', fontSize: '15px', lineHeight: 1.6 }}>
@@ -122,18 +154,6 @@ export function ProductActionBox({
       {/* Stock Status */}
       <div style={{ fontWeight: 700, fontSize: '14px', color: currentStock > 0 ? '#10b981' : '#ef4444', paddingBottom: '12px', borderBottom: '1px solid #e2e8f0' }}>
         {currentStock > 0 ? `Availability: ${currentStock} in stock` : 'Out of Stock'}
-      </div>
-
-      {/* Dynamic Meta Data (SKU & Barcode) */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#64748b' }}>
-        <div>
-          <strong style={{ color: '#0f172a' }}>SKU:</strong> <span>{selectedVariant?.sku || product.sku}</span>
-        </div>
-        {(selectedVariant?.barcode || product.barcode) && (
-          <div>
-            <strong style={{ color: '#0f172a' }}>Barcode:</strong> <span>{selectedVariant?.barcode || product.barcode}</span>
-          </div>
-        )}
       </div>
 
       {/* Variant Selector */}
@@ -172,25 +192,16 @@ export function ProductActionBox({
       )}
 
       {/* Action Box */}
-      <div style={{ display: 'flex', gap: '12px', marginTop: '8px', alignItems: 'center' }}>
-        <div style={{ flex: 1 }}>
-          <AddToCartButton 
-            productId={product.id.toString()} 
-            variantId={selectedVariantId || undefined} 
-            outOfStock={currentStock <= 0} 
-          />
-        </div>
-        <div style={{ flex: 1 }}>
-          <BuyNowButton 
-            productId={product.id.toString()} 
-            outOfStock={currentStock <= 0} 
-          />
-        </div>
-        <div style={{ flexShrink: 0 }}>
-          <WishlistButton 
-            productId={product.id.toString()} 
-          />
-        </div>
+      <div className="action-btns-grid" style={{ marginTop: '8px' }}>
+        <AddToCartButton 
+          productId={product.id.toString()} 
+          variantId={selectedVariantId || undefined} 
+          outOfStock={currentStock <= 0} 
+        />
+        <BuyNowButton 
+          productId={product.id.toString()} 
+          outOfStock={currentStock <= 0} 
+        />
       </div>
     </div>
   );

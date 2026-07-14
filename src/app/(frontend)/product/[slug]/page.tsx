@@ -70,7 +70,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const faqSchema = faqJsonLd(product.faq);
 
   const faqs = Array.isArray(product.faq) ? product.faq : [];
-  
+
   // Safe parsing for JSON fields
   const features = Array.isArray(product.features) ? product.features : [];
   const benefits = Array.isArray(product.benefits) ? product.benefits : [];
@@ -93,7 +93,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <main className="container" style={{ paddingBottom: '120px', paddingTop: '20px', position: 'relative' }}>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .mobile-only-title { display: none; }
         .desktop-only-title { display: block; }
         @media (max-width: 1024px) {
@@ -129,7 +130,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {/* Schemas */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      
+
       <ViewTracker productId={product.id.toString()} />
 
       {/* Interactive Breadcrumbs */}
@@ -159,13 +160,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="pdp-grid" style={{ display: "grid", gridTemplateColumns: "360px 1fr 320px", gap: '48px', marginBottom: '60px', alignItems: 'start' }}>
-        
+
         {/* LEFT COLUMN: Gallery */}
         <ProductGallery images={images} />
 
         {/* CENTER COLUMN: Core Details */}
         <section style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          
+
           <div className="desktop-only-title">
             <h1 style={{ fontSize: '36px', fontWeight: 900, letterSpacing: "-0.04em", marginBottom: '12px', lineHeight: 1.1, color: '#0f172a' }}>
               {product.title}
@@ -177,7 +178,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '16px', paddingBottom: '16px', borderBottom: '1px solid #e2e8f0' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <div style={{ display: 'flex', color: '#f59e0b' }}>
-                  {[1,2,3,4,5].map(star => <svg key={star} width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>)}
+                  {[1, 2, 3, 4, 5].map(star => <svg key={star} width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>)}
                 </div>
                 <span style={{ fontSize: '14px', color: '#64748b', fontWeight: 600 }}>({reviews.length})</span>
               </div>
@@ -186,25 +187,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
           <ProductActionBox product={product} />
 
-          {/* Meta Data */}
-          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e2e8f0' }}>
-            {product.category && (
-              <div className="farmart-meta-item">
-                <strong>Category:</strong> <Link href={`/category/${product.category.slug}`} style={{ color: '#3b82f6', textDecoration: 'none' }}>{product.category.name}</Link>
-              </div>
-            )}
-            {product.brand && (
-              <div className="farmart-meta-item">
-                <strong>Brand:</strong> <Link href={`/brand/${product.brand.slug}`} style={{ color: '#D63062', textDecoration: 'none' }}>{product.brand.name}</Link>
-              </div>
-            )}
-            {tags.length > 0 && (
-              <div className="farmart-meta-item">
-                <strong>Tags:</strong> <span>{tags.join(', ')}</span>
-              </div>
-            )}
-          </div>
-
+          {/* Meta Data is now professionally arranged inside ProductActionBox */}
           {/* Social Share */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '16px' }}>
             <span style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginRight: '8px' }}>Share:</span>
@@ -223,7 +206,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
         {/* RIGHT COLUMN: Sidebar */}
         <aside className="pdp-sidebar" style={{ background: '#f8fafc', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
-          
+
           <div className="farmart-sidebar-card">
             <svg className="farmart-sidebar-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
             <div>
@@ -250,9 +233,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
           {/* Secure Payment Badges */}
           <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1"/><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">VISA</text></svg>
-            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1"/><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">MC</text></svg>
-            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1"/><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">AMEX</text></svg>
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">VISA</text></svg>
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">MC</text></svg>
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="#0f172a"><rect width="40" height="24" rx="4" fill="#cbd5e1" /><text x="20" y="16" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#64748b">AMEX</text></svg>
           </div>
 
           {/* Smart Video Player */}
@@ -292,8 +275,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       {/* BOTTOM TABS SECTION */}
-      <ProductTabs 
-        productId={product.id.toString()} 
+      <ProductTabs
+        productId={product.id.toString()}
         reviewsCount={reviews.length}
         hasFaqs={faqs.length > 0}
         hasDetails={details.length > 0}
@@ -324,7 +307,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
                     <div>
                       <div style={{ display: 'flex', color: '#f59e0b', marginBottom: '8px' }}>
-                        {[1,2,3,4,5].map(star => (
+                        {[1, 2, 3, 4, 5].map(star => (
                           <svg key={star} width="16" height="16" fill={star <= review.rating ? 'currentColor' : '#cbd5e1'} viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                         ))}
                       </div>
@@ -398,24 +381,24 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
             {relatedBlogs.map((blog: any) => (
               <Link key={blog.id.toString()} href={`/blog/${blog.slug}`} style={{ textDecoration: 'none' }}>
-                <div 
+                <div
                   className="related-blog-card"
-                  style={{ 
+                  style={{
                     background: '#fcfbfe', // Very light purple background
                     border: '1px solid #d8b4e2', // Light purple border 
-                    borderRadius: '8px', 
-                    overflow: 'hidden', 
-                    transition: 'all 0.2s', 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    height: '100%' 
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
                   }}
                 >
                   <div style={{ aspectRatio: '16/9', background: '#f1f5f9', position: 'relative' }}>
                     {blog.coverImage ? (
-                       <Image src={blog.coverImage} alt={blog.title} fill style={{ objectFit: 'cover' }} />
+                      <Image src={blog.coverImage} alt={blog.title} fill style={{ objectFit: 'cover' }} />
                     ) : product.mainImage ? (
-                       <Image src={product.mainImage} alt={blog.title} fill style={{ objectFit: 'cover' }} />
+                      <Image src={product.mainImage} alt={blog.title} fill style={{ objectFit: 'cover' }} />
                     ) : null}
                   </div>
                   <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -455,7 +438,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </div>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @media (min-width: 600px) { .cta-text { display: block !important; } }
         .related-card:hover { border-color: #D63062; transform: translateY(-4px); box-shadow: 0 10px 20px rgba(214,48,98,0.1); }
         .related-blog-card:hover { border-color: #a855f7 !important; transform: translateY(-4px); box-shadow: 0 10px 20px rgba(168, 85, 247, 0.15); }

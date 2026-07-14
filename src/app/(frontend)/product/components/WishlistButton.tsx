@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { toggleWishlist, checkWishlistStatus } from '../../account/wishlist/actions';
+import { toast } from 'react-hot-toast';
 
 export function WishlistButton({ productId, mini = false }: { productId: string, mini?: boolean }) {
   const [inWishlist, setInWishlist] = useState(false);
@@ -24,8 +25,64 @@ export function WishlistButton({ productId, mini = false }: { productId: string,
     const result = await toggleWishlist(BigInt(productId));
     if (result.success) {
       setInWishlist(result.action === 'added');
+      if (result.action === 'added') {
+        toast.success('Added to wishlist', {
+          duration: 3000,
+          position: 'top-center',
+          style: {
+            background: 'rgba(255, 255, 255, 0.95)',
+            color: '#1e293b',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+            borderRadius: '16px',
+            padding: '16px 20px',
+            fontWeight: 500,
+            fontSize: '15px'
+          },
+          iconTheme: {
+            primary: '#10b981',
+            secondary: '#fff',
+          },
+        });
+      } else {
+        toast('Removed from wishlist', {
+          duration: 3000,
+          position: 'top-center',
+          icon: '💔',
+          style: {
+            background: 'rgba(255, 255, 255, 0.95)',
+            color: '#1e293b',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+            borderRadius: '16px',
+            padding: '16px 20px',
+            fontWeight: 500,
+            fontSize: '15px'
+          },
+        });
+      }
     } else if (result.error) {
-      alert(result.error);
+      toast.error(result.error, {
+        duration: 4000,
+        position: 'top-center',
+        style: {
+          background: 'rgba(255, 255, 255, 0.95)',
+          color: '#1e293b',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+          borderRadius: '16px',
+          padding: '16px 20px',
+          fontWeight: 500,
+          fontSize: '15px'
+        },
+        iconTheme: {
+          primary: '#ef4444',
+          secondary: '#fff',
+        },
+      });
     }
     setLoading(false);
   };

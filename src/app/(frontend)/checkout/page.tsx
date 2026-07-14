@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { processCheckout, CheckoutActionState, getCustomerAddresses } from './actions';
 import { useCart } from '@/hooks/useCart';
 import { revalidateCartTotals, RevalidatedCart, getShippingOptions, ShippingOption } from './cart-actions';
+import { toast } from 'react-hot-toast';
 
 export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
@@ -71,7 +72,25 @@ export default function CheckoutPage() {
     const result = await revalidateCartTotals(cart.items, selectedShippingId, couponInput.trim());
     
     if (result.error && result.error.toLowerCase().includes('coupon')) {
-      alert(result.error); // Show error for invalid coupon
+      toast.error(result.error, {
+        duration: 4000,
+        position: 'top-center',
+        style: {
+          background: 'rgba(255, 255, 255, 0.95)',
+          color: '#1e293b',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+          borderRadius: '16px',
+          padding: '16px 20px',
+          fontWeight: 500,
+          fontSize: '15px'
+        },
+        iconTheme: {
+          primary: '#ef4444',
+          secondary: '#fff',
+        },
+      }); // Show error for invalid coupon
       setAppliedCoupon(undefined);
     } else {
       setAppliedCoupon(couponInput.trim());
@@ -90,11 +109,39 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (cart.items.length === 0) {
-      alert("Your cart is empty.");
+      toast.error("Your cart is empty.", {
+        duration: 3000,
+        position: 'top-center',
+        style: {
+          background: 'rgba(255, 255, 255, 0.95)',
+          color: '#1e293b',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+          borderRadius: '16px',
+          padding: '16px 20px',
+          fontWeight: 500,
+          fontSize: '15px'
+        }
+      });
       return;
     }
     if (!selectedShippingId) {
-      alert("Please select a shipping method.");
+      toast.error("Please select a shipping method.", {
+        duration: 3000,
+        position: 'top-center',
+        style: {
+          background: 'rgba(255, 255, 255, 0.95)',
+          color: '#1e293b',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+          borderRadius: '16px',
+          padding: '16px 20px',
+          fontWeight: 500,
+          fontSize: '15px'
+        }
+      });
       return;
     }
 

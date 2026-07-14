@@ -33,10 +33,11 @@ export async function getHomeProducts() {
 }
 
 export async function getProductBySlug(slug: string) {
+  const decodedSlug = decodeURIComponent(slug);
   return unstable_cache(
     async () => {
       const data = await prisma.product.findFirst({
-        where: { slug, status: "ACTIVE" },
+        where: { slug: decodedSlug, status: "ACTIVE" },
         include: {
           category: true,
           brand: true,
@@ -59,9 +60,10 @@ export async function getProductBySlug(slug: string) {
 }
 
 export async function getCategoryBySlug(slug: string) {
+  const decodedSlug = decodeURIComponent(slug);
   return unstable_cache(
     async () => {
-      const data = await prisma.category.findUnique({ where: { slug } });
+      const data = await prisma.category.findUnique({ where: { slug: decodedSlug } });
       return sanitizePrismaData(data);
     },
     [`category-${slug}`],
@@ -71,10 +73,11 @@ export async function getCategoryBySlug(slug: string) {
 
 export async function getCategoryProducts(slug: string, page = 1, limit = 24) {
   const skip = Math.max(page - 1, 0) * limit;
+  const decodedSlug = decodeURIComponent(slug);
 
   return unstable_cache(
     async () => {
-      const category = await prisma.category.findUnique({ where: { slug } });
+      const category = await prisma.category.findUnique({ where: { slug: decodedSlug } });
       if (!category) return { category: null, products: [], total: 0 };
 
       const [products, total] = await Promise.all([
@@ -103,7 +106,8 @@ export async function getFilteredProducts(params: { slug?: string, brandSlug?: s
   let whereClause: any = { status: "ACTIVE" };
 
   if (params.slug) {
-    const category = await prisma.category.findUnique({ where: { slug: params.slug } });
+    const decodedCategorySlug = decodeURIComponent(params.slug);
+    const category = await prisma.category.findUnique({ where: { slug: decodedCategorySlug } });
     if (category) {
       whereClause.categoryId = category.id;
     } else {
@@ -112,7 +116,8 @@ export async function getFilteredProducts(params: { slug?: string, brandSlug?: s
   }
 
   if (params.brandSlug) {
-    const brand = await prisma.brand.findUnique({ where: { slug: params.brandSlug } });
+    const decodedBrandSlug = decodeURIComponent(params.brandSlug);
+    const brand = await prisma.brand.findUnique({ where: { slug: decodedBrandSlug } });
     if (brand) {
       whereClause.brandId = brand.id;
     } else {
@@ -151,12 +156,14 @@ export async function getFilteredProducts(params: { slug?: string, brandSlug?: s
 
   let category = null;
   if (params.slug) {
-    category = await prisma.category.findUnique({ where: { slug: params.slug } });
+    const decodedCategorySlug = decodeURIComponent(params.slug);
+    category = await prisma.category.findUnique({ where: { slug: decodedCategorySlug } });
   }
 
   let brand = null;
   if (params.brandSlug) {
-    brand = await prisma.brand.findUnique({ where: { slug: params.brandSlug } });
+    const decodedBrandSlug = decodeURIComponent(params.brandSlug);
+    brand = await prisma.brand.findUnique({ where: { slug: decodedBrandSlug } });
   }
 
   return sanitizePrismaData({ products, total, category, brand });
