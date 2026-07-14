@@ -4,8 +4,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Speed Commerce",
-    template: "%s | Speed Commerce"
+    default: "SexToys Lovers",
+    template: "%s | SexToys Lovers"
   },
   description: "Next.js ecommerce starter optimized for ISR, speed, SEO, PostgreSQL, Redis, and product imports."
 };

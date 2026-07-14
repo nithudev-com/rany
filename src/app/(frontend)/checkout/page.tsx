@@ -287,7 +287,7 @@ export default function CheckoutPage() {
       ` }} />
 
       <header className="checkout-header">
-        <Link href="/" className="checkout-header-logo">Speed Commerce</Link>
+        <Link href="/" className="checkout-header-logo">SexToys Lovers</Link>
       </header>
 
       {/* Mobile Toggle */}

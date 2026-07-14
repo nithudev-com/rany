@@ -23,7 +23,7 @@ export default function AdminLayout({
           marginBottom: '48px', 
           display: 'block',
           letterSpacing: '-0.04em' 
-        }}>SpeedCommerce</Link>
+        }}>SexToys Lovers</Link>
         
         <div className="muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px', fontWeight: '700' }}>Management</div>
         

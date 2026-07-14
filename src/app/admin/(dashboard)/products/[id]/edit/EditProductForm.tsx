@@ -324,7 +324,7 @@ export default function EditProductForm({ product }: { product: any }) {
         focus_keyword: focusKeyword || title,
         language: 'English',
         country: 'Global',
-        brand_name: 'SpeedCommerce',
+        brand_name: 'SexToys Lovers',
         existing_faqs: JSON.stringify(faqs || []),
         existing_seo_title: seoTitle || '',
         existing_seo_description: seoDescription || '',

@@ -137,7 +137,7 @@ export default function BulkAIGeneratorPage() {
       focus_keyword: item.product.title,
       language: 'English',
       country: 'Global',
-      brand_name: 'SpeedCommerce',
+      brand_name: 'SexToys Lovers',
       existing_faqs: JSON.stringify(item.product.faq || []),
       existing_seo_title: item.product.seoTitle || '',
       existing_seo_description: item.product.seoDescription || '',

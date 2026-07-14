@@ -253,7 +253,7 @@ export default function CustomerRegisterPage() {
           </div>
           
           <h1 style={{ fontSize: '28px', fontWeight: '800', color: 'var(--brand-black)', marginBottom: '8px', letterSpacing: '-0.02em' }}>
-            Join Speed Commerce
+            Join SexToys Lovers
           </h1>
           <p style={{ color: 'var(--muted)', fontSize: '15px' }}>
             Create a secure account for faster checkout and exclusive adult-store access.

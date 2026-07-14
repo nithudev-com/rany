@@ -463,7 +463,7 @@ model ContactMessage {
 
 model StoreSettings {
   id               Int      @id @default(1)
-  storeName        String   @default("SpeedCommerce")
+  storeName        String   @default("SexToys Lovers")
   storeDescription String   @default("Your premium destination for the world's best products. Fast shipping, secure payments, and 24/7 support.")
   facebookUrl      String?
   twitterUrl       String?

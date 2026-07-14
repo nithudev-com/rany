@@ -94,8 +94,8 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #0f172a', paddingBottom: '24px', marginBottom: '32px' }}>
             <div>
-              <h1 style={{ margin: '0 0 4px', fontSize: '32px', fontWeight: '900', letterSpacing: '-0.04em' }}>SpeedCommerce</h1>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '13px' }}>123 Tech Lane, Innovation District<br/>New York, NY 10001<br/>support@speedcommerce.com</p>
+              <h1 style={{ margin: '0 0 4px', fontSize: '32px', fontWeight: '900', letterSpacing: '-0.04em' }}>SexToys Lovers</h1>
+              <p style={{ margin: 0, color: '#64748b', fontSize: '13px' }}>123 Tech Lane, Innovation District<br/>New York, NY 10001<br/>support@sextoyslovers.com</p>
             </div>
             <div style={{ textAlign: 'right' }}>
               <h2 style={{ margin: '0 0 8px', fontSize: '36px', fontWeight: '900', color: '#cbd5e1', textTransform: 'uppercase' }}>Invoice</h2>
