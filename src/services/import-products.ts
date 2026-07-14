@@ -243,23 +243,10 @@ export async function processImportBatch(batchId: string) {
               const existingProduct = existingProductMap.get(parentRow.slug!);
               const catId = categoryMap.get(parentRow.categorySlug || "default-category") ?? existingProduct?.categoryId ?? null;
               const bndId = brandMap.get(parentRow.brandSlug || "default-brand") ?? existingProduct?.brandId ?? null;
-              const updateData: any = updateMode === "PRICE_STOCK_ONLY" ? {
+              const updateData: any = {
                 basePrice: basePriceVal,
                 stockQuantity: totalStock,
                 stockStatus: totalStock > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
-                importBatchId: batchId
-              } : {
-                title: parentRow.title || "Unnamed Product",
-                description: descriptionHtml,
-                basePrice: basePriceVal,
-                stockQuantity: totalStock,
-                stockStatus: totalStock > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
-                mainImage: mainImage,
-                seoTitle: parentRow.seoTitle || parentRow.title,
-                seoDescription: parentRow.seoDescription || null,
-                categoryId: catId,
-                brandId: bndId,
-                status: targetStatus,
                 importBatchId: batchId
               };
 
@@ -304,20 +291,11 @@ export async function processImportBatch(batchId: string) {
                 addOption('Option2 Name', 'Option2 Value');
                 addOption('Option3 Name', 'Option3 Value');
 
-                const variantUpdateData: any = updateMode === "PRICE_STOCK_ONLY" ? {
+                const variantUpdateData: any = {
                   price: vRow.price || 0,
                   salePrice: vRow.salePrice,
                   stockQuantity: vRow.stockQuantity || 0,
                   stockStatus: (vRow.stockQuantity || 0) > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
-                } : {
-                  productId: product.id,
-                  price: vRow.price || 0,
-                  barcode: vRow.barcode || null,
-                  salePrice: vRow.salePrice,
-                  stockQuantity: vRow.stockQuantity || 0,
-                  stockStatus: (vRow.stockQuantity || 0) > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
-                  image: vRow.variantImage || vRow.imageUrl || null,
-                  attributes: Object.keys(attrs).length > 0 ? attrs : undefined
                 };
 
                 await prisma.productVariant.upsert({
