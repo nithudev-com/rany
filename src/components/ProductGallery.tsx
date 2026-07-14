@@ -50,11 +50,11 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
   }
 
   return (
-    <div className="pdp-sticky-gallery" style={{ position: 'sticky', top: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <div className="pdp-sticky-gallery" style={{ position: 'sticky', top: '24px', display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0, width: '100%' }}>
       
       {/* Main Large Image */}
-      <div className="card animate-fade-up" style={{ padding: 0, overflow: 'hidden', border: '1px solid #e2e8f0', borderRadius: '24px', position: 'relative' }}>
-        <div style={{ position: "relative", aspectRatio: "1 / 1", background: "#f8fafc" }} className="gallery-image-hover">
+      <div className="card animate-fade-up" style={{ padding: 0, overflow: 'hidden', border: '1px solid #e2e8f0', borderRadius: '24px', position: 'relative', width: '100%' }}>
+        <div style={{ position: "relative", aspectRatio: "1 / 1", background: "#f8fafc", width: '100%' }} className="gallery-image-hover">
           <Image 
             src={localImages[activeIndex]?.imageUrl || localImages[0].imageUrl} 
             alt={localImages[activeIndex]?.altText || `Product image ${activeIndex + 1}`} 
@@ -70,15 +70,15 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
 
       {/* Thumbnails Slider/Row */}
       {localImages.length > 1 && (
-        <div className="animate-fade-up delay-1 custom-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px', width: '100%' }}>
+        <div className="animate-fade-up delay-1 custom-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px', width: '100%', minWidth: 0, scrollSnapType: 'x mandatory' }}>
           {localImages.map((img, idx) => (
             <button
               key={idx}
               onClick={() => setActiveIndex(idx)}
               style={{
                 position: 'relative',
-                flex: '0 1 80px',
-                minWidth: '48px',
+                flex: '0 0 80px',
+                minWidth: '60px',
                 aspectRatio: '1 / 1',
                 borderRadius: '12px',
                 overflow: 'hidden',
@@ -88,6 +88,7 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
                 cursor: 'pointer',
                 opacity: activeIndex === idx ? 1 : 0.6,
                 transition: 'all 0.2s ease',
+                scrollSnapAlign: 'start'
               }}
             >
               <Image 
