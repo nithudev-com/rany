@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatPrice } from "@/lib/money";
-import { productJsonLd, siteUrl, faqJsonLd } from "@/lib/seo";
+import { productJsonLd, siteUrl, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { getProductBySlug, getTopProductSlugs } from "@/services/products";
 import { ViewTracker } from "../components/ViewTracker";
 import { WishlistButton } from "../components/WishlistButton";
@@ -68,6 +68,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const jsonLd = productJsonLd(product);
   const faqSchema = faqJsonLd(product.faq);
+  
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    ...(product.category ? [{ name: product.category.name, url: `/category/${product.category.slug}` }] : []),
+    ...(product.brand ? [{ name: product.brand.name, url: `/brand/${product.brand.slug}` }] : []),
+    { name: product.title, url: `/product/${product.slug}` }
+  ];
+  const breadcrumbSchema = breadcrumbJsonLd(breadcrumbItems);
 
   const faqs = Array.isArray(product.faq) ? product.faq : [];
 
@@ -130,11 +138,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {/* Schemas */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <ViewTracker productId={product.id.toString()} />
 
       {/* Interactive Breadcrumbs */}
-      <nav style={{ marginBottom: '24px', fontSize: '14px', color: '#64748b', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+      <nav aria-label="breadcrumb" style={{ marginBottom: '24px', fontSize: '14px', color: '#64748b', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Link href="/" style={{ color: '#0f172a', textDecoration: 'none', fontWeight: 600 }}>Home</Link>
         <span>/</span>
         {product.category ? (
@@ -154,9 +163,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* MOBILE ONLY TITLE */}
       <div className="mobile-only-title">
-        <h1 style={{ fontSize: '32px', fontWeight: 900, letterSpacing: "-0.04em", marginBottom: '12px', lineHeight: 1.1, color: '#0f172a' }}>
+        <div style={{ fontSize: '32px', fontWeight: 900, letterSpacing: "-0.04em", marginBottom: '12px', lineHeight: 1.1, color: '#0f172a' }}>
           {product.title}
-        </h1>
+        </div>
       </div>
 
       <div className="pdp-grid" style={{ display: "grid", gridTemplateColumns: "360px 1fr 320px", gap: '48px', marginBottom: '60px', alignItems: 'start' }}>
@@ -354,15 +363,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {relatedProducts.length > 0 && (
         <div style={{ marginTop: '80px', borderTop: '1px solid #e2e8f0', paddingTop: '80px' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 900, marginBottom: '32px', color: '#0f172a' }}>You May Also Like</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '24px' }}>
+          <div className="related-products-grid">
             {await Promise.all(relatedProducts.map(async (rp) => (
               <Link key={rp.id.toString()} href={`/product/${rp.slug}`} style={{ textDecoration: 'none' }}>
-                <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.2s', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }} className="related-card">
+                <div className="related-card">
                   <div style={{ aspectRatio: '1/1', background: '#f8fafc', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
                     {rp.mainImage && <Image src={rp.mainImage} alt={rp.title} fill style={{ objectFit: 'cover' }} />}
                   </div>
                   <div>
-                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 4px 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{rp.title}</h3>
+                    <h3 className="related-card-title">{rp.title}</h3>
                     <div style={{ fontWeight: 900, color: rp.salePrice ? '#D63062' : '#0f172a' }}>
                       {await formatPrice((rp.salePrice || rp.basePrice).toString())}
                     </div>
@@ -423,7 +432,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {/* BOTTOM CTA BAR (Mobile mostly, but visible at bottom) */}
       <div className="bottom-cta">
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {product.mainImage && <Image src={product.mainImage} alt="thumb" width={48} height={48} style={{ borderRadius: '8px', objectFit: 'cover' }} />}
+          {product.mainImage && <Image src={product.mainImage} alt={`${product.title} thumbnail`} width={48} height={48} style={{ borderRadius: '8px', objectFit: 'cover' }} />}
           <div style={{ display: 'none' }} className="cta-text">
             <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '14px' }}>{product.title}</div>
             <div style={{ fontWeight: 900, color: '#D63062' }}>{await formatPrice((product.salePrice || product.basePrice).toString())}</div>
@@ -441,7 +450,18 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <style dangerouslySetInnerHTML={{
         __html: `
         @media (min-width: 600px) { .cta-text { display: block !important; } }
+        
+        .related-products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
+        .related-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; transition: all 0.2s; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .related-card-title { font-size: 16px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .related-card:hover { border-color: #D63062; transform: translateY(-4px); box-shadow: 0 10px 20px rgba(214,48,98,0.1); }
+        
+        @media (max-width: 600px) {
+          .related-products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+          .related-card { padding: 12px; gap: 8px; border-radius: 12px; }
+          .related-card-title { font-size: 13px; }
+        }
+
         .related-blog-card:hover { border-color: #a855f7 !important; transform: translateY(-4px); box-shadow: 0 10px 20px rgba(168, 85, 247, 0.15); }
       `}} />
     </main>

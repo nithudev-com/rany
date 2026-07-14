@@ -25,7 +25,7 @@ export function cleanText(text: string | null | undefined): string {
     .trim();
 }
 
-export function productJsonLd(product: Product & { brand?: Brand | null }) {
+export function productJsonLd(product: any) {
   const price = product.salePrice ?? product.basePrice;
 
   const schema: any = {
@@ -33,8 +33,10 @@ export function productJsonLd(product: Product & { brand?: Brand | null }) {
     "@type": "Product",
     name: product.title,
     image: product.mainImage ? [product.mainImage] : [],
-    description: product.shortDescription || product.description || product.title,
+    description: cleanText(product.shortDescription || product.description || product.title),
     sku: product.sku,
+    mpn: product.sku,
+    gtin14: product.barcode || undefined,
     brand: product.brand
       ? {
           "@type": "Brand",
@@ -44,23 +46,92 @@ export function productJsonLd(product: Product & { brand?: Brand | null }) {
     offers: {
       "@type": "Offer",
       url: siteUrl(`/product/${product.slug}`),
-      priceCurrency: "INR", // Adjust currency if needed
+      priceCurrency: "CAD",
       price: Number(price),
+      priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
+      itemCondition: "https://schema.org/NewCondition",
       availability:
-        product.stockStatus === "IN_STOCK"
+        product.stockStatus === "IN_STOCK" || (product.stockQuantity && product.stockQuantity > 0)
           ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock"
+          : "https://schema.org/OutOfStock",
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "CA",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 30,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn"
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: 0,
+          currency: "CAD"
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "CA"
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 0,
+            maxValue: 1,
+            unitCode: "d"
+          },
+          transitTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 5,
+            unitCode: "d"
+          }
+        }
+      }
     }
   };
 
-  if ((product as any).videoUrl) {
+  if (product.reviews && product.reviews.length > 0) {
+    const approvedReviews = product.reviews.filter((r: any) => r.approved !== false);
+    if (approvedReviews.length > 0) {
+      const totalRating = approvedReviews.reduce((sum: number, r: any) => sum + r.rating, 0);
+      const avgRating = (totalRating / approvedReviews.length).toFixed(1);
+      
+      schema.aggregateRating = {
+        "@type": "AggregateRating",
+        ratingValue: avgRating,
+        reviewCount: approvedReviews.length,
+        bestRating: "5",
+        worstRating: "1"
+      };
+
+      schema.review = approvedReviews.map((review: any) => ({
+        "@type": "Review",
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: review.rating,
+          bestRating: "5"
+        },
+        author: {
+          "@type": "Person",
+          name: review.author || "Anonymous"
+        },
+        datePublished: review.createdAt ? new Date(review.createdAt).toISOString().split('T')[0] : undefined,
+        reviewBody: cleanText(review.body),
+        name: cleanText(review.title)
+      }));
+    }
+  }
+
+  if (product.videoUrl) {
     schema.subjectOf = {
       "@type": "VideoObject",
       name: `${product.title} Video`,
       description: `Watch a video about ${product.title}`,
       thumbnailUrl: product.mainImage ? [product.mainImage] : [],
       uploadDate: product.createdAt ? new Date(product.createdAt).toISOString() : new Date().toISOString(),
-      contentUrl: (product as any).videoUrl
+      contentUrl: product.videoUrl
     };
   }
 
