@@ -7,7 +7,7 @@ import { WishlistButton } from './WishlistButton';
 // Fallback simple formatter since formatPrice is async in this project
 function formatMoney(amount: string | number) {
   const num = Number(amount);
-  const formatted = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(num);
+  const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
   return `${formatted} CAD`;
 }
 
@@ -95,19 +95,30 @@ export function ProductActionBox({
       
       {/* Pricing and Wishlist */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {currentSalePrice ? (
             <>
-              <span style={{ fontSize: '36px', fontWeight: 900, color: '#D63062', letterSpacing: '-0.02em', lineHeight: 1 }}>{formatMoney(currentSalePrice)}</span>
-              <span style={{ fontSize: '20px', fontWeight: 600, color: '#94a3b8', textDecoration: 'line-through', marginBottom: '4px' }}>{formatMoney(currentPrice)}</span>
+              <div style={{ fontSize: '20px', fontWeight: 600, color: '#94a3b8', textDecoration: 'line-through' }}>
+                {formatMoney(currentPrice)}
+              </div>
+              <div style={{ fontSize: '36px', fontWeight: 800, color: '#e01a70', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                {formatMoney(currentSalePrice)}
+              </div>
               {discountPercentage > 0 && (
-                <span style={{ background: '#fef2f2', color: '#ef4444', padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: 800, marginBottom: '6px' }}>
-                  {discountPercentage}% OFF
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+                  <span style={{ fontSize: '15px', fontWeight: 500, color: '#475569' }}>
+                    You Save {formatMoney(currentPrice - currentSalePrice).replace(' CAD', '')}
+                  </span>
+                  <span style={{ border: '1px solid #e01a70', color: '#e01a70', padding: '2px 10px', borderRadius: '16px', fontSize: '12px', fontWeight: 700 }}>
+                    {discountPercentage}% OFF
+                  </span>
+                </div>
               )}
             </>
           ) : (
-            <span style={{ fontSize: '36px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1 }}>{formatMoney(currentPrice)}</span>
+            <div style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1 }}>
+              {formatMoney(currentPrice)}
+            </div>
           )}
         </div>
         <div style={{ flexShrink: 0, paddingLeft: '16px' }}>
