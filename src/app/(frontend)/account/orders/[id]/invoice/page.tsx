@@ -31,10 +31,8 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
-        
         .invoice-body {
-          font-family: 'Inter', sans-serif;
+          font-family: var(--font-plus-jakarta), sans-serif;
           color: #0f172a;
           line-height: 1.5;
         }

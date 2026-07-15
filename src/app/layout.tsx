@@ -1,6 +1,23 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 // @ts-ignore
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-plus-jakarta",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-playfair",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -9,12 +26,11 @@ export const metadata: Metadata = {
   },
   description: "Next.js ecommerce starter optimized for ISR, speed, SEO, PostgreSQL, Redis, and product imports."
 };
-import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${plusJakarta.variable} ${playfair.variable}`}>
+      <body style={{ fontFamily: 'var(--font-plus-jakarta), Arial, sans-serif' }}>
         <Toaster 
           position="bottom-center"
           toastOptions={{

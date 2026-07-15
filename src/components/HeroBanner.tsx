@@ -53,8 +53,6 @@ export function HeroBanner() {
   return (
     <div className="luxury-hero-container">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap');
-
         .luxury-hero-container {
           width: 100vw;
           min-height: 80vh;
@@ -67,7 +65,7 @@ export function HeroBanner() {
           padding: 120px 24px 80px 24px;
           overflow: hidden;
           position: relative;
-          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-family: var(--font-plus-jakarta), sans-serif;
         }
 
         @media (max-width: 991px) {
@@ -137,7 +135,7 @@ export function HeroBanner() {
         }
 
         .luxury-title {
-          font-family: 'Playfair Display', serif;
+          font-family: var(--font-playfair), serif;
           font-size: 64px;
           font-weight: 400;
           line-height: 1.1;
@@ -147,7 +145,7 @@ export function HeroBanner() {
         }
 
         .luxury-title-italic {
-          font-family: 'Playfair Display', serif;
+          font-family: var(--font-playfair), serif;
           font-style: italic;
           color: #E0A96D; /* Warm gold/rose accent */
           font-weight: 400;

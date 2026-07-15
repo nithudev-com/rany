@@ -78,8 +78,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     }
   }) : [];
 
+  const safeParseJSON = (data: any, fallback: any = []) => {
+    if (Array.isArray(data)) return data;
+    if (typeof data === 'string') {
+      try {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (e) {
+        return fallback;
+      }
+    }
+    return fallback;
+  };
+
+  const faqs = safeParseJSON(product.faq);
   const jsonLd = productJsonLd(product);
-  const faqSchema = faqJsonLd(product.faq);
+  const faqSchema = faqJsonLd(faqs);
   
   const breadcrumbItems = [
     { name: "Home", url: "/" },
@@ -89,14 +103,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   ];
   const breadcrumbSchema = breadcrumbJsonLd(breadcrumbItems);
 
-  const faqs = Array.isArray(product.faq) ? product.faq : [];
-
   // Safe parsing for JSON fields
-  const features = Array.isArray(product.features) ? product.features : [];
-  const benefits = Array.isArray(product.benefits) ? product.benefits : [];
-  const tags = Array.isArray(product.tags) ? product.tags : [];
+  const features = safeParseJSON(product.features);
+  const benefits = safeParseJSON(product.benefits);
+  const tags = safeParseJSON(product.tags);
   const specs = product.specifications && typeof product.specifications === 'object' ? product.specifications as Record<string, string> : null;
-  const details = Array.isArray(product.details) ? product.details : [];
+  const details = safeParseJSON(product.details);
   const images = Array.isArray(product.images) && product.images.length > 0 ? product.images : (product.mainImage ? [{ imageUrl: product.mainImage, altText: product.title }] : []);
   const reviews = Array.isArray(product.reviews) ? product.reviews : [];
   const relatedBlogs = Array.isArray(product.blogs) ? product.blogs : [];
