@@ -8,7 +8,8 @@ const nextConfig = {
       { protocol: "https", hostname: "pub-*.r2.dev" },
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "cdn.shopify.com" }
-    ]
+    ],
+    formats: ['image/avif', 'image/webp'],
   },
   typedRoutes: false,
   productionBrowserSourceMaps: true
