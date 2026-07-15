@@ -103,7 +103,7 @@ export async function ProductCard({ id, title, slug, image, price, salePrice, ca
                 </svg>
               ))}
             </div>
-            <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>{avgRating.toFixed(1)} ({reviewCount})</span>
+            <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>{avgRating.toFixed(1)} ({reviewCount})</span>
           </div>
         )}
         </a>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 export function BrandMarquee({ brands }: { brands: any[] }) {
   if (!brands || brands.length === 0) return null;
@@ -20,9 +21,9 @@ export function BrandMarquee({ brands }: { brands: any[] }) {
               href={`/brand/${brand.slug}`} 
               className="brand-marquee-item"
             >
-              <div className="brand-logo-wrapper">
+              <div className="brand-logo-wrapper" style={{ position: 'relative' }}>
                 {brand.logo ? (
-                  <img src={brand.logo} alt="" className="brand-logo-img" />
+                  <Image src={brand.logo} alt="" fill style={{ objectFit: 'contain' }} className="brand-logo-img" sizes="120px" />
                 ) : (
                   <div className="brand-logo-placeholder">{brand.name.charAt(0)}</div>
                 )}

@@ -38,6 +38,7 @@ const SLIDES = [
     glowColor: "rgba(224, 176, 255, 0.2)"
   }
 ];
+import Image from "next/image";
 
 export function HeroBanner() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -386,13 +387,13 @@ export function HeroBanner() {
           <div className="luxury-glass-card" style={{ borderColor: `rgba(${SLIDES[activeIndex].accentColor === '#E0A96D' ? '224, 169, 109' : SLIDES[activeIndex].accentColor === '#D4A5A5' ? '212, 165, 165' : '224, 176, 255'}, 0.2)` }}>
             <div className="luxury-image-wrapper">
               {SLIDES.map((slide, index) => (
-                <img 
+                <Image 
                   key={slide.id}
                   src={slide.image} 
                   alt={slide.titleLine1 + ' ' + slide.titleLine2} 
                   className={`luxury-slide-img ${index === activeIndex ? "active" : ""}`}
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                  loading={index === 0 ? "eager" : "lazy"}
+                  priority={true}
+                  fill
                 />
               ))}
             </div>
