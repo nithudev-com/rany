@@ -31,7 +31,13 @@ export async function sendRegistrationOtp(email: string, firstName: string) {
       </div>
     `;
 
-    await emailProvider.sendRawEmail(email, "Your Verification Code - SexToys Lovers", html);
+    const emailResult = await emailProvider.sendRawEmail(email, "Your Verification Code - SexToys Lovers", html);
+    
+    if (!emailResult.success) {
+      console.error("Failed to send OTP email:", emailResult.error);
+      return { success: false, error: 'Failed to send OTP email. Please try again.' };
+    }
+
     return { success: true };
   } catch (err) {
     console.error(err);

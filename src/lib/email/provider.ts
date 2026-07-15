@@ -67,14 +67,24 @@ export class SMTPProvider implements EmailProvider {
   }
 
   async sendRawEmail(recipient: string, subject: string, html: string): Promise<ProviderResponse> {
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+
+    if (!user || !pass) {
       console.warn("SMTP credentials missing, simulating raw email send.");
       return { success: true, messageId: `sim-raw-${Date.now()}` };
     }
     
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.hostinger.com",
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: Number(process.env.SMTP_PORT) === 465,
+      auth: { user, pass },
+    });
+
     try {
-      const info = await this.transporter.sendMail({
-        from: this.fromAddress,
+      const info = await transporter.sendMail({
+        from: process.env.EMAIL_FROM_ADDRESS || "info@sextoyslovers.com",
         to: recipient,
         subject: subject,
         html: html,
