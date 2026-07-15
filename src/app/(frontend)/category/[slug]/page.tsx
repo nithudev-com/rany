@@ -37,12 +37,30 @@ export default async function CategoryPage({ params, searchParams }: { params: P
 
   if (!category) notFound();
 
-  // Fetch subcategories
-  const subcategories = await prisma.category.findMany({
-    where: { parentId: category.id },
-    orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
-    select: { id: true, name: true, slug: true, image: true }
-  });
+  // Fetch subcategories and batch review stats in parallel
+  const productIds = (products || []).map((p) => BigInt(p.id.toString()));
+  const [subcategories, reviewStats] = await Promise.all([
+    prisma.category.findMany({
+      where: { parentId: category.id },
+      orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+      select: { id: true, name: true, slug: true, image: true }
+    }),
+    productIds.length > 0
+      ? prisma.review.groupBy({
+          by: ['productId'],
+          where: { productId: { in: productIds }, approved: true },
+          _avg: { rating: true },
+          _count: { rating: true },
+        })
+      : Promise.resolve([]),
+  ]);
+
+  const reviewMap = new Map(
+    reviewStats.map((r) => [
+      r.productId.toString(),
+      { avg: Number(r._avg.rating ?? 0), count: r._count.rating },
+    ])
+  );
 
   return (
     <main className="container">
@@ -137,20 +155,26 @@ export default async function CategoryPage({ params, searchParams }: { params: P
             </div>
           ) : (
             <div className="grid">
-              {(products || []).map((product) => (
-                <ProductCard
+              {(products || []).map((product) => {
+                const id = product.id.toString();
+                const stats = reviewMap.get(id);
+                return (
+                  <ProductCard
+                    key={id}
+                    id={id}
+                    title={product.title}
+                    slug={product.slug}
+                    image={product.mainImage}
+                    price={product.basePrice.toString()}
+                    salePrice={product.salePrice?.toString()}
+                    category={product.category?.name}
+                    brand={product.brand?.name}
                     variantsCount={(product as any)._count?.variants || 0}
-                  key={product.id.toString()}
-                  id={product.id.toString()}
-                  title={product.title}
-                  slug={product.slug}
-                  image={product.mainImage}
-                  price={product.basePrice.toString()}
-                  salePrice={product.salePrice?.toString()}
-                  category={product.category?.name}
-                  brand={product.brand?.name}
-                />
-              ))}
+                    avgRating={stats?.avg ?? 0}
+                    reviewCount={stats?.count ?? 0}
+                  />
+                );
+              })}
             </div>
           )}
         </div>

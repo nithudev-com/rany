@@ -5,37 +5,59 @@ import { BrandMarquee } from "@/components/BrandMarquee";
 import { HeroBanner } from "@/components/HeroBanner";
 import { CategoryGrid } from "@/components/CategoryGrid";
 import { CategoryCircles } from "@/components/CategoryCircles";
+
 export const revalidate = 900;
 
 export default async function HomePage() {
   const products = await getHomeProducts();
-  const brands = await prisma.brand.findMany({
-    where: { showOnHome: true },
-    select: { id: true, name: true, slug: true, logo: true },
-    orderBy: { name: 'asc' },
-    take: 20
-  });
-  
-  const categories = await prisma.category.findMany({
-    where: { showOnHome: true },
-    select: { id: true, name: true, slug: true, image: true, seoTitle: true },
-    take: 16, // Only take 16 to fit exactly 2 rows of 8
-    orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }]
-  });
 
-  const circles = await prisma.categoryCircle.findMany({
-    orderBy: { sortOrder: 'asc' }
-  });
+  // --- ONE batched query for all review stats (replaces N+1 per-card DB calls) ---
+  const productIds = (products || [])
+    .map((p) => BigInt(p.id.toString()))
+    .filter(Boolean);
 
-  // Serialize BigInt ID
-  const serializedBrands = brands.map(b => ({ ...b, id: b.id.toString() }));
-  const serializedCategories = categories.map(c => ({ ...c, id: c.id.toString() }));
-  const serializedCircles = circles.map(c => ({ ...c, id: c.id.toString() }));
+  const reviewStats = productIds.length > 0
+    ? await prisma.review.groupBy({
+        by: ["productId"],
+        where: { productId: { in: productIds }, approved: true },
+        _avg: { rating: true },
+        _count: { rating: true },
+      })
+    : [];
+
+  // Map for O(1) lookup
+  const reviewMap = new Map(
+    reviewStats.map((r) => [
+      r.productId.toString(),
+      { avg: Number(r._avg.rating ?? 0), count: r._count.rating },
+    ])
+  );
+
+  // Fetch remaining data in parallel
+  const [brands, categories, circles] = await Promise.all([
+    prisma.brand.findMany({
+      where: { showOnHome: true },
+      select: { id: true, name: true, slug: true, logo: true },
+      orderBy: { name: "asc" },
+      take: 20,
+    }),
+    prisma.category.findMany({
+      where: { showOnHome: true },
+      select: { id: true, name: true, slug: true, image: true, seoTitle: true },
+      take: 16,
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+    }),
+    prisma.categoryCircle.findMany({ orderBy: { sortOrder: "asc" } }),
+  ]);
+
+  const serializedBrands = brands.map((b) => ({ ...b, id: b.id.toString() }));
+  const serializedCategories = categories.map((c) => ({ ...c, id: c.id.toString() }));
+  const serializedCircles = circles.map((c) => ({ ...c, id: c.id.toString() }));
 
   return (
     <main>
       <BrandMarquee brands={serializedBrands} />
-      
+
       <HeroBanner />
 
       <CategoryCircles items={serializedCircles} />
@@ -43,24 +65,29 @@ export default async function HomePage() {
       <CategoryGrid categories={serializedCategories} />
 
       <div className="container">
-
-      <h2>Latest Products</h2>
-      <div className="grid">
-        {(products || []).map((product) => (
-          <ProductCard
-                    variantsCount={(product as any)._count?.variants || 0}
-            key={product.id.toString()}
-            id={product.id.toString()}
-            title={product.title}
-            slug={product.slug}
-            image={product.mainImage}
-            price={product.basePrice.toString()}
-            salePrice={product.salePrice?.toString()}
-            category={product.category?.name}
-            brand={product.brand?.name}
-          />
-        ))}
-      </div>
+        <h2>Latest Products</h2>
+        <div className="grid">
+          {(products || []).map((product) => {
+            const id = product.id.toString();
+            const stats = reviewMap.get(id);
+            return (
+              <ProductCard
+                key={id}
+                id={id}
+                title={product.title}
+                slug={product.slug}
+                image={product.mainImage}
+                price={product.basePrice.toString()}
+                salePrice={product.salePrice?.toString()}
+                category={product.category?.name}
+                brand={product.brand?.name}
+                variantsCount={(product as any)._count?.variants || 0}
+                avgRating={stats?.avg ?? 0}
+                reviewCount={stats?.count ?? 0}
+              />
+            );
+          })}
+        </div>
       </div>
     </main>
   );
