@@ -93,7 +93,25 @@ export function CategoryGrid({ categories }: { categories: any[] }) {
 
         @media (max-width: 600px) {
           .category-showcase-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .category-showcase-card {
+            height: 100px;
+            padding: 0 0 0 12px;
+          }
+          .category-showcase-name {
+            font-size: 13px;
+            max-width: 50%;
+          }
+          .category-showcase-circle {
+            width: 90px;
+            height: 90px;
+            right: -20px;
+          }
+          .category-showcase-img-container {
+            width: 60px;
+            height: 60px;
+            padding: 4px;
           }
         }
 
