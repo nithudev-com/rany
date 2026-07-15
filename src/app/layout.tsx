@@ -30,6 +30,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${plusJakarta.variable} ${playfair.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://cdn.shopify.com" />
+        <link rel="dns-prefetch" href="https://cdn.shopify.com" />
+      </head>
       <body style={{ fontFamily: 'var(--font-plus-jakarta), Arial, sans-serif' }}>
         <Toaster 
           position="bottom-center"
