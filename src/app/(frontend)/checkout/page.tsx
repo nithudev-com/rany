@@ -17,10 +17,8 @@ export default function CheckoutPage() {
   const [formState, setFormState] = useState<CheckoutActionState>({ success: false });
 
   // Legal Checkbox Refs & State
-  const termsRef = useRef<HTMLInputElement>(null);
-  const privacyRef = useRef<HTMLInputElement>(null);
-  const ageRef = useRef<HTMLInputElement>(null);
-  const [legalErrors, setLegalErrors] = useState({ terms: false, privacy: false, age: false });
+  const legalRef = useRef<HTMLInputElement>(null);
+  const [legalError, setLegalError] = useState(false);
 
   // Shipping & Coupon State
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
@@ -146,16 +144,12 @@ export default function CheckoutPage() {
     }
 
     const form = e.currentTarget;
-    const terms = (form.elements.namedItem('acceptTerms') as HTMLInputElement).checked;
-    const privacy = (form.elements.namedItem('acceptPrivacy') as HTMLInputElement).checked;
-    const age = (form.elements.namedItem('confirmAge') as HTMLInputElement).checked;
+    const acceptLegal = (form.elements.namedItem('acceptLegal') as HTMLInputElement).checked;
 
-    setLegalErrors({ terms: !terms, privacy: !privacy, age: !age });
+    setLegalError(!acceptLegal);
 
-    if (!terms || !privacy || !age) {
-      if (!terms) termsRef.current?.focus();
-      else if (!privacy) privacyRef.current?.focus();
-      else if (!age) ageRef.current?.focus();
+    if (!acceptLegal) {
+      legalRef.current?.focus();
       return;
     }
     
@@ -466,45 +460,11 @@ export default function CheckoutPage() {
               <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px', background: '#fafafa', padding: '24px', borderRadius: '12px', border: '1px solid var(--co-border)' }}>
                 <h3 style={{ fontSize: '15px', fontWeight: '700', marginBottom: '8px' }}>Legal & Agreements</h3>
                 
-                <div style={{ paddingBottom: '16px', marginBottom: '8px', borderBottom: '1px solid #e2e8f0' }}>
-                  <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer' }}>
-                    <input 
-                      type="checkbox" 
-                      onChange={(e) => {
-                        const checked = e.target.checked;
-                        if (termsRef.current) termsRef.current.checked = checked;
-                        if (privacyRef.current) privacyRef.current.checked = checked;
-                        if (ageRef.current) ageRef.current.checked = checked;
-                      }}
-                      style={{ marginTop: '4px', accentColor: 'var(--co-pink)', width: '16px', height: '16px' }} 
-                    />
-                    <div style={{ flex: 1 }}>
-                      <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--co-pink)' }}>Select all required legal agreements</span>
-                    </div>
-                  </label>
-                </div>
-                
                 <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer' }}>
-                  <input type="checkbox" name="acceptTerms" ref={termsRef} style={{ marginTop: '4px', accentColor: 'var(--co-pink)', width: '16px', height: '16px' }} />
+                  <input type="checkbox" name="acceptLegal" ref={legalRef} style={{ marginTop: '4px', accentColor: 'var(--co-pink)', width: '16px', height: '16px' }} />
                   <div style={{ flex: 1 }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600' }}>I accept the Terms and Conditions *</span>
-                    {legalErrors.terms && <div style={{ color: 'var(--co-red)', fontSize: '13px', marginTop: '4px', fontWeight: '600' }}>Please accept the terms to continue.</div>}
-                  </div>
-                </label>
-
-                <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer' }}>
-                  <input type="checkbox" name="acceptPrivacy" ref={privacyRef} style={{ marginTop: '4px', accentColor: 'var(--co-pink)', width: '16px', height: '16px' }} />
-                  <div style={{ flex: 1 }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600' }}>I accept the Privacy Policy *</span>
-                    {legalErrors.privacy && <div style={{ color: 'var(--co-red)', fontSize: '13px', marginTop: '4px', fontWeight: '600' }}>Please accept the privacy policy to continue.</div>}
-                  </div>
-                </label>
-
-                <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer' }}>
-                  <input type="checkbox" name="confirmAge" ref={ageRef} style={{ marginTop: '4px', accentColor: 'var(--co-pink)', width: '16px', height: '16px' }} />
-                  <div style={{ flex: 1 }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600' }}>I confirm that I meet the minimum legal age required to purchase products from this store. *</span>
-                    {legalErrors.age && <div style={{ color: 'var(--co-red)', fontSize: '13px', marginTop: '4px', fontWeight: '600' }}>Legal age confirmation is required.</div>}
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>I accept the Terms and Conditions, Privacy Policy, and confirm I meet the minimum legal age to purchase products. *</span>
+                    {legalError && <div style={{ color: 'var(--co-red)', fontSize: '13px', marginTop: '4px', fontWeight: '600' }}>Please accept the legal agreements to continue.</div>}
                   </div>
                 </label>
 
