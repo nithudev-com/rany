@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 const ACCENT_COLORS = [
   '#ff2d55', // Sale / Pink
@@ -38,10 +39,12 @@ export function CategoryGrid({ categories }: { categories: any[] }) {
                   />
                   <div className="category-showcase-img-container">
                     {category.image && category.image.startsWith('http') ? (
-                      <img 
+                      <Image 
                         src={category.image} 
                         alt={category.seoTitle || category.name} 
                         className="category-showcase-img"
+                        fill
+                        sizes="120px"
                       />
                     ) : (
                       <span className="category-showcase-placeholder">

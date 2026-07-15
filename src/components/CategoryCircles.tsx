@@ -28,7 +28,7 @@ export function CategoryCircles({ items }: { items: CategoryCircleItem[] }) {
               return (
                 <Link key={item.id} href={item.url} className="category-circle-card">
                   <div className={`category-circle-img-wrapper ${isDarkBadge ? 'dark-badge' : 'light-badge'}`} style={{ position: 'relative' }}>
-                    <Image src={item.image} alt="" fill style={{ objectFit: isDarkBadge ? 'cover' : 'contain' }} className="category-circle-img" />
+                    <Image src={item.image} alt="" fill sizes="96px" style={{ objectFit: isDarkBadge ? 'cover' : 'contain' }} className="category-circle-img" />
                   </div>
                   <span className="category-circle-label">{item.name}</span>
                 </Link>
