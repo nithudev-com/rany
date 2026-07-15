@@ -393,6 +393,8 @@ export function HeroBanner() {
                   src={slide.image} 
                   alt={slide.titleLine1 + ' ' + slide.titleLine2} 
                   className={`luxury-slide-img ${index === activeIndex ? "active" : ""}`}
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               ))}
             </div>
