@@ -13,6 +13,7 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { ProductTabs } from "@/components/ProductTabs";
 import { ProductActionBox } from "../components/ProductActionBox";
 import { ProductCard } from "@/components/ProductCard";
+import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { prisma } from "@/lib/prisma";
 
 export const revalidate = 3600;
@@ -265,6 +266,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`} target="_blank" rel="noreferrer" style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
             </a>
+            <CopyLinkButton url={currentUrl} />
           </div>
 
         </section>
