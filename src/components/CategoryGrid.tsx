@@ -94,24 +94,36 @@ export function CategoryGrid({ categories }: { categories: any[] }) {
         @media (max-width: 600px) {
           .category-showcase-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            background: transparent;
+            border: none;
+            padding: 0 4px;
           }
           .category-showcase-card {
-            height: 100px;
+            height: 110px;
             padding: 0 0 0 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
           }
           .category-showcase-name {
             font-size: 13px;
-            max-width: 50%;
+            max-width: 55%;
+            line-height: 1.2;
+            word-wrap: break-word;
+          }
+          .category-showcase-backdrop-wrapper {
+            width: 80px;
           }
           .category-showcase-circle {
             width: 90px;
             height: 90px;
-            right: -20px;
+            right: -25px;
           }
           .category-showcase-img-container {
             width: 60px;
             height: 60px;
-            padding: 4px;
+            padding: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
           }
         }
 
