@@ -9,9 +9,7 @@ import { revalidateCartTotals } from './cart-actions';
 const addressSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
-  company: z.string().optional(),
   addressLine1: z.string().min(1, "Address is required"),
-  addressLine2: z.string().optional(),
   city: z.string().min(1, "City is required"),
   state: z.string().min(1, "State or province is required"),
   postalCode: z.string().min(1, "Postal code is required"),
@@ -56,9 +54,7 @@ export async function processCheckout(
     shippingAddress: {
       firstName: formData.get('shipping_firstName') as string,
       lastName: formData.get('shipping_lastName') as string,
-      company: formData.get('shipping_company') as string,
       addressLine1: formData.get('shipping_addressLine1') as string,
-      addressLine2: formData.get('shipping_addressLine2') as string,
       city: formData.get('shipping_city') as string,
       state: formData.get('shipping_state') as string,
       postalCode: formData.get('shipping_postalCode') as string,
@@ -70,9 +66,7 @@ export async function processCheckout(
     (rawData as any).billingAddress = {
       firstName: formData.get('billing_firstName') as string,
       lastName: formData.get('billing_lastName') as string,
-      company: formData.get('billing_company') as string,
       addressLine1: formData.get('billing_addressLine1') as string,
-      addressLine2: formData.get('billing_addressLine2') as string,
       city: formData.get('billing_city') as string,
       state: formData.get('billing_state') as string,
       postalCode: formData.get('billing_postalCode') as string,

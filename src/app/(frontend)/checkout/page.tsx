@@ -214,17 +214,9 @@ export default function CheckoutPage() {
         {getError(`${prefix}Address_lastName`)}
       </div>
       <div className="checkout-input-group full" style={{ gridColumn: '1 / -1' }}>
-        <label className="checkout-label">Company (Optional)</label>
-        <input name={`${prefix}_company`} type="text" className="checkout-input" autoComplete="organization" />
-      </div>
-      <div className="checkout-input-group full" style={{ gridColumn: '1 / -1' }}>
         <label className="checkout-label">Address Line 1 *</label>
         <input name={`${prefix}_addressLine1`} type="text" className="checkout-input" autoComplete="address-line1" placeholder="Street address" />
         {getError(`${prefix}Address_addressLine1`)}
-      </div>
-      <div className="checkout-input-group full" style={{ gridColumn: '1 / -1' }}>
-        <label className="checkout-label">Address Line 2 (Optional)</label>
-        <input name={`${prefix}_addressLine2`} type="text" className="checkout-input" autoComplete="address-line2" placeholder="Apartment, suite, etc." />
       </div>
       <div className="checkout-input-group">
         <label className="checkout-label">City *</label>
@@ -473,6 +465,24 @@ export default function CheckoutPage() {
 
               <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px', background: '#fafafa', padding: '24px', borderRadius: '12px', border: '1px solid var(--co-border)' }}>
                 <h3 style={{ fontSize: '15px', fontWeight: '700', marginBottom: '8px' }}>Legal & Agreements</h3>
+                
+                <div style={{ paddingBottom: '16px', marginBottom: '8px', borderBottom: '1px solid #e2e8f0' }}>
+                  <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer' }}>
+                    <input 
+                      type="checkbox" 
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        if (termsRef.current) termsRef.current.checked = checked;
+                        if (privacyRef.current) privacyRef.current.checked = checked;
+                        if (ageRef.current) ageRef.current.checked = checked;
+                      }}
+                      style={{ marginTop: '4px', accentColor: 'var(--co-pink)', width: '16px', height: '16px' }} 
+                    />
+                    <div style={{ flex: 1 }}>
+                      <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--co-pink)' }}>Select all required legal agreements</span>
+                    </div>
+                  </label>
+                </div>
                 
                 <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer' }}>
                   <input type="checkbox" name="acceptTerms" ref={termsRef} style={{ marginTop: '4px', accentColor: 'var(--co-pink)', width: '16px', height: '16px' }} />
