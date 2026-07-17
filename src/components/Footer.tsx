@@ -44,14 +44,23 @@ export function Footer({ settings }: { settings: any }) {
                 <span style={{ color: '#ffffff', fontWeight: '700', fontSize: '15px' }}>Google Reviews</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '15px', marginRight: '4px' }}>5.0</span>
-                {[1,2,3,4,5].map((s) => (
+                <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '15px', marginRight: '4px' }}>3.3</span>
+                {/* 3 Full Stars */}
+                {[1, 2, 3].map((s) => (
                   <svg key={s} viewBox="0 0 24 24" width="14" height="14" fill="#FBBC05">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                   </svg>
                 ))}
+                {/* 1 Half Star */}
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="#FBBC05">
+                  <path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4V6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/>
+                </svg>
+                {/* 1 Empty Star */}
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="#cbd5e1">
+                  <path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28z"/>
+                </svg>
               </div>
-              <span style={{ fontSize: '13px', color: '#94a3b8' }}>Based on 142 reviews</span>
+              <span style={{ fontSize: '13px', color: '#94a3b8' }}>Based on 72 reviews</span>
               <style>{`
                 .google-reviews-widget:hover {
                   background: rgba(255,255,255,0.06) !important;
