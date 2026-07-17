@@ -219,7 +219,7 @@ export function HeroBanner() {
 
         <div className="hero-stats">
           <div className="stat-item">
-            <span className="stat-number">15+</span>
+            <span className="stat-number">30+</span>
             <span className="stat-label">Years of Mastery</span>
           </div>
           <div className="stat-item">
