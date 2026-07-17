@@ -20,12 +20,35 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rany.uk"),
   title: {
     default: "Rani Fashions Design & Tailoring | Rany.uk",
     template: "%s | Rany.uk"
   },
   description: "Discover Rani Fashions Design & Tailoring at Rany.uk. Premium fashion, design, and tailoring services.",
-  keywords: ["fashion", "tailoring", "design", "rany", "rani fashions"]
+  keywords: ["fashion", "tailoring", "design", "rany", "rani fashions"],
+  openGraph: {
+    title: "Rani Fashions Design & Tailoring | Rany.uk",
+    description: "Discover Rani Fashions Design & Tailoring at Rany.uk. Premium fashion, design, and tailoring services.",
+    url: "https://rany.uk",
+    siteName: "Rany.uk",
+    images: [
+      {
+        url: "/fashion-bg.png",
+        width: 1200,
+        height: 630,
+        alt: "Rani Fashions Design & Tailoring",
+      },
+      {
+        url: "/logo.png",
+        width: 500,
+        height: 500,
+        alt: "Rany.uk Logo",
+      }
+    ],
+    locale: "en_GB",
+    type: "website",
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
