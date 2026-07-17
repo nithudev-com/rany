@@ -613,7 +613,7 @@ export default function CheckoutPage() {
                 <div className="summary-total">
                   <span>Total</span>
                   <span style={{ color: 'var(--co-pink)' }}>
-                    {validatedCart?.totals.currency === 'CAD' ? 'CA$' : '$'}{validatedCart?.totals.grandTotal.toFixed(2)}
+                    {validatedCart?.totals.currency === 'GBP' ? '£' : '£'}{validatedCart?.totals.grandTotal.toFixed(2)}
                   </span>
                 </div>
               </>

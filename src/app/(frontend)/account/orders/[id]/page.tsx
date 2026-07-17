@@ -94,11 +94,11 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                   </div>
                   <div style={{ flex: 1 }}>
                     <h3 style={{ fontSize: '16px', fontWeight: '800', margin: '0 0 4px 0', color: '#111111' }}>{item.title}</h3>
-                    <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>Qty: {item.quantity} • {order.currency === 'CAD' ? 'CA$' : '$'}{Number(item.unitPrice).toFixed(2)} each</p>
+                    <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>Qty: {item.quantity} • {order.currency === 'GBP' ? '£' : '£'}{Number(item.unitPrice).toFixed(2)} each</p>
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: '16px', fontWeight: '900', color: '#111111', marginBottom: '8px' }}>
-                      {order.currency === 'CAD' ? 'CA$' : '$'}{Number(item.totalPrice).toFixed(2)}
+                      {order.currency === 'GBP' ? '£' : '£'}{Number(item.totalPrice).toFixed(2)}
                     </div>
                     <BuyAgainButton productId={item.productId.toString()} variantId={item.variantId?.toString()} />
                     {order.status === 'DELIVERED' && (
@@ -114,11 +114,11 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
             <div style={{ width: '300px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', fontSize: '15px' }}>
                 <span style={{ color: '#64748b' }}>Subtotal</span>
-                <span style={{ fontWeight: '700' }}>{order.currency === 'CAD' ? 'CA$' : '$'}{Number(order.totalAmount).toFixed(2)}</span>
+                <span style={{ fontWeight: '700' }}>{order.currency === 'GBP' ? '£' : '£'}{Number(order.totalAmount).toFixed(2)}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '16px', borderTop: '1px solid #F0DDE5', fontSize: '18px' }}>
                 <span style={{ fontWeight: '800', color: '#111111' }}>Total Paid</span>
-                <span style={{ fontWeight: '900', color: '#D63062' }}>{order.currency === 'CAD' ? 'CA$' : '$'}{Number(order.totalAmount).toFixed(2)}</span>
+                <span style={{ fontWeight: '900', color: '#D63062' }}>{order.currency === 'GBP' ? '£' : '£'}{Number(order.totalAmount).toFixed(2)}</span>
               </div>
             </div>
           </div>

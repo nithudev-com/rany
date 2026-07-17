@@ -119,7 +119,7 @@ export default async function AccountDashboardPage() {
                         </span>
                       </td>
                       <td style={{ padding: '16px', fontWeight: '700', fontSize: '14px' }}>
-                        {order.currency === 'CAD' ? 'CA$' : '$'}{Number(order.totalAmount).toFixed(2)}
+                        {order.currency === 'GBP' ? '£' : '£'}{Number(order.totalAmount).toFixed(2)}
                       </td>
                       <td style={{ padding: '16px', textAlign: 'right' }}>
                         <Link href={`/account/orders/${order.id}`} style={{ fontSize: '13px', fontWeight: '700', color: '#730C63', textDecoration: 'none', padding: '8px 12px', background: '#FFF4F7', borderRadius: '8px' }}>

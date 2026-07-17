@@ -141,8 +141,8 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
                 <tr key={item.id.toString()}>
                   <td style={{ fontWeight: '600' }}>{item.title}</td>
                   <td style={{ textAlign: 'center' }}>{item.quantity}</td>
-                  <td style={{ textAlign: 'right' }}>{order.currency === 'CAD' ? 'CA$' : '$'}{Number(item.unitPrice).toFixed(2)}</td>
-                  <td style={{ textAlign: 'right', fontWeight: '800' }}>{order.currency === 'CAD' ? 'CA$' : '$'}{Number(item.totalPrice).toFixed(2)}</td>
+                  <td style={{ textAlign: 'right' }}>{order.currency === 'GBP' ? '£' : '£'}{Number(item.unitPrice).toFixed(2)}</td>
+                  <td style={{ textAlign: 'right', fontWeight: '800' }}>{order.currency === 'GBP' ? '£' : '£'}{Number(item.totalPrice).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -154,7 +154,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
               <tbody>
                 <tr>
                   <td style={{ padding: '8px', color: '#64748b' }}>Subtotal</td>
-                  <td style={{ padding: '8px', textAlign: 'right', fontWeight: '600' }}>{order.currency === 'CAD' ? 'CA$' : '$'}{Number(order.totalAmount).toFixed(2)}</td>
+                  <td style={{ padding: '8px', textAlign: 'right', fontWeight: '600' }}>{order.currency === 'GBP' ? '£' : '£'}{Number(order.totalAmount).toFixed(2)}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: '8px', color: '#64748b' }}>Shipping</td>
@@ -163,7 +163,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
                 <tr style={{ borderTop: '2px solid #0f172a' }}>
                   <td style={{ padding: '16px 8px', fontSize: '18px', fontWeight: '900' }}>Total</td>
                   <td style={{ padding: '16px 8px', textAlign: 'right', fontSize: '18px', fontWeight: '900' }}>
-                    {order.currency === 'CAD' ? 'CA$' : '$'}{Number(order.totalAmount).toFixed(2)}
+                    {order.currency === 'GBP' ? '£' : '£'}{Number(order.totalAmount).toFixed(2)}
                   </td>
                 </tr>
               </tbody>

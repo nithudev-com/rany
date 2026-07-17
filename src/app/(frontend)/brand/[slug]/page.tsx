@@ -122,7 +122,7 @@ export default async function BrandPage({ params, searchParams }: { params: Prom
 
   const storeName = await getStoreName();
     const currency = await getDefaultCurrency();
-    const currencyCode = currency?.code || 'USD';
+    const currencyCode = currency?.code || 'GBP';
     const cleanBrandName = cleanText(brand.name);
     
     // Pagination helper function

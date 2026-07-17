@@ -70,7 +70,7 @@ export async function revalidateCartTotals(
   if (!clientItems || clientItems.length === 0) {
     return {
       items: [],
-      totals: { subtotal: 0, discount: 0, shipping: 0, tax: 0, grandTotal: 0, currency: 'CAD' },
+      totals: { subtotal: 0, discount: 0, shipping: 0, tax: 0, grandTotal: 0, currency: 'GBP' },
       isValid: true
     };
   }
@@ -218,7 +218,7 @@ export async function revalidateCartTotals(
       shipping,
       tax,
       grandTotal,
-      currency: 'CAD'
+      currency: 'GBP'
     },
     isValid,
     error: errorMsg,

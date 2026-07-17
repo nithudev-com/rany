@@ -58,7 +58,7 @@ export default async function CheckoutSuccessPage({ searchParams }: { searchPara
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #F0DDE5', paddingBottom: '16px', marginBottom: '16px' }}>
             <div>
               <p style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8', fontWeight: '700', marginBottom: '4px' }}>Total Paid</p>
-              <p style={{ fontSize: '18px', fontWeight: '800', color: '#D63062' }}>{order.currency === 'CAD' ? 'CA$' : '$'}{Number(order.totalAmount).toFixed(2)}</p>
+              <p style={{ fontSize: '18px', fontWeight: '800', color: '#D63062' }}>{order.currency === 'GBP' ? '£' : '£'}{Number(order.totalAmount).toFixed(2)}</p>
             </div>
             <div style={{ textAlign: 'right' }}>
               <p style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8', fontWeight: '700', marginBottom: '4px' }}>Status</p>

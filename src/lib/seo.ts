@@ -73,7 +73,7 @@ export function productJsonLd(product: any) {
         shippingRate: {
           "@type": "MonetaryAmount",
           value: 0,
-          currency: "CAD"
+          currency: "GBP"
         },
         shippingDestination: {
           "@type": "DefinedRegion",

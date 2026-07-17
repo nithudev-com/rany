@@ -150,7 +150,7 @@ export default async function AccountOrdersPage({ searchParams }: { searchParams
                         </span>
                       </td>
                       <td style={{ padding: '24px', fontWeight: '800', fontSize: '15px', color: '#111111' }}>
-                        {order.currency === 'CAD' ? 'CA$' : '$'}{Number(order.totalAmount).toFixed(2)}
+                        {order.currency === 'GBP' ? '£' : '£'}{Number(order.totalAmount).toFixed(2)}
                       </td>
                       <td style={{ padding: '24px', textAlign: 'right' }}>
                         <Link href={`/account/orders/${order.id}`} style={{ fontSize: '14px', fontWeight: '700', color: '#D63062', textDecoration: 'none', padding: '10px 16px', background: '#FFF4F7', borderRadius: '8px', display: 'inline-block', transition: '0.2s' }}>

@@ -158,7 +158,7 @@ export function ProductFilters() {
         <form onSubmit={handlePriceApply} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ position: 'relative', flex: 1 }}>
-              <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '14px' }}>$</span>
+              <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '14px' }}>£</span>
               <input 
                 type="number" 
                 placeholder="Min" 
@@ -169,7 +169,7 @@ export function ProductFilters() {
             </div>
             <span style={{ color: '#94a3b8', fontWeight: 'bold' }}>-</span>
             <div style={{ position: 'relative', flex: 1 }}>
-              <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '14px' }}>$</span>
+              <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '14px' }}>£</span>
               <input 
                 type="number" 
                 placeholder="Max" 

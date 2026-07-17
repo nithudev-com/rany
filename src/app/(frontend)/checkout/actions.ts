@@ -121,7 +121,7 @@ export async function processCheckout(
 
   const orderNumber = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const totalAmount = validatedCart.totals.grandTotal;
-  const currency = 'CAD';
+  const currency = 'GBP';
   const status = 'PENDING';
 
   // Create Order in DB

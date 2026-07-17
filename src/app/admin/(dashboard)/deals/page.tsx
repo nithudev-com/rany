@@ -101,7 +101,7 @@ export default function DealsManagementPage() {
                   </td>
                   <td style={{ padding: '16px 24px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ color: '#94a3b8', fontWeight: '600' }}>$</span>
+                      <span style={{ color: '#94a3b8', fontWeight: '600' }}>£</span>
                       <input 
                         type="number" 
                         step="0.01"
