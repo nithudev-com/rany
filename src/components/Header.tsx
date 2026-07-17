@@ -27,7 +27,7 @@ export function Header({ settings, categories = [] }: { settings: any, categorie
             <Link prefetch={true} href="/account/orders">Track Order</Link>
             <Link prefetch={true} href="/contact">Help Center</Link>
             <span style={{ marginLeft: '16px', color: '#cbd5e1' }}>|</span>
-            <span style={{ marginLeft: '16px' }}>ENG / USD</span>
+            <span style={{ marginLeft: '16px' }}>ENG / GBP</span>
           </div>
         </div>
 
