@@ -92,8 +92,8 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #0f172a', paddingBottom: '24px', marginBottom: '32px' }}>
             <div>
-              <h1 style={{ margin: '0 0 4px', fontSize: '32px', fontWeight: '900', letterSpacing: '-0.04em' }}>SexToys Lovers</h1>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '13px' }}>123 Tech Lane, Innovation District<br/>New York, NY 10001<br/>info@sextoyslovers.com</p>
+              <h1 style={{ margin: '0 0 4px', fontSize: '32px', fontWeight: '900', letterSpacing: '-0.04em' }}>Rany.uk</h1>
+              <p style={{ margin: 0, color: '#64748b', fontSize: '13px' }}>123 Tech Lane, Innovation District<br/>New York, NY 10001<br/>info@rany.uk</p>
             </div>
             <div style={{ textAlign: 'right' }}>
               <h2 style={{ margin: '0 0 8px', fontSize: '36px', fontWeight: '900', color: '#cbd5e1', textTransform: 'uppercase' }}>Invoice</h2>
@@ -171,7 +171,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
           </div>
 
           <div style={{ marginTop: '80px', textAlign: 'center', borderTop: '1px solid #e2e8f0', paddingTop: '24px' }}>
-            <p style={{ margin: 0, color: '#94a3b8', fontSize: '12px' }}>Thank you for your business. For any inquiries regarding this invoice, please contact info@sextoyslovers.com.</p>
+            <p style={{ margin: 0, color: '#94a3b8', fontSize: '12px' }}>Thank you for your business. For any inquiries regarding this invoice, please contact info@rany.uk.</p>
           </div>
 
         </div>

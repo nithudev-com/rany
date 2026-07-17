@@ -56,11 +56,7 @@ export default async function HomePage() {
 
   return (
     <main>
-      <BrandMarquee brands={serializedBrands} />
-
       <HeroBanner />
-
-      <CategoryCircles items={serializedCircles} />
 
       <CategoryGrid categories={serializedCategories} />
 

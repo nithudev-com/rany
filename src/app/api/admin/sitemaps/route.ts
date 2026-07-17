@@ -56,7 +56,7 @@ export async function GET(req: Request) {
         productSitemaps.length === 1 ? "products.xml" : `products-${ps.page}.xml`;
       rows.push({
         name,
-        url: `https://sextoyslovers.com/sitemaps/${name}`,
+        url: `https://rany.uk/sitemaps/${name}`,
         count: ps.count,
         size: Buffer.byteLength(ps.xml, "utf8"),
         ok: true,
@@ -74,11 +74,11 @@ export async function GET(req: Request) {
 
     for (const [name, builder] of singles) {
       const r = await measureSitemap(name, builder);
-      rows.push({ ...r, url: `https://sextoyslovers.com/sitemaps/${name}`, generatedAt: statsCache[name]?.generatedAt });
+      rows.push({ ...r, url: `https://rany.uk/sitemaps/${name}`, generatedAt: statsCache[name]?.generatedAt });
     }
 
     return NextResponse.json({
-      index: "https://sextoyslovers.com/sitemap.xml",
+      index: "https://rany.uk/sitemap.xml",
       productPages: productSitemaps.length,
       sitemaps: rows,
     });
@@ -87,7 +87,7 @@ export async function GET(req: Request) {
   // ---------- VALIDATE ----------
   if (action === "validate") {
     const sitemapName = searchParams.get("name");
-    const siteBase = "https://sextoyslovers.com";
+    const siteBase = "https://rany.uk";
 
     async function validateXml(xml: string, name: string) {
       const errors: string[] = [];
@@ -144,7 +144,7 @@ export async function POST(req: Request) {
 
   if (action === "submit-gsc") {
     // Submit sitemap to Google Search Console via ping URL (no API key needed)
-    const sitemapUrl = encodeURIComponent("https://sextoyslovers.com/sitemap.xml");
+    const sitemapUrl = encodeURIComponent("https://rany.uk/sitemap.xml");
     const pingUrl = `https://www.google.com/ping?sitemap=${sitemapUrl}`;
     try {
       const res = await fetch(pingUrl, { method: "GET" });

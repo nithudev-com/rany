@@ -12,7 +12,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const query = await searchParams;
   const q = query.q || "";
   return {
-    title: `Search results for "${q}" | SexToys Lovers`,
+    title: `Search results for "${q}" | Rany.uk`,
     description: `Shop products matching ${q} online.`
   };
 }

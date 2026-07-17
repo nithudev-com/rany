@@ -7,7 +7,7 @@ export const revalidate = 60; // Revalidate every minute so deals stay fresh
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "Today's Flash Deals | SexToys Lovers",
+  title: "Today's Flash Deals | Rany.uk",
   description: "Shop the best daily deals on electronics, fashion, and more. Limited time offers!",
 };
 

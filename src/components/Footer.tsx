@@ -12,11 +12,11 @@ export function Footer({ settings }: { settings: any }) {
           {/* Column 1: Brand & Socials */}
           <div>
             <Link prefetch={true} href="/" className="footer-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-              <Image src="/logo.jpg" alt="" width={70} height={70} style={{ borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--brand-primary, #D63062)' }} />
-              <span style={{ fontSize: '20px', fontWeight: '900', color: '#fff' }}>{settings.storeName || "SexToys Lovers"}</span>
+              <Image src="/logo.png" alt="Rany.uk Logo" width={100} height={40} style={{ objectFit: 'contain' }} />
+              <span style={{ fontSize: '20px', fontWeight: '900', color: '#fff' }}>{settings.storeName || "Rany.uk"}</span>
             </Link>
             <p className="footer-desc">
-              {settings.storeDescription || "Your premium destination for luxury adult toys and intimate wellness products. Fast shipping, discrete packaging, and 24/7 support."}
+              {settings.storeDescription || "Your premium destination for bespoke luxury fashion and tailoring. Exquisite craftsmanship, perfect fits, and timeless designs."}
             </p>
             <div className="footer-socials" style={{ marginBottom: '20px' }}>
               {settings.instagramUrl && (
@@ -37,7 +37,7 @@ export function Footer({ settings }: { settings: any }) {
             </div>
 
             {/* Trustpilot Widget */}
-            <a href="https://www.trustpilot.com/review/sextoyslovers.com" target="_blank" rel="noopener noreferrer" className="trustpilot-widget" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <a href="https://www.trustpilot.com/review/rany.uk" target="_blank" rel="noopener noreferrer" className="trustpilot-widget" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg viewBox="0 0 200 200" width="20" height="20" fill="#00b67a">
                   <path d="M100 12.443l25.86 52.392 57.818 8.403-41.839 40.781 9.877 57.587-51.716-27.19-51.716 27.19 9.877-57.587-41.839-40.781 57.818-8.403z"/>
@@ -61,11 +61,11 @@ export function Footer({ settings }: { settings: any }) {
           <div>
             <h4 className="footer-heading">Shop Categories</h4>
             <ul className="footer-links-list">
-              <li><Link prefetch={true} href="/category/vibrators">Vibrators</Link></li>
-              <li><Link prefetch={true} href="/category/dongs-and-dildos">Dildos & Dongs</Link></li>
-              <li><Link prefetch={true} href="/category/anal-toys">Anal Toys</Link></li>
-              <li><Link prefetch={true} href="/category/lubes-and-lotions">Lubes & Lotions</Link></li>
-              <li><Link prefetch={true} href="/category/bdsm">BDSM & Bondage</Link></li>
+              <li><Link prefetch={true} href="/category/bridal-wear">Bridal & Wedding</Link></li>
+              <li><Link prefetch={true} href="/category/bespoke-suits">Bespoke Suits</Link></li>
+              <li><Link prefetch={true} href="/category/evening-gowns">Evening Gowns</Link></li>
+              <li><Link prefetch={true} href="/category/alterations">Expert Alterations</Link></li>
+              <li><Link prefetch={true} href="/category/accessories">Accessories</Link></li>
             </ul>
           </div>
 
@@ -75,9 +75,12 @@ export function Footer({ settings }: { settings: any }) {
             <ul className="footer-links-list">
               <li><Link prefetch={true} href="/contact">Help Center</Link></li>
               <li><Link prefetch={true} href="/account/orders">Track Order</Link></li>
-              <li><Link prefetch={true} href="/returns">Returns Policy</Link></li>
               <li><Link prefetch={true} href="/contact">Contact Us</Link></li>
             </ul>
+            <div style={{ marginTop: '20px', color: '#cbd5e1', fontSize: '14px', lineHeight: '1.6' }}>
+              <p style={{ margin: '0 0 8px 0' }}><strong>Studio:</strong><br />262B Upper Tooting Rd<br />London SW17 0DN, UK</p>
+              <p style={{ margin: '0 0 0 0' }}><strong>Phone:</strong><br />+44 7507 549004</p>
+            </div>
           </div>
 
           {/* Column 4: Newsletter */}
@@ -95,7 +98,7 @@ export function Footer({ settings }: { settings: any }) {
 
         {/* Bottom Strip: Copyright & Payments */}
         <div className="premium-footer-bottom">
-          <p className="footer-copyright">© {new Date().getFullYear()} {settings.storeName || "SexToys Lovers"}. All rights reserved.</p>
+          <p className="footer-copyright">© {new Date().getFullYear()} {settings.storeName || "Rany.uk"}. All rights reserved.</p>
           
           <div className="footer-payments">
             <div className="footer-payment-icon" role="img" aria-label="Visa">

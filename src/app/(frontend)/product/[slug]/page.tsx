@@ -473,7 +473,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>
                       <span>Read More</span>
-                      <span>By SEXTOYS LOVERS</span>
+                      <span>By Rany.uk</span>
                     </div>
                   </div>
                 </div>

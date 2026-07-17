@@ -72,7 +72,17 @@ export default async function ContactPage() {
                 </div>
                 <div>
                   <h3 style={{ margin: '0 0 4px 0', fontSize: '16px', fontWeight: '800', color: '#111111' }}>Phone Support</h3>
-                  <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>1-800-SPEED-COM<br/>Mon-Fri, 9am-6pm EST</p>
+                  <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>+44 7507 549004</p>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#fff', border: '1px solid #F0DDE5', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63062', flexShrink: 0 }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: '16px', fontWeight: '800', color: '#111111' }}>Visit Our Studio</h3>
+                  <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>262B Upper Tooting Rd<br/>London SW17 0DN, United Kingdom</p>
                 </div>
               </div>
 
@@ -82,7 +92,7 @@ export default async function ContactPage() {
                 </div>
                 <div>
                   <h3 style={{ margin: '0 0 4px 0', fontSize: '16px', fontWeight: '800', color: '#111111' }}>Email Us</h3>
-                  <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>info@sextoyslovers.com<br/>We reply within 24 hours.</p>
+                  <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>info@rany.uk<br/>We reply within 24 hours.</p>
                 </div>
               </div>
 

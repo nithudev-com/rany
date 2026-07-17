@@ -6,7 +6,7 @@ import { siteUrl } from '@/lib/seo';
 export const revalidate = 60; // ISR
 
 export const metadata: Metadata = {
-  title: "Blog | SexToys Lovers Insights",
+  title: "Blog | Rany.uk Insights",
   description: "Read our latest articles, guides, and ecommerce insights.",
   alternates: {
     canonical: siteUrl("/blog"),

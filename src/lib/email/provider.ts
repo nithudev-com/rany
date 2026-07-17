@@ -16,7 +16,7 @@ export class SMTPProvider implements EmailProvider {
   private fromAddress: string;
 
   constructor() {
-    this.fromAddress = process.env.EMAIL_FROM_ADDRESS || "info@sextoyslovers.com";
+    this.fromAddress = process.env.EMAIL_FROM_ADDRESS || "info@rany.uk";
     
     this.transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp.hostinger.com",
@@ -71,8 +71,8 @@ export class SMTPProvider implements EmailProvider {
     const pass = process.env.SMTP_PASS;
 
     if (!user || !pass) {
-      console.warn("SMTP credentials missing, simulating raw email send.");
-      return { success: true, messageId: `sim-raw-${Date.now()}` };
+      console.error("SMTP credentials missing in environment variables.");
+      return { success: false, error: 'SMTP credentials missing. Please check your Vercel environment variables.' };
     }
     
     const transporter = nodemailer.createTransport({
@@ -83,8 +83,11 @@ export class SMTPProvider implements EmailProvider {
     });
 
     try {
+      const fromAddr = process.env.EMAIL_FROM_ADDRESS || "info@rany.uk";
+      const fromFormatted = fromAddr.includes('<') ? fromAddr : `"Rany.uk" <${fromAddr}>`;
+      
       const info = await transporter.sendMail({
-        from: process.env.EMAIL_FROM_ADDRESS || "info@sextoyslovers.com",
+        from: fromFormatted,
         to: recipient,
         subject: subject,
         html: html,

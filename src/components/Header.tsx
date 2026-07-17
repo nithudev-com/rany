@@ -33,8 +33,8 @@ export function Header({ settings, categories = [] }: { settings: any, categorie
 
         {/* 2. Main Hub */}
         <div className="main-header-hub">
-          <Link prefetch={true} href="/" className="mega-logo" style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/logo-new.png" alt={settings.storeName || "SexToys Lovers"} style={{ maxHeight: '44px', width: 'auto' }} />
+          <Link prefetch={true} href="/" className="mega-logo" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img src="/logo.png" alt="Rany.uk" style={{ maxHeight: '44px', width: 'auto' }} />
           </Link>
           
           <AutocompleteSearch isMobile={false} categories={categories} />
@@ -72,12 +72,11 @@ export function Header({ settings, categories = [] }: { settings: any, categorie
             All Departments
           </button>
           <div className="bottom-nav-links">
-            <Link prefetch={true} href="/deals">Today's Deals</Link>
-
-            <Link prefetch={true} href="/new-releases">New Releases</Link>
-            <Link prefetch={true} href="/brand">Brands</Link>
-            <Link prefetch={true} href="/category">Categories</Link>
-            <Link prefetch={true} href="/contact">Customer Service</Link>
+            <Link prefetch={true} href="/category">All Collections</Link>
+            <Link prefetch={true} href="/category/bridal">Bridal Wear</Link>
+            <Link prefetch={true} href="/category/suits">Bespoke Suits</Link>
+            <Link prefetch={true} href="/category/alterations">Alterations</Link>
+            <Link prefetch={true} href="/contact">Book Consultation</Link>
           </div>
           <MegaMenu 
             categories={categories} 
@@ -94,8 +93,8 @@ export function Header({ settings, categories = [] }: { settings: any, categorie
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
           
-          <Link prefetch={true} href="/" className="mobile-logo" style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/logo-new.png" alt={settings.storeName || "SexToys Lovers"} style={{ maxHeight: '36px', width: 'auto' }} />
+          <Link prefetch={true} href="/" className="mobile-logo" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img src="/logo.png" alt="Rany.uk" style={{ maxHeight: '36px', width: 'auto' }} />
           </Link>
 
           <button aria-label="Open Cart" onClick={cart.openCart} className="header-action-item" style={{ gap: '0', background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>

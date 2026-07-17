@@ -161,17 +161,7 @@ export default function CustomerLoginPage() {
         
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-            {/* Logo Placeholder */}
-            <div style={{ 
-              width: '48px', height: '48px', 
-              background: 'linear-gradient(135deg, var(--brand-primary), var(--brand-deep))',
-              borderRadius: '12px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'white', fontWeight: '900', fontSize: '24px', letterSpacing: '-1px',
-              boxShadow: '0 8px 16px rgba(214, 48, 98, 0.3)'
-            }}>
-              SC
-            </div>
+            <img src="/logo.png" alt="Rany.uk" style={{ maxHeight: '60px', width: 'auto' }} />
           </div>
           
           <h1 style={{ fontSize: '28px', fontWeight: '800', color: 'var(--brand-black)', marginBottom: '8px', letterSpacing: '-0.02em' }}>

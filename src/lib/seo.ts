@@ -4,8 +4,8 @@ export function siteUrl(path = "") {
   let base = process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "development" ? "http://localhost:3000" : "");
   
   if (!base) {
-    console.warn("Warning: Missing NEXT_PUBLIC_SITE_URL configuration. Falling back to https://sextoyslovers.com");
-    base = "https://sextoyslovers.com";
+    console.warn("Warning: Missing NEXT_PUBLIC_SITE_URL configuration. Falling back to https://rany.uk");
+    base = "https://rany.uk";
   }
 
   // Ensure path starts with a slash if provided
@@ -58,7 +58,7 @@ export function productJsonLd(product: any) {
           : "https://schema.org/OutOfStock",
       seller: {
         "@type": "Organization",
-        name: "SexToys Lovers"
+        name: "Rany.uk"
       },
       hasMerchantReturnPolicy: {
         "@type": "MerchantReturnPolicy",
@@ -187,12 +187,12 @@ export function articleJsonLd(post: any, sourceProduct?: any) {
     dateModified: post.updatedAt ? new Date(post.updatedAt).toISOString() : new Date().toISOString(),
     author: {
       "@type": "Organization",
-      name: "SEXTOYS LOVERS",
+      name: "Rany.uk",
       url: siteUrl()
     },
     publisher: {
       "@type": "Organization",
-      name: "SEXTOYS LOVERS",
+      name: "Rany.uk",
       logo: {
         "@type": "ImageObject",
         url: siteUrl('/logo.png')

@@ -21,11 +21,11 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Best Canada Sex Toys Online Store | SexToys Lovers",
-    template: "%s | SexToys Lovers"
+    default: "Rani Fashions Design & Tailoring | Rany.uk",
+    template: "%s | Rany.uk"
   },
-  description: "Discover the best Canada sex toys online store at SexToys Lovers. Shop a premium selection of adult toys, vibrators, and intimate accessories with discreet, fast shipping across Canada.",
-  keywords: ["canada sex toys", "best adult toys online", "vibrators canada", "adult store canada", "intimate accessories"]
+  description: "Discover Rani Fashions Design & Tailoring at Rany.uk. Premium fashion, design, and tailoring services.",
+  keywords: ["fashion", "tailoring", "design", "rany", "rani fashions"]
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

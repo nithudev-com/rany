@@ -148,7 +148,7 @@ export default function SitemapDashboard() {
         <div>
           <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#0f172a', margin: 0 }}>🗺 Sitemap Manager</h1>
           <p style={{ color: '#64748b', margin: '4px 0 0 0', fontSize: '14px' }}>
-            Index: <a href={stats?.index ?? 'https://sextoyslovers.com/sitemap.xml'} target="_blank" rel="noreferrer"
+            Index: <a href={stats?.index ?? 'https://rany.uk/sitemap.xml'} target="_blank" rel="noreferrer"
               style={{ color: '#6366f1' }}>sitemap.xml</a>
             {stats && <> · {stats.productPages} product sitemap{stats.productPages !== 1 ? 's' : ''}</>}
           </p>

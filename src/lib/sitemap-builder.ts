@@ -3,7 +3,7 @@ import { siteUrl } from "@/lib/seo";
 import { isCategoryLikeBrand } from "@/lib/brand-utils";
 
 const URLS_PER_SITEMAP = 45000;
-const BASE = "https://sextoyslovers.com";
+const BASE = "https://rany.uk";
 
 function escapeXml(str: string): string {
   return str

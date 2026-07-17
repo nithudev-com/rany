@@ -23,7 +23,7 @@ export async function sendRegistrationOtp(email: string, firstName: string) {
       <div style="font-family: Arial, sans-serif; text-align: center; max-width: 500px; margin: 0 auto; padding: 20px;">
         <h2>Verify Your Email</h2>
         <p>Hi ${firstName},</p>
-        <p>Thank you for registering at SexToys Lovers. Please use the following 4-digit code to verify your email address:</p>
+        <p>Thank you for registering at Rany.uk. Please use the following 4-digit code to verify your email address:</p>
         <div style="font-size: 32px; font-weight: bold; color: #D63062; margin: 20px 0; padding: 15px; background: #FFF4F7; border-radius: 8px; letter-spacing: 4px;">
           ${otp}
         </div>
@@ -31,7 +31,7 @@ export async function sendRegistrationOtp(email: string, firstName: string) {
       </div>
     `;
 
-    const emailResult = await emailProvider.sendRawEmail(email, "Your Verification Code - SexToys Lovers", html);
+    const emailResult = await emailProvider.sendRawEmail(email, "Your Verification Code - Rany.uk", html);
     
     if (!emailResult.success) {
       console.error("Failed to send OTP email:", emailResult.error);

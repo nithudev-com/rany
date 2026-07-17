@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return {};
 
   return {
-    title: `${post.title} | SexToys Lovers Blog`,
+    title: `${post.title} | Rany.uk Blog`,
     description: post.excerpt || undefined,
   };
 }

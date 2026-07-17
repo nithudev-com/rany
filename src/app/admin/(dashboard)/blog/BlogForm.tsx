@@ -76,7 +76,7 @@ export function BlogForm({ post }: { post?: any }) {
   const [isAiPanelOpen, setIsAiPanelOpen] = useState(true);
   const [productName, setProductName] = useState('');
   const [productCategory, setProductCategory] = useState('Wellness');
-  const [productBrand, setProductBrand] = useState('SexToys Lovers');
+  const [productBrand, setProductBrand] = useState('Rany.uk');
   const [secondaryKeywords, setSecondaryKeywords] = useState('');
   const [productLength, setProductLength] = useState<'short' | 'standard' | 'detailed'>('standard');
   const [productTone, setProductTone] = useState<'professional' | 'friendly' | 'premium' | 'informative' | 'persuasive' | 'simple'>('premium');
@@ -310,14 +310,14 @@ export function BlogForm({ post }: { post?: any }) {
       },
       "publisher": {
         "@type": "Organization",
-        "name": "SexToys Lovers",
+        "name": "Rany.uk",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://sextoyslovers.com/logo.jpg"
+          "url": "https://rany.uk/logo.png"
         }
       },
       "datePublished": createdDateStr,
-      "mainEntityOfPage": `https://sextoyslovers.com/blog/${slug}`
+      "mainEntityOfPage": `https://rany.uk/blog/${slug}`
     };
 
     const faqBlock = blocksList.find(b => b.type === 'faq');
@@ -748,7 +748,7 @@ export function BlogForm({ post }: { post?: any }) {
   }
 
   function copyUrl() {
-    const url = `https://sextoyslovers.com/blog/${slug}`;
+    const url = `https://rany.uk/blog/${slug}`;
     navigator.clipboard.writeText(url);
     showToast('info', 'URL copied to clipboard');
   }
@@ -1110,7 +1110,7 @@ export function BlogForm({ post }: { post?: any }) {
                     </div>
                     <div>
                       <label className="editor-label">Brand Name</label>
-                      <input value={productBrand} onChange={(e) => setProductBrand(e.target.value)} placeholder="e.g. SexToys Lovers" className="editor-input" style={{ background: '#fff' }} />
+                      <input value={productBrand} onChange={(e) => setProductBrand(e.target.value)} placeholder="e.g. Rany.uk" className="editor-input" style={{ background: '#fff' }} />
                     </div>
                     <div>
                       <label className="editor-label">Product Category</label>
@@ -1281,7 +1281,7 @@ export function BlogForm({ post }: { post?: any }) {
                   </button>
                 </div>
                 <div style={{ fontSize: '11px', color: '#64748b', marginTop: '6px' }}>
-                  Final Link Preview: <span style={{ color: '#E0A96D', fontWeight: '700' }}>https://sextoyslovers.com/blog/{slug}</span>
+                  Final Link Preview: <span style={{ color: '#E0A96D', fontWeight: '700' }}>https://rany.uk/blog/{slug}</span>
                 </div>
               </div>
             </div>
@@ -1505,7 +1505,7 @@ export function BlogForm({ post }: { post?: any }) {
                     <div style={{ fontFamily: 'Arial, sans-serif' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#202124', marginBottom: '4px' }}>
                         <span style={{ background: '#f1f3f4', borderRadius: '50%', width: '18px', height: '18px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>🏷️</span>
-                        <span>sextoyslovers.com › blog › {slug || '...'}</span>
+                        <span>rany.uk › blog › {slug || '...'}</span>
                       </div>
                       <div style={{ fontSize: googleDevice === 'desktop' ? '20px' : '16px', color: '#1a0dab', textDecoration: 'none', fontWeight: '600', marginBottom: '4px', cursor: 'pointer', maxWidth: '600px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {seoTitle || title || 'Placeholder SEO Title'}
@@ -1551,7 +1551,7 @@ export function BlogForm({ post }: { post?: any }) {
                         {!coverImage && <span style={{ color: '#64748b' }}>No Cover Image selected</span>}
                       </div>
                       <div style={{ padding: '12px', borderTop: '1px solid #dddfe2' }}>
-                        <span style={{ fontSize: '12px', color: '#606770', textTransform: 'uppercase' }}>SEXTOYSLOVERS.COM</span>
+                        <span style={{ fontSize: '12px', color: '#606770', textTransform: 'uppercase' }}>rany.uk</span>
                         <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#1d2129', margin: '4px 0' }}>
                           {ogTitle || title || 'Social Post Title'}
                         </div>
@@ -1602,10 +1602,10 @@ export function BlogForm({ post }: { post?: any }) {
   },
   "publisher": {
     "@type": "Organization",
-    "name": "SexToys Lovers"
+    "name": "Rany.uk"
   },
   "datePublished": "${createdDateStr}",
-  "mainEntityOfPage": "https://sextoyslovers.com/blog/${slug}"
+  "mainEntityOfPage": "https://rany.uk/blog/${slug}"
 }`}
                 </pre>
               </div>

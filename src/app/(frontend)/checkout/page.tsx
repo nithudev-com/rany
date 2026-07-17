@@ -320,7 +320,7 @@ export default function CheckoutPage() {
       ` }} />
 
       <header className="checkout-header">
-        <Link href="/" className="checkout-header-logo">SexToys Lovers</Link>
+        <Link href="/" className="checkout-header-logo">Rany.uk</Link>
       </header>
 
       {/* Mobile Toggle */}

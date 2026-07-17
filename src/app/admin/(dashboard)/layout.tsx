@@ -18,12 +18,11 @@ export default function AdminLayout({
         overflowY: 'auto'
       }}>
         <Link href="/" style={{ 
-          fontSize: '22px', 
-          fontWeight: '900', 
           marginBottom: '48px', 
-          display: 'block',
-          letterSpacing: '-0.04em' 
-        }}>SexToys Lovers</Link>
+          display: 'block'
+        }}>
+          <img src="/logo.png" alt="Rany.uk" style={{ maxHeight: '40px', width: 'auto' }} />
+        </Link>
         
         <div className="muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px', fontWeight: '700' }}>Management</div>
         

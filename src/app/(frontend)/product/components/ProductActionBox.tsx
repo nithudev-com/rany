@@ -96,7 +96,7 @@ export function ProductActionBox({
       {/* Pricing and Wishlist */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {currentSalePrice ? (
+          {discountPercentage > 0 && currentSalePrice ? (
             <>
               <div style={{ fontSize: '20px', fontWeight: 600, color: '#94a3b8', textDecoration: 'line-through' }}>
                 {formatMoney(currentPrice)}
@@ -104,16 +104,14 @@ export function ProductActionBox({
               <div style={{ fontSize: '36px', fontWeight: 800, color: '#e01a70', letterSpacing: '-0.02em', lineHeight: 1 }}>
                 {formatMoney(currentSalePrice)}
               </div>
-              {discountPercentage > 0 && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
-                  <span style={{ fontSize: '15px', fontWeight: 500, color: '#475569' }}>
-                    You Save {formatMoney(currentPrice - currentSalePrice).replace(' CAD', '')}
-                  </span>
-                  <span style={{ border: '1px solid #e01a70', color: '#e01a70', padding: '2px 10px', borderRadius: '16px', fontSize: '12px', fontWeight: 700 }}>
-                    {discountPercentage}% OFF
-                  </span>
-                </div>
-              )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+                <span style={{ fontSize: '15px', fontWeight: 500, color: '#475569' }}>
+                  You Save {formatMoney(currentPrice - currentSalePrice).replace(' CAD', '')}
+                </span>
+                <span style={{ border: '1px solid #e01a70', color: '#e01a70', padding: '2px 10px', borderRadius: '16px', fontSize: '12px', fontWeight: 700 }}>
+                  {discountPercentage}% OFF
+                </span>
+              </div>
             </>
           ) : (
             <div style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1 }}>
