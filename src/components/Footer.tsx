@@ -12,8 +12,7 @@ export function Footer({ settings }: { settings: any }) {
           {/* Column 1: Brand & Socials */}
           <div>
             <Link prefetch={true} href="/" className="footer-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-              <Image src="/logo.png" alt="Rany.uk Logo" width={100} height={40} style={{ objectFit: 'contain' }} />
-              <span style={{ fontSize: '20px', fontWeight: '900', color: '#fff' }}>{settings.storeName || "Rany.uk"}</span>
+              <Image src="/logo.png" alt="Rany.uk Logo" width={140} height={56} style={{ objectFit: 'contain' }} />
             </Link>
             <p className="footer-desc">
               {settings.storeDescription || "Your premium destination for bespoke luxury fashion and tailoring. Exquisite craftsmanship, perfect fits, and timeless designs."}
