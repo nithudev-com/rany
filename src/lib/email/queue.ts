@@ -7,6 +7,7 @@ import { z } from "zod";
 const redisConnection = getRedis();
 
 export const emailQueue = redisConnection ? new Queue("emailQueue", {
+  // @ts-ignore - BullMQ and ioredis types conflict
   connection: redisConnection,
   defaultJobOptions: {
     attempts: 3,
