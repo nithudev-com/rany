@@ -1,7 +1,13 @@
-const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
+const { MongoClient } = require('mongodb');
 
-const supabaseUrl = process.env.SUPABASE_URL || 'https://xyzcompany.supabase.co';
-const supabaseKey = process.env.SUPABASE_ANON_KEY || 'public-anon-key';
-const supabase = createClient(supabaseUrl, supabaseKey);
+// We use process.env.DATABASE_URL if MONGODB_URI is not set, since the app relies on DATABASE_URL
+const uri = process.env.MONGODB_URI || process.env.DATABASE_URL;
+const client = new MongoClient(uri);
 
-module.exports = supabase;
+// Test the connection
+client.connect()
+  .then(() => console.log("Connected:", client.db().databaseName))
+  .catch(err => console.error("Connection error:", err));
+
+module.exports = client;
