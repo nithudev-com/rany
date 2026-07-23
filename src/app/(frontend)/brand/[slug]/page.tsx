@@ -10,6 +10,7 @@ import { getDefaultCurrency } from "@/lib/money";
 import { ProductFilters } from "@/components/ProductFilters";
 
 export const dynamic = 'force-dynamic';
+
 export const dynamicParams = true;
 
 // Helper to get store name safely

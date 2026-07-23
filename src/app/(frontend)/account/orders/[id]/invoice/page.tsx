@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 import PrintButton from './PrintButton';
 
+export const dynamic = 'force-dynamic';
+
 export default async function InvoicePage({ params }: { params: Promise<{ id: string }> }) {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;

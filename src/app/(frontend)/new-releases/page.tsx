@@ -3,6 +3,7 @@ import { ProductCard } from '@/components/ProductCard';
 
 export const dynamic = 'force-dynamic';
 
+
 export default async function NewReleasesPage() {
   const latestProducts = await prisma.product.findMany({
     where: { status: 'ACTIVE' },

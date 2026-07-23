@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import {
+
+export const dynamic = 'force-dynamic';
   buildProductsSitemaps,
   buildCategoriesSitemap,
   buildBrandsSitemap,
@@ -8,8 +10,6 @@ import {
   buildImagesSitemap,
 } from "@/lib/sitemap-builder";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 function xmlResponse(xml: string) {
   return new NextResponse(xml, {

@@ -4,6 +4,8 @@ import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 function MonirizeMockContent() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);

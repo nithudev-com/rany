@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { GuestReplyForm } from './components/GuestReplyForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function GuestThreadPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams: Promise<{ token?: string }> }) {
   const { id } = await params;
   const { token } = await searchParams;

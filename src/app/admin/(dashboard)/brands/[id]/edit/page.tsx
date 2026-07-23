@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import EditBrandForm from './EditBrandForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EditBrandPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   

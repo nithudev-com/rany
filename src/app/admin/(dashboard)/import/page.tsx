@@ -1,6 +1,7 @@
 import { ImportForm } from "@/components/ImportForm";
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
+
 
 export default function AdminImportPage() {
   return (

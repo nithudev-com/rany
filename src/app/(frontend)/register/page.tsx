@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { customerRegister, sendRegistrationOtp } from '../login/actions';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 // Simple password strength calculation
 function calculatePasswordStrength(password: string) {
   let score = 0;

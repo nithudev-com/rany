@@ -4,6 +4,8 @@ import { OrderStatus, EmailChannel } from '@prisma/client';
 import crypto from 'crypto';
 import { queueEmail } from '@/lib/email/queue';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     const payload = await req.json();

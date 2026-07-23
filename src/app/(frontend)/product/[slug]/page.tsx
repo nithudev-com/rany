@@ -17,6 +17,7 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = 'force-dynamic';
+
 export const dynamicParams = true;
 
 

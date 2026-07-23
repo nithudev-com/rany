@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import CategoryCirclesManager, { CategoryCircleData } from "./CategoryCirclesManager";
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
+
 
 export default async function AdminCategoryCirclesPage() {
   const circles = await prisma.categoryCircle.findMany({

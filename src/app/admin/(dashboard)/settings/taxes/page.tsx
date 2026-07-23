@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { getTaxSettings, saveTaxConfiguration } from './actions';
 
+export const dynamic = 'force-dynamic';
+
 export default function TaxesPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

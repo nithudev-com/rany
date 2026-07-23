@@ -5,6 +5,7 @@ import { siteUrl } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
 
+
 export const metadata: Metadata = {
   title: "Blog | Rany.uk Insights",
   description: "Read our latest articles, guides, and ecommerce insights.",

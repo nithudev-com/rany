@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CustomerReviewsPage() {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;

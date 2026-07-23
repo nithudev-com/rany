@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CustomerEditForm } from './components/CustomerEditForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EditCustomerPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   

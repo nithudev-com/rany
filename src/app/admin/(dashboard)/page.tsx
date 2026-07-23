@@ -5,6 +5,8 @@ import DeleteBatchButton from "./delete-batch-button";
 
 import { Suspense } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 
 
 async function DashboardStats() {

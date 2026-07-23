@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 interface SitemapRow {
   name: string;
   url: string;

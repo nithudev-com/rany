@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { JobListClient } from './JobListClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EmailJobsPage() {
   const jobs = await prisma.emailJob.findMany({
     orderBy: { createdAt: 'desc' },

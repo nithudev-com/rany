@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import {
+
+export const dynamic = 'force-dynamic';
   buildProductsSitemaps,
   buildCategoriesSitemap,
   buildBrandsSitemap,
@@ -9,7 +11,6 @@ import {
   buildSitemapIndex,
 } from "@/lib/sitemap-builder";
 
-export const dynamic = "force-dynamic";
 
 // In-memory stats store (resets on cold start – fine for admin use)
 // For persistent stats, a DB table would be used.

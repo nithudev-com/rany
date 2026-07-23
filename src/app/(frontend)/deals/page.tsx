@@ -5,6 +5,7 @@ import { CountdownTimer } from "@/components/CountdownTimer";
 
 export const dynamic = 'force-dynamic';
 
+
 export const metadata: Metadata = {
   title: "Today's Flash Deals | Rany.uk",
   description: "Shop the best daily deals on electronics, fashion, and more. Limited time offers!",

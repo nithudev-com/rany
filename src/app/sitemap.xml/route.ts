@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { buildSitemapIndex, buildProductsSitemaps } from "@/lib/sitemap-builder";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+
 
 // GET /sitemap.xml  — returns the sitemap index
 export async function GET() {

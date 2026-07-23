@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { generateProductData } from '@/services/ai';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const { prompt } = await request.json();

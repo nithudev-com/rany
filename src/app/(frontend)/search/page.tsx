@@ -8,6 +8,7 @@ import { SearchHeader } from "./SearchHeader"; // We'll create this client compo
 
 export const dynamic = 'force-dynamic';
 
+
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ q?: string }> }): Promise<Metadata> {
   const query = await searchParams;
   const q = query.q || "";

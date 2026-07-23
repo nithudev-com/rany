@@ -3,7 +3,8 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/money";
 import { ProductListClient } from "./ProductListClient";
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
+
 
 export default async function AdminProductsPage() {
   const products = await prisma.product.findMany({

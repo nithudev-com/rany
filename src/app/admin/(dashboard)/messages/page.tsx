@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { AdminInbox } from './components/AdminInbox';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminMessagesPage() {
   const conversations = await prisma.contactConversation.findMany({
     orderBy: { updatedAt: 'desc' },

@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { executeAITask } from '@/actions/gemini';
 
+export const dynamic = 'force-dynamic';
+
 export default function NewProductPage() {
   const router = useRouter();
   

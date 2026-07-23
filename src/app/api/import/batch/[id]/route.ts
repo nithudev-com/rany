@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { deleteProductsFromSearch } from "@/lib/search";
 
+export const dynamic = 'force-dynamic';
+
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;

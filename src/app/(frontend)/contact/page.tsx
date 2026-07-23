@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { ContactForm } from './components/ContactForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ContactPage() {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;

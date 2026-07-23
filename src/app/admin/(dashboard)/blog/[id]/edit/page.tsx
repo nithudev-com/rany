@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { BlogForm } from '../../BlogForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EditBlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   let id: string;

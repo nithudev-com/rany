@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { clearRecentlyViewed } from './actions';
 import { WishlistItemActionButtons } from '../wishlist/components/WishlistItemActionButtons';
 
+export const dynamic = 'force-dynamic';
+
 export default async function RecentlyViewedPage() {
   const cookieStore = await cookies();
   const existingCookie = cookieStore.get('recently_viewed')?.value;

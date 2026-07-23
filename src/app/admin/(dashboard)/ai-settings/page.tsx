@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { getAISettingsSafe, saveAISettingsAction, resetAISettingsAction, testGeminiConnection } from '@/actions/gemini';
 import { AISettings } from '@/lib/ai-settings';
 
+export const dynamic = 'force-dynamic';
+
 export default function AISettingsPage() {
   const [settings, setSettings] = useState<AISettings | null>(null);
   const [showApiKey, setShowApiKey] = useState(false);

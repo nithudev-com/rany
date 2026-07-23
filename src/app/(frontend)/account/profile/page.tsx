@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import { ProfileForm } from './components/ProfileForm';
 import { SecurityForm } from './components/SecurityForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProfilePage() {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;

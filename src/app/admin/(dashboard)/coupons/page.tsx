@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { getCoupons, saveCoupon, deleteCoupon } from './actions';
 
+export const dynamic = 'force-dynamic';
+
 export default function CouponsPage() {
   const [coupons, setCoupons] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

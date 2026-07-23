@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { getMonirizeGateway, updateMonirizeGateway } from './actions';
 
+export const dynamic = 'force-dynamic';
+
 export default function PaymentGatewaysPage() {
   const [gateway, setGateway] = useState<any>(null);
   const [loading, setLoading] = useState(true);

@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { OrderStatusManager } from './components/OrderStatusManager';
 
+export const dynamic = 'force-dynamic';
+
 export default async function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   

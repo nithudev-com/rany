@@ -4,6 +4,8 @@ import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CustomerReplyForm } from './components/CustomerReplyForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ConversationThreadPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const cookieStore = await cookies();

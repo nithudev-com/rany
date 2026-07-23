@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { customerLogin } from './actions';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 function LoginForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);

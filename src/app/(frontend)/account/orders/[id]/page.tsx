@@ -6,6 +6,8 @@ import { BuyAgainButton } from '../components/BuyAgainButton';
 import { AnimatedTracker } from './components/AnimatedTracker';
 import { ReviewModalButton } from './components/ReviewModalButton';
 
+export const dynamic = 'force-dynamic';
+
 export default async function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;

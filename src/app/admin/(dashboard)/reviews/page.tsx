@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { ReviewList } from './components/ReviewList';
 import { BulkAddReviewButton } from './components/BulkAddReviewButton';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ReviewsPage() {
   const reviews = await prisma.review.findMany({
     orderBy: { createdAt: 'desc' },

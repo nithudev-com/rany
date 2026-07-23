@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 // Configure Cloudinary using Environment Variables for Security
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

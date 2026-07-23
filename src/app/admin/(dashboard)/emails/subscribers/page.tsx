@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { SubscriberListClient } from './SubscriberListClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SubscribersPage() {
   const preferences = await prisma.emailPreference.findMany({
     include: { customer: true },

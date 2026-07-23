@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { getProductsListForAI, saveGeneratedBlog } from '@/app/admin/(dashboard)/products/actions';
 import { executeAITask } from '@/actions/gemini';
 
+export const dynamic = 'force-dynamic';
+
 interface ProductSummary {
   id: string;
   title: string;

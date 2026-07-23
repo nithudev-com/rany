@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CheckoutSuccessPage({ searchParams }: { searchParams: Promise<{ token?: string }> }) {
   const resolvedParams = await searchParams;
   const token = resolvedParams.token;

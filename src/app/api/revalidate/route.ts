@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
+export const dynamic = 'force-dynamic';
+
 const RevalidateSchema = z.object({
   secret: z.string(),
   paths: z.array(z.string()).optional(),

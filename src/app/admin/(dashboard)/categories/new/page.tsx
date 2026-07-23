@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import NewCategoryForm from "./NewCategoryForm";
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
+
 
 export default async function NewCategoryPage() {
   const allCategories = await prisma.category.findMany({

@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { AIProductResponse } from '@/services/ai';
 
+export const dynamic = 'force-dynamic';
+
 export default function AIProductManager() {
   const router = useRouter();
   const [prompt, setPrompt] = useState('');

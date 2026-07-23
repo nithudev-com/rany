@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ShippingForm } from '../components/ShippingForm';
 
+export const dynamic = 'force-dynamic';
+
 export default function NewShippingMethodPage() {
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto' }}>

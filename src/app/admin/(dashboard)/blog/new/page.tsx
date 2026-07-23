@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { BlogForm } from '../BlogForm';
 
+export const dynamic = 'force-dynamic';
+
 export default function NewBlogPostPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

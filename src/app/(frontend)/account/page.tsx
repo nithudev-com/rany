@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { OrderStatus } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AccountDashboardPage() {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;

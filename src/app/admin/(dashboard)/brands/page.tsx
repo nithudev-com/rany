@@ -4,7 +4,8 @@ import DeleteBrandButton from "./DeleteBrandButton";
 import InlineBrandLogoUpload from "./InlineBrandLogoUpload";
 import InlineBrandActiveToggle from "./InlineBrandActiveToggle";
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
+
 
 export default async function AdminBrandsPage() {
   const brands = await prisma.brand.findMany({

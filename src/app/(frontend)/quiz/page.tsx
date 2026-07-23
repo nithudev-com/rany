@@ -1,5 +1,7 @@
 import React from "react";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Product Quiz",
   description: "Find the perfect product for you with our interactive quiz."

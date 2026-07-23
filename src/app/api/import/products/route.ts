@@ -3,6 +3,8 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { createImportBatch, parseProductCsv, processImportBatch } from "@/services/import-products";
 import { getProductImportQueue } from "@/lib/import-queue";
 
+export const dynamic = 'force-dynamic';
+
 export const runtime = "nodejs";
 export const maxDuration = 60;
 

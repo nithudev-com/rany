@@ -7,6 +7,8 @@ import { useCart } from '@/hooks/useCart';
 import { revalidateCartTotals, RevalidatedCart, getShippingOptions, ShippingOption } from './cart-actions';
 import { toast } from 'react-hot-toast';
 
+export const dynamic = 'force-dynamic';
+
 export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [summaryOpen, setSummaryOpen] = useState(false);

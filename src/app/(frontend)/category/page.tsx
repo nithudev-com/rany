@@ -5,6 +5,7 @@ import { siteUrl } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
 
+
 export const metadata: Metadata = {
   title: 'Explore Collections | Premium Store',
   description: 'Discover our world-class collections and premium categories.',

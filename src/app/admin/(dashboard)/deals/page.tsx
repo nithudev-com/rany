@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { getAdminProductsForDeals, updateProductDeal } from './actions';
 
+export const dynamic = 'force-dynamic';
+
 export default function DealsManagementPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

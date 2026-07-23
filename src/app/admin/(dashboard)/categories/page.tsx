@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import CategoryTreeManager, { CategoryData } from "./CategoryTreeManager";
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
+
 
 export default async function AdminCategoriesPage() {
   const categories = await prisma.category.findMany({
