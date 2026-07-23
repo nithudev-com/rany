@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 import { globalCss } from "./globalsStyles";
 import { Toaster } from "react-hot-toast";
 
+export const dynamic = 'force-dynamic';
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
