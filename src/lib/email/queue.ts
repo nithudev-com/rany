@@ -6,14 +6,16 @@ import { z } from "zod";
 
 const redisConnection = getRedis();
 
-export const emailQueue = new Queue("emailQueue", {
-  connection: (redisConnection || { host: "localhost", port: 6379, maxRetriesPerRequest: null }) as any,
+export const emailQueue = redisConnection ? new Queue("emailQueue", {
+  connection: redisConnection,
   defaultJobOptions: {
     attempts: 3,
     backoff: { type: "exponential", delay: 5000 },
     removeOnComplete: true,
   }
-});
+}) : {
+  add: async () => { console.warn("Redis not configured, ignoring queue.add"); }
+};
 
 export const QueueEmailSchema = z.object({
   idempotencyKey: z.string().min(1),
