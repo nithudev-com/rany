@@ -4,7 +4,6 @@ import { ProductCard } from "@/components/ProductCard";
 import { CountdownTimer } from "@/components/CountdownTimer";
 
 export const dynamic = 'force-dynamic';
-export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Today's Flash Deals | Rany.uk",
