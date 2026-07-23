@@ -11,7 +11,7 @@ export default async function WishlistPage() {
   if (!customerIdStr) {
     redirect('/login');
   }
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
 
   const wishlist = await prisma.wishlist.findUnique({
     where: { customerId },

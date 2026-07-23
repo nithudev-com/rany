@@ -12,7 +12,7 @@ export default async function ContactPage() {
   if (customerIdStr) {
     try {
       const customer = await prisma.customer.findUnique({
-        where: { id: BigInt(customerIdStr) }
+        where: { id: String(customerIdStr) }
       });
     if (customer) {
       customerData = {

@@ -7,7 +7,7 @@ export async function bulkUpdateInventory(productIds: string[], newQuantity: num
   if (!productIds || productIds.length === 0) return { success: false, error: 'No products selected' };
   
   try {
-    const ids = productIds.map(id => BigInt(id));
+    const ids = productIds.map(id => String(id));
     
     await prisma.product.updateMany({
       where: { id: { in: ids } },
@@ -27,7 +27,7 @@ export async function bulkUpdatePricePercentage(productIds: string[], percentage
   if (percentage === 0) return { success: true };
 
   try {
-    const ids = productIds.map(id => BigInt(id));
+    const ids = productIds.map(id => String(id));
     
     // Prisma does not have native support for multiplying Decimal fields by a float in updateMany.
     // We must fetch them, calculate, and update them one by one. But using a transaction makes it atomic.
@@ -43,7 +43,7 @@ export async function bulkUpdatePricePercentage(productIds: string[], percentage
       const newPrice = (Number(p.basePrice) * multiplier).toFixed(2);
       return prisma.product.update({
         where: { id: p.id },
-        data: { basePrice: newPrice }
+        data: { basePrice: Number(newPrice) }
       });
     });
 
@@ -123,14 +123,14 @@ export async function saveProductDataForAI(id: string, data: {
     if (data.images && Array.isArray(data.images)) {
       updateData.images = {
         update: data.images.map((img: any) => ({
-          where: { id: BigInt(img.id) },
+          where: { id: String(img.id) },
           data: { altText: img.altText }
         }))
       };
     }
 
     await prisma.product.update({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
       data: updateData
     });
     revalidatePath('/admin/products');
@@ -178,7 +178,7 @@ export async function saveGeneratedBlog(sourceProductId: string, data: {
         generatedByAI: true,
         aiGenerationStatus: 'COMPLETED',
         seoScore: 90, // Basic mock score, can be dynamically calculated later
-        sourceProductId: BigInt(sourceProductId),
+        sourceProductId: String(sourceProductId),
         isPublished: data.isPublished || false
       }
     });

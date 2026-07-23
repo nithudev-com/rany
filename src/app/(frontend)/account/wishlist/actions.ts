@@ -4,13 +4,13 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
-async function getCustomerId(): Promise<bigint | null> {
+async function getCustomerId(): Promise<string | null> {
   const cookieStore = await cookies();
   const val = cookieStore.get('customer_auth')?.value;
-  return val ? BigInt(val) : null;
+  return val ? String(val) : null;
 }
 
-export async function toggleWishlist(productId: bigint, variantId: bigint | null = null) {
+export async function toggleWishlist(productId: string, variantId: string | null = null) {
   const customerId = await getCustomerId();
   if (!customerId) return { success: false, error: 'Please log in to use your wishlist.' };
 
@@ -51,7 +51,7 @@ export async function toggleWishlist(productId: bigint, variantId: bigint | null
   }
 }
 
-export async function removeFromWishlist(itemId: bigint) {
+export async function removeFromWishlist(itemId: string) {
   const customerId = await getCustomerId();
   if (!customerId) return { success: false, error: 'Unauthorized.' };
 
@@ -74,7 +74,7 @@ export async function removeFromWishlist(itemId: bigint) {
   }
 }
 
-export async function checkWishlistStatus(productId: bigint, variantId: bigint | null = null) {
+export async function checkWishlistStatus(productId: string, variantId: string | null = null) {
   const customerId = await getCustomerId();
   if (!customerId) return false;
 

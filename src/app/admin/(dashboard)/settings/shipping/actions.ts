@@ -32,7 +32,7 @@ export async function updateShippingMethod(id: string, formData: FormData) {
     const estimatedDays = formData.get('estimatedDays') as string;
 
     await prisma.shippingMethod.update({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
       data: {
         name,
         price: parseFloat(priceStr),
@@ -51,7 +51,7 @@ export async function updateShippingMethod(id: string, formData: FormData) {
 export async function toggleShippingStatus(id: string, isActive: boolean) {
   try {
     await prisma.shippingMethod.update({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
       data: { isActive }
     });
 
@@ -65,7 +65,7 @@ export async function toggleShippingStatus(id: string, isActive: boolean) {
 export async function deleteShippingMethod(id: string) {
   try {
     await prisma.shippingMethod.delete({
-      where: { id: BigInt(id) }
+      where: { id: String(id) }
     });
 
     revalidatePath('/admin/settings/shipping');

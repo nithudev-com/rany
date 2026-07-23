@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 export async function toggleCategoryHomeVisibility(id: string, showOnHome: boolean) {
   try {
     await prisma.category.update({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
       data: { showOnHome },
     });
     revalidatePath('/admin/categories');

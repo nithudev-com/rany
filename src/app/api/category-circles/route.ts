@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     if (id) {
       // Update existing item
       result = await prisma.categoryCircle.update({
-        where: { id: BigInt(id) },
+        where: { id: String(id) },
         data: {
           name,
           image,
@@ -71,7 +71,7 @@ export async function DELETE(request: Request) {
     }
 
     await prisma.categoryCircle.delete({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
     });
 
     return NextResponse.json({ success: true });

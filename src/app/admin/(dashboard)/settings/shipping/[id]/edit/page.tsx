@@ -7,7 +7,7 @@ export default async function EditShippingMethodPage({ params }: { params: Promi
   const { id } = await params;
   
   const method = await prisma.shippingMethod.findUnique({
-    where: { id: BigInt(id) }
+    where: { id: String(id) }
   });
 
   if (!method) {

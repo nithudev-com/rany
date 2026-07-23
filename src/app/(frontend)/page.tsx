@@ -13,7 +13,7 @@ export default async function HomePage() {
 
   // --- ONE batched query for all review stats (replaces N+1 per-card DB calls) ---
   const productIds = (products || [])
-    .map((p) => BigInt(p.id.toString()))
+    .map((p) => String(p.id.toString()))
     .filter(Boolean);
 
   const reviewStats = productIds.length > 0

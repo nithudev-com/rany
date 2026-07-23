@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const reviewsToCreate = [];
     for (let i = 0; i < count; i++) {
       reviewsToCreate.push({
-        productId: BigInt(productId),
+        productId: String(productId),
         rating: Math.floor(Math.random() * 2) + 4, // 4 or 5 stars mostly
         title: getRandom(FAKE_TITLES),
         body: getRandom(FAKE_BODIES),

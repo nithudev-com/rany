@@ -8,7 +8,7 @@ async function getAuthCustomerId() {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;
   if (!customerIdStr) return null;
-  return BigInt(customerIdStr);
+  return String(customerIdStr);
 }
 
 export async function saveAddress(formData: FormData) {
@@ -49,7 +49,7 @@ export async function saveAddress(formData: FormData) {
 
     if (addressIdStr) {
       // Update existing
-      const addressId = BigInt(addressIdStr);
+      const addressId = String(addressIdStr);
       const existing = await prisma.customerAddress.findUnique({ where: { id: addressId } });
       if (!existing || existing.customerId !== customerId) {
         return { error: "Address not found or unauthorized" };
@@ -84,7 +84,7 @@ export async function deleteAddress(addressIdStr: string) {
   if (!customerId) return { error: "Not authenticated" };
 
   try {
-    const addressId = BigInt(addressIdStr);
+    const addressId = String(addressIdStr);
     const existing = await prisma.customerAddress.findUnique({ where: { id: addressId } });
     if (!existing || existing.customerId !== customerId) {
       return { error: "Address not found or unauthorized" };
@@ -104,7 +104,7 @@ export async function setDefaultAddress(addressIdStr: string, type: 'shipping' |
   if (!customerId) return { error: "Not authenticated" };
 
   try {
-    const addressId = BigInt(addressIdStr);
+    const addressId = String(addressIdStr);
     const existing = await prisma.customerAddress.findUnique({ where: { id: addressId } });
     if (!existing || existing.customerId !== customerId) {
       return { error: "Address not found or unauthorized" };

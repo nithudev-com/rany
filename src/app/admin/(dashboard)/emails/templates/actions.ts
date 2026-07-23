@@ -24,7 +24,7 @@ export async function saveTemplate(formData: FormData) {
   try {
     if (id) {
       await prisma.emailTemplate.update({
-        where: { id: BigInt(id) },
+        where: { id: String(id) },
         data: { name, subject, htmlBody: sanitizedHtml, textBody, channel }
       });
     } else {
@@ -44,7 +44,7 @@ export async function saveTemplate(formData: FormData) {
 export async function deleteTemplate(id: string) {
   try {
     await prisma.emailTemplate.delete({
-      where: { id: BigInt(id) }
+      where: { id: String(id) }
     });
     revalidatePath('/admin/emails/templates');
     return { success: true };

@@ -11,7 +11,7 @@ export default async function AccountAddressesPage() {
     redirect('/login');
   }
 
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
 
   const addresses = await prisma.customerAddress.findMany({
     where: { customerId },

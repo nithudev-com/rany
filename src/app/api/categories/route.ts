@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         image: body.image,
         seoTitle: body.seoTitle,
         seoDescription: body.seoDescription,
-        parentId: body.parentId ? BigInt(body.parentId) : null,
+        parentId: body.parentId ? String(body.parentId) : null,
         showOnHome: body.showOnHome === true,
       },
     });

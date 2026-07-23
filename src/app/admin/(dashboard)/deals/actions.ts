@@ -54,7 +54,7 @@ export async function updateProductDeal(productId: string, newSalePrice: string 
     }
 
     await prisma.product.update({
-      where: { id: BigInt(productId) },
+      where: { id: String(productId) },
       data: {
         salePrice: parsedSalePrice,
         saleEndDate: newSaleEndDate ? new Date(newSaleEndDate) : null

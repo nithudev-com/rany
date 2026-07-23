@@ -12,7 +12,7 @@ export async function updateCustomer(formData: FormData) {
     const phone = formData.get('phone') as string;
 
     await prisma.customer.update({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
       data: {
         firstName,
         lastName,
@@ -32,7 +32,7 @@ export async function updateCustomer(formData: FormData) {
 export async function toggleBlockCustomer(customerId: string, isBlocked: boolean) {
   try {
     await prisma.customer.update({
-      where: { id: BigInt(customerId) },
+      where: { id: String(customerId) },
       data: { isBlocked }
     });
 
@@ -48,7 +48,7 @@ export async function deleteCustomer(customerId: string) {
   try {
     // Relying on Prisma Cascade deletes for related tables (addresses, wishlist, conversations)
     await prisma.customer.delete({
-      where: { id: BigInt(customerId) }
+      where: { id: String(customerId) }
     });
 
     revalidatePath('/admin/customers');

@@ -8,12 +8,12 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
   const customerIdStr = cookieStore.get('customer_auth')?.value;
   
   if (!customerIdStr) redirect('/login');
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
   
   const resolvedParams = await params;
-  let orderId: bigint;
+  let orderId: string;
   try {
-    orderId = BigInt(resolvedParams.id);
+    orderId = resolvedParams.id;
   } catch {
     return notFound();
   }
@@ -137,7 +137,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
               </tr>
             </thead>
             <tbody>
-              {order.items.map(item => (
+              {(order.items as any[]).map(item => (
                 <tr key={item.id.toString()}>
                   <td style={{ fontWeight: '600' }}>{item.title}</td>
                   <td style={{ textAlign: 'center' }}>{item.quantity}</td>

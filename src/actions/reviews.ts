@@ -23,7 +23,7 @@ export async function submitReview(data: {
 
     await prisma.review.create({
       data: {
-        productId: BigInt(data.productId),
+        productId: String(data.productId),
         rating: data.rating,
         title: data.title,
         body: data.body,
@@ -46,7 +46,7 @@ export async function submitReview(data: {
 export async function approveReview(id: string, approved: boolean) {
   try {
     await prisma.review.update({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
       data: { approved }
     });
 
@@ -64,7 +64,7 @@ export async function approveReview(id: string, approved: boolean) {
 export async function deleteReview(id: string) {
   try {
     await prisma.review.delete({
-      where: { id: BigInt(id) }
+      where: { id: String(id) }
     });
 
     revalidatePath(`/admin/reviews`);
@@ -88,11 +88,11 @@ export async function verifyPurchaseStatus(productId: string): Promise<boolean> 
 
     const purchaseCount = await prisma.order.count({
       where: {
-        customerId: BigInt(customerIdStr),
+        customerId: String(customerIdStr),
         status: { in: ['PAID', 'PROCESSING', 'DELIVERED'] },
         items: {
           some: {
-            productId: BigInt(productId)
+            productId: String(productId)
           }
         }
       }

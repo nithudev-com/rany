@@ -6,7 +6,7 @@ export default async function EditBrandPage({ params }: { params: Promise<{ id: 
   const { id } = await params;
   
   const brand = await prisma.brand.findUnique({
-    where: { id: BigInt(id) },
+    where: { id: String(id) },
   });
 
   if (!brand) {

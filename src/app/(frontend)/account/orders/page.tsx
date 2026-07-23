@@ -11,7 +11,7 @@ export default async function AccountOrdersPage({ searchParams }: { searchParams
   if (!customerIdStr) {
     redirect('/login');
   }
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
 
   const resolvedParams = await searchParams;
   const page = parseInt(resolvedParams.page || '1');

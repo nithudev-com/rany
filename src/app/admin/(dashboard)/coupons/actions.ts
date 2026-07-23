@@ -40,7 +40,7 @@ export async function saveCoupon(data: {
     if (data.id) {
       // Update
       await prisma.coupon.update({
-        where: { id: BigInt(data.id) },
+        where: { id: String(data.id) },
         data: {
           code: data.code.toUpperCase(),
           discountType: data.discountType,
@@ -82,7 +82,7 @@ export async function saveCoupon(data: {
 export async function deleteCoupon(id: string) {
   try {
     await prisma.coupon.delete({
-      where: { id: BigInt(id) }
+      where: { id: String(id) }
     });
     revalidatePath('/admin/coupons');
     return { success: true };

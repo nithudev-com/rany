@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface BulkAddReviewButtonProps {
-  products: { id: bigint; title: string }[];
+  products: { id: string; title: string }[];
 }
 
 export function BulkAddReviewButton({ products }: BulkAddReviewButtonProps) {

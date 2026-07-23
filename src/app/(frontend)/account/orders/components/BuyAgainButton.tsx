@@ -13,7 +13,7 @@ export function BuyAgainButton({ productId, variantId }: { productId: string, va
     setError('');
     setSuccess(false);
 
-    const result = await buyAgain(BigInt(productId), variantId ? BigInt(variantId) : null);
+    const result = await buyAgain(String(productId), variantId ? String(variantId) : null);
     
     if (result.success) {
       setSuccess(true);

@@ -32,7 +32,7 @@ export async function createBlogPost(formData: FormData) {
   redirect('/admin/blog');
 }
 
-export async function updateBlogPost(id: bigint, formData: FormData) {
+export async function updateBlogPost(id: string, formData: FormData) {
   const title = formData.get('title') as string;
   const slug = formData.get('slug') as string;
   const excerpt = formData.get('excerpt') as string;
@@ -80,7 +80,7 @@ export async function saveBlogPostData(
   }
 ) {
   const post = await prisma.blogPost.update({
-    where: { id: BigInt(id) },
+    where: { id: String(id) },
     data: {
       title: data.title,
       slug: data.slug,
@@ -101,7 +101,7 @@ export async function saveBlogPostData(
   };
 }
 
-export async function deleteBlogPost(id: bigint) {
+export async function deleteBlogPost(id: string) {
   await prisma.blogPost.delete({
     where: { id }
   });

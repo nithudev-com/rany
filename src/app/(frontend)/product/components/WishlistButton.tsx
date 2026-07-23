@@ -9,7 +9,7 @@ export function WishlistButton({ productId, mini = false }: { productId: string,
   const [loading, setLoading] = useState(true); // Start loading while checking status
 
   useEffect(() => {
-    checkWishlistStatus(BigInt(productId)).then(status => {
+    checkWishlistStatus(String(productId)).then(status => {
       setInWishlist(status);
       setLoading(false);
     });
@@ -22,7 +22,7 @@ export function WishlistButton({ productId, mini = false }: { productId: string,
     }
     if (loading) return;
     setLoading(true);
-    const result = await toggleWishlist(BigInt(productId));
+    const result = await toggleWishlist(String(productId));
     if (result.success) {
       setInWishlist(result.action === 'added');
       if (result.action === 'added') {

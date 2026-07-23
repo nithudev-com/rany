@@ -13,12 +13,12 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
   if (!customerIdStr) {
     redirect('/login');
   }
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
   const resolvedParams = await params;
 
-  let orderId: bigint;
+  let orderId: string;
   try {
-    orderId = BigInt(resolvedParams.id);
+    orderId = resolvedParams.id;
   } catch {
     return notFound();
   }
@@ -41,7 +41,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
   const billingAddr: any = order.billingAddress || {};
 
   // Fetch product images manually
-  const productIds = [...new Set(order.items.map(i => i.productId))];
+  const productIds = [...new Set((order.items as any[]).map(i => i.productId))];
   const products = await prisma.product.findMany({
     where: { id: { in: productIds } },
     include: { images: true }
@@ -80,7 +80,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
         <div className="dashboard-card" style={{ padding: '32px', gridColumn: '1 / -1' }}>
           <h2 className="dashboard-card-title">Items Ordered</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            {order.items.map(item => {
+            {(order.items as any[]).map(item => {
               const product = productMap.get(item.productId.toString());
               const image = product?.images?.[0]?.imageUrl;
               return (

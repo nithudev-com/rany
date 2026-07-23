@@ -10,7 +10,7 @@ export default async function ConversationThreadPage({ params }: { params: Promi
   const customerIdStr = cookieStore.get('customer_auth')?.value;
   
   if (!customerIdStr) redirect('/login');
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
 
   const conversation = await prisma.contactConversation.findUnique({
     where: { conversationId: id },

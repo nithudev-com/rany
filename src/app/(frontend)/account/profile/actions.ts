@@ -5,10 +5,10 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { revalidatePath } from 'next/cache';
 
-async function getCustomerId(): Promise<bigint | null> {
+async function getCustomerId(): Promise<string | null> {
   const cookieStore = await cookies();
   const val = cookieStore.get('customer_auth')?.value;
-  return val ? BigInt(val) : null;
+  return val ? String(val) : null;
 }
 
 export async function updateProfile(formData: FormData) {

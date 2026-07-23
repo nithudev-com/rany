@@ -10,7 +10,7 @@ export async function DELETE(
     const { id } = await params;
     
     // Parse the id to BigInt since Prisma schema uses BigInt for ID
-    const productId = BigInt(id);
+    const productId = String(id);
 
     await prisma.product.delete({
       where: { id: productId },
@@ -32,7 +32,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const productId = BigInt(id);
+    const productId = String(id);
     
     const body = await request.json();
     
@@ -85,8 +85,8 @@ export async function PUT(
         shortDescription: body.shortDescription,
         status: body.status,
         productType: body.productType,
-        categoryId: body.categoryId ? BigInt(body.categoryId) : null,
-        brandId: body.brandId ? BigInt(body.brandId) : null,
+        categoryId: body.categoryId ? String(body.categoryId) : null,
+        brandId: body.brandId ? String(body.brandId) : null,
         tags: body.tags || [],
         isFeatured: body.isFeatured || false,
         stockQuantity: body.stockQuantity !== undefined ? Number(body.stockQuantity) : 0,

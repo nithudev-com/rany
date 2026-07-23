@@ -8,7 +8,7 @@ async function getCustomerId() {
   const cookieStore = await cookies();
   const customerIdStr = cookieStore.get('customer_auth')?.value;
   if (!customerIdStr) throw new Error('Not authenticated');
-  return BigInt(customerIdStr);
+  return String(customerIdStr);
 }
 
 export async function customerReplyMessage(formData: FormData) {

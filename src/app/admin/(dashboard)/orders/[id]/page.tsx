@@ -7,7 +7,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
   const { id } = await params;
   
   const order = await prisma.order.findUnique({
-    where: { id: BigInt(id) },
+    where: { id: String(id) },
     include: {
       items: true
     }

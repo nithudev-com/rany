@@ -13,7 +13,7 @@ async function processEmailJob(bullJob: Job) {
 
   // 1. Fetch DB Job
   const emailJob = await prisma.emailJob.findUnique({
-    where: { id: BigInt(dbJobId) },
+    where: { id: String(dbJobId) },
     include: { template: true, customer: { include: { emailPreferences: true } } }
   });
 

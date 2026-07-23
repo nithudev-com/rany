@@ -83,7 +83,7 @@ export async function revalidateCartTotals(
   // 1. Validate Items & Prices
   for (const item of clientItems) {
     try {
-      const prodId = BigInt(item.productId);
+      const prodId = String(item.productId);
       const product = await prisma.product.findUnique({
         where: { id: prodId },
         include: { variants: true }
@@ -194,7 +194,7 @@ export async function revalidateCartTotals(
   let shipping = 0;
   if (shippingMethodId) {
     const method = await prisma.shippingMethod.findUnique({
-      where: { id: BigInt(shippingMethodId) }
+      where: { id: String(shippingMethodId) }
     });
 
     if (!method || !method.isActive) {

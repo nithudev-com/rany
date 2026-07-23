@@ -7,7 +7,7 @@ export default async function EditCustomerPage({ params }: { params: Promise<{ i
   const { id } = await params;
   
   const customer = await prisma.customer.findUnique({
-    where: { id: BigInt(id) },
+    where: { id: String(id) },
     include: {
       addresses: true,
     }

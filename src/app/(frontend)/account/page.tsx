@@ -12,7 +12,7 @@ export default async function AccountDashboardPage() {
     redirect('/login');
   }
 
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
 
   const customer = await prisma.customer.findUnique({
     where: { id: customerId },

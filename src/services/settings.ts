@@ -3,14 +3,11 @@ import { revalidateTag } from 'next/cache';
 
 export async function getStoreSettings() {
   try {
-    let settings = await prisma.storeSettings.findUnique({
-      where: { id: 1 }
-    });
+    let settings = await prisma.storeSettings.findFirst();
 
     if (!settings) {
       settings = await prisma.storeSettings.create({
         data: {
-          id: 1,
           storeName: "Rany.uk",
           storeDescription: "Your premium destination for the world's best products. Fast shipping, secure payments, and 24/7 support.",
           facebookUrl: "https://facebook.com",
@@ -40,30 +37,36 @@ export async function getStoreSettings() {
 
 export async function updateStoreSettings(data: any) {
   try {
-    const settings = await prisma.storeSettings.upsert({
-      where: { id: 1 },
-      update: {
-        storeName: data.storeName,
-        storeDescription: data.storeDescription,
-        facebookUrl: data.facebookUrl,
-        twitterUrl: data.twitterUrl,
-        instagramUrl: data.instagramUrl,
-        taxEnabled: data.taxEnabled !== undefined ? data.taxEnabled : undefined,
-        taxIncludedInPrices: data.taxIncludedInPrices !== undefined ? data.taxIncludedInPrices : undefined,
-        taxRate: data.taxRate !== undefined ? data.taxRate : undefined,
-      },
-      create: {
-        id: 1,
-        storeName: data.storeName,
-        storeDescription: data.storeDescription,
-        facebookUrl: data.facebookUrl,
-        twitterUrl: data.twitterUrl,
-        instagramUrl: data.instagramUrl,
-        taxEnabled: data.taxEnabled || false,
-        taxIncludedInPrices: data.taxIncludedInPrices || false,
-        taxRate: data.taxRate || 0,
-      }
-    });
+    const existing = await prisma.storeSettings.findFirst();
+    let settings;
+    if (existing) {
+      settings = await prisma.storeSettings.update({
+        where: { id: existing.id },
+        data: {
+          storeName: data.storeName,
+          storeDescription: data.storeDescription,
+          facebookUrl: data.facebookUrl,
+          twitterUrl: data.twitterUrl,
+          instagramUrl: data.instagramUrl,
+          taxEnabled: data.taxEnabled !== undefined ? data.taxEnabled : undefined,
+          taxIncludedInPrices: data.taxIncludedInPrices !== undefined ? data.taxIncludedInPrices : undefined,
+          taxRate: data.taxRate !== undefined ? data.taxRate : undefined,
+        }
+      });
+    } else {
+      settings = await prisma.storeSettings.create({
+        data: {
+          storeName: data.storeName,
+          storeDescription: data.storeDescription,
+          facebookUrl: data.facebookUrl,
+          twitterUrl: data.twitterUrl,
+          instagramUrl: data.instagramUrl,
+          taxEnabled: data.taxEnabled || false,
+          taxIncludedInPrices: data.taxIncludedInPrices || false,
+          taxRate: data.taxRate || 0,
+        }
+      });
+    }
 
     // Revalidate frontend layout
     revalidateTag('store-settings');

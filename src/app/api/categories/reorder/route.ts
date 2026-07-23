@@ -15,9 +15,9 @@ export async function POST(request: Request) {
     await prisma.$transaction(
       items.map((item) =>
         prisma.category.update({
-          where: { id: BigInt(item.id) },
+          where: { id: String(item.id) },
           data: {
-            parentId: item.parentId ? BigInt(item.parentId) : null,
+            parentId: item.parentId ? String(item.parentId) : null,
             sortOrder: item.sortOrder,
           },
         })

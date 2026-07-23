@@ -11,7 +11,7 @@ export default async function ProfilePage() {
   if (!customerIdStr) {
     redirect('/login');
   }
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
 
   const customer = await prisma.customer.findUnique({
     where: { id: customerId }

@@ -38,7 +38,7 @@ export default async function CategoryPage({ params, searchParams }: { params: P
   if (!category) notFound();
 
   // Fetch subcategories and batch review stats in parallel
-  const productIds = (products || []).map((p) => BigInt(p.id.toString()));
+  const productIds = (products || []).map((p) => String(p.id.toString()));
   const [subcategories, reviewStats] = await Promise.all([
     prisma.category.findMany({
       where: { parentId: category.id },

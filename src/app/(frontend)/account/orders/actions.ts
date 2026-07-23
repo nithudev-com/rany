@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
-export async function buyAgain(productId: bigint, variantId: bigint | null) {
+export async function buyAgain(productId: string, variantId: string | null) {
   const cookieStore = await cookies();
   const customerAuth = cookieStore.get('customer_auth')?.value;
   

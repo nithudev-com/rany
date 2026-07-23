@@ -734,7 +734,7 @@ export function BlogForm({ post }: { post?: any }) {
     startTransition(async () => {
       try {
         if (post?.id) {
-          await updateBlogPost(BigInt(post.id), data);
+          await updateBlogPost(String(post.id), data);
           showToast('success', 'Article updated successfully');
         } else {
           await createBlogPost(data);

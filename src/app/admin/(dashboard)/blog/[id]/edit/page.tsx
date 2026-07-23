@@ -5,9 +5,9 @@ import { BlogForm } from '../../BlogForm';
 
 export default async function EditBlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
-  let id: bigint;
+  let id: string;
   try {
-    id = BigInt(resolvedParams.id);
+    id = resolvedParams.id;
   } catch {
     return notFound();
   }

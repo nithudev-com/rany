@@ -6,7 +6,7 @@ export default async function EditTemplatePage({ params }: { params: Promise<{ i
   const { id } = await params;
   
   const template = await prisma.emailTemplate.findUnique({
-    where: { id: BigInt(id) }
+    where: { id: String(id) }
   });
 
   if (!template) {

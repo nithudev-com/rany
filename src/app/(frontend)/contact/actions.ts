@@ -8,7 +8,7 @@ export async function submitContactMessage(formData: FormData) {
   try {
     const cookieStore = await cookies();
     const customerIdStr = cookieStore.get('customer_auth')?.value;
-    const customerId = customerIdStr ? BigInt(customerIdStr) : null;
+    const customerId = customerIdStr ? String(customerIdStr) : null;
 
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;

@@ -9,7 +9,7 @@ export default async function CustomerMessagesPage() {
   const customerIdStr = cookieStore.get('customer_auth')?.value;
   
   if (!customerIdStr) redirect('/login');
-  const customerId = BigInt(customerIdStr);
+  const customerId = String(customerIdStr);
 
   const conversations = await prisma.contactConversation.findMany({
     where: { customerId },

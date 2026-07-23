@@ -11,7 +11,7 @@ export async function getCustomerOrders() {
     if (!customerIdStr) return { success: false, orders: [] };
 
     const orders = await prisma.order.findMany({
-      where: { customerId: BigInt(customerIdStr) },
+      where: { customerId: String(customerIdStr) },
       orderBy: { createdAt: 'desc' },
       select: { orderNumber: true, createdAt: true }
     });
@@ -66,7 +66,7 @@ export async function startConversation(guestToken: string, data: { category: st
   try {
     const cookieStore = await cookies();
     const customerIdStr = cookieStore.get('customer_auth')?.value;
-    const customerId = customerIdStr ? BigInt(customerIdStr) : null;
+    const customerId = customerIdStr ? String(customerIdStr) : null;
 
     let conversation = await prisma.contactConversation.findUnique({
       where: { guestToken }
@@ -113,7 +113,7 @@ export async function sendChatMessage(guestToken: string, messageBody: string) {
       data: {
         conversationId: conversation.id,
         senderType: customerIdStr ? 'CUSTOMER' : 'GUEST',
-        senderCustomerId: customerIdStr ? BigInt(customerIdStr) : null,
+        senderCustomerId: customerIdStr ? String(customerIdStr) : null,
         body: messageBody,
       }
     });

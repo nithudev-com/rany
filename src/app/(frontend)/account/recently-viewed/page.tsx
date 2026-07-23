@@ -19,7 +19,7 @@ export default async function RecentlyViewedPage() {
 
   let products: any[] = [];
   if (viewedIds.length > 0) {
-    const productBigInts = viewedIds.map(id => BigInt(id));
+    const productBigInts = viewedIds.map(id => String(id));
     const dbProducts = await prisma.product.findMany({
       where: { id: { in: productBigInts } },
       include: { images: true }

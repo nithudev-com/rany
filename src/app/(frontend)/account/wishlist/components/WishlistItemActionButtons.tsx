@@ -10,13 +10,13 @@ export function WishlistItemActionButtons({ itemId, productId, isAvailable }: { 
 
   const handleAddToCart = async () => {
     setLoading(true);
-    await buyAgain(BigInt(productId), null);
+    await buyAgain(String(productId), null);
     setLoading(false);
   };
 
   const handleRemove = async () => {
     setRemoving(true);
-    await removeFromWishlist(BigInt(itemId));
+    await removeFromWishlist(String(itemId));
     // It will revalidate and remove itself from the server render
   };
 

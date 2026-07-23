@@ -6,7 +6,7 @@ export default async function EditCategoryPage({ params }: { params: Promise<{ i
   const { id } = await params;
   
   const category = await prisma.category.findUnique({
-    where: { id: BigInt(id) },
+    where: { id: String(id) },
   });
 
   if (!category) {

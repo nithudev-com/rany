@@ -8,7 +8,7 @@ export async function PUT(
   try {
     const body = await request.json();
     const resolvedParams = await params;
-    const id = BigInt(resolvedParams.id);
+    const id = String(resolvedParams.id);
 
     const currency = await prisma.currency.update({
       where: { id },
@@ -48,7 +48,7 @@ export async function DELETE(
 ) {
   try {
     const resolvedParams = await params;
-    const id = BigInt(resolvedParams.id);
+    const id = String(resolvedParams.id);
     
     const currency = await prisma.currency.findUnique({ where: { id } });
     if (currency?.isDefault) {

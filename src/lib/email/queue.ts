@@ -49,8 +49,8 @@ export async function queueEmail(input: QueueEmailInput) {
       status: EmailStatus.PENDING,
       recipientEmail: validated.recipientEmail,
       templateId: template.id,
-      customerId: validated.customerId ? BigInt(validated.customerId) : null,
-      campaignId: validated.campaignId ? BigInt(validated.campaignId) : null,
+      customerId: validated.customerId ? String(validated.customerId) : null,
+      campaignId: validated.campaignId ? String(validated.campaignId) : null,
       payload: (validated.payload || {}) as any,
       maxAttempts: 3
     }

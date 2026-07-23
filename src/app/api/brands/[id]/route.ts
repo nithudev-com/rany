@@ -7,7 +7,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const brandId = BigInt(id);
+    const brandId = String(id);
     const body = await request.json();
     
     const brand = await prisma.brand.update({
@@ -45,7 +45,7 @@ export async function DELETE(
   try {
     const { id } = await params;
     await prisma.brand.delete({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
     });
     return NextResponse.json({ success: true });
   } catch (error) {

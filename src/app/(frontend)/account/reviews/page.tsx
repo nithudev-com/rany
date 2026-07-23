@@ -13,7 +13,7 @@ export default async function CustomerReviewsPage() {
   }
 
   const customer = await prisma.customer.findUnique({
-    where: { id: BigInt(customerIdStr) }
+    where: { id: String(customerIdStr) }
   });
 
   if (!customer) {

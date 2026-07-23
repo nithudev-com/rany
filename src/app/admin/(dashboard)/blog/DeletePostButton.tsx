@@ -10,7 +10,7 @@ export function DeletePostButton({ id }: { id: string }) {
     <button 
       onClick={() => {
         if (confirm('Are you sure you want to delete this post?')) {
-          startTransition(() => deleteBlogPost(BigInt(id)));
+          startTransition(() => deleteBlogPost(String(id)));
         }
       }}
       disabled={isPending}

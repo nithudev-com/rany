@@ -131,7 +131,7 @@ export async function processCheckout(
     const authCookie = cookieStore.get('customer_auth')?.value;
     let customerId = null;
     if (authCookie) {
-       customerId = BigInt(authCookie);
+       customerId = String(authCookie);
     }
 
     order = await prisma.order.create({
@@ -146,8 +146,8 @@ export async function processCheckout(
         billingAddress: validatedFields.data.billingSameAsShipping ? validatedFields.data.shippingAddress : validatedFields.data.billingAddress,
         items: {
           create: validatedCart.items.map(item => ({
-            productId: BigInt(item.productId),
-            variantId: item.variantId ? BigInt(item.variantId) : null,
+            productId: String(item.productId),
+            variantId: item.variantId ? String(item.variantId) : null,
             title: item.title + (item.variantTitle ? ` - ${item.variantTitle}` : ''),
             quantity: item.quantity,
             unitPrice: item.originalPrice || (item.totalPrice / item.quantity),
@@ -191,7 +191,7 @@ export async function getCustomerAddresses() {
 
   try {
     const addresses = await prisma.customerAddress.findMany({
-      where: { customerId: BigInt(authCookie) },
+      where: { customerId: String(authCookie) },
       orderBy: { isDefaultShipping: 'desc' }
     });
 

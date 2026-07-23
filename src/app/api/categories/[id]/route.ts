@@ -7,7 +7,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const categoryId = BigInt(id);
+    const categoryId = String(id);
     const body = await request.json();
     
     const category = await prisma.category.update({
@@ -18,7 +18,7 @@ export async function PUT(
         image: body.image,
         seoTitle: body.seoTitle,
         seoDescription: body.seoDescription,
-        parentId: body.parentId ? BigInt(body.parentId) : null,
+        parentId: body.parentId ? String(body.parentId) : null,
         showOnHome: body.showOnHome === true,
       },
     });
@@ -46,7 +46,7 @@ export async function DELETE(
   try {
     const { id } = await params;
     await prisma.category.delete({
-      where: { id: BigInt(id) },
+      where: { id: String(id) },
     });
     return NextResponse.json({ success: true });
   } catch (error) {
