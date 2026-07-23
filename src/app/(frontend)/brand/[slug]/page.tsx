@@ -9,7 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { getDefaultCurrency } from "@/lib/money";
 import { ProductFilters } from "@/components/ProductFilters";
 
-export const revalidate = 1800;
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 // Helper to get store name safely

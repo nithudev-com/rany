@@ -16,12 +16,9 @@ import { ProductCard } from "@/components/ProductCard";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { prisma } from "@/lib/prisma";
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  return getTopProductSlugs(50);
-}
 
 function parseFaqs(raw: any): { question: string; answer: string }[] {
   let arr: any[] = [];

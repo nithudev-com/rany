@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { CountdownTimer } from "@/components/CountdownTimer";
 
-export const revalidate = 60; // Revalidate every minute so deals stay fresh
+export const dynamic = 'force-dynamic';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {

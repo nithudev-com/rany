@@ -6,7 +6,7 @@ import { HeroBanner } from "@/components/HeroBanner";
 import { CategoryGrid } from "@/components/CategoryGrid";
 import { CategoryCircles } from "@/components/CategoryCircles";
 
-export const revalidate = 900;
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const products = await getHomeProducts();

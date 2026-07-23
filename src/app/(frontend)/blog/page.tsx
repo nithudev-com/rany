@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { siteUrl } from '@/lib/seo';
 
-export const revalidate = 60; // ISR
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Blog | Rany.uk Insights",

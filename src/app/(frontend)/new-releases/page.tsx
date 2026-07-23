@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { ProductCard } from '@/components/ProductCard';
 
-export const revalidate = 60; // ISR for performance
+export const dynamic = 'force-dynamic';
 
 export default async function NewReleasesPage() {
   const latestProducts = await prisma.product.findMany({

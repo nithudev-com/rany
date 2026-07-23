@@ -3,7 +3,7 @@ import { CategoryGrid } from '@/components/CategoryGrid';
 import type { Metadata } from 'next';
 import { siteUrl } from '@/lib/seo';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Explore Collections | Premium Store',
